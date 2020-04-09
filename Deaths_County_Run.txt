@@ -1,0 +1,62 @@
+./count_map_covid.py
+---> Read in run parameters.
+---> Read in JHU COVID-19 data.
+Reduced:  3149 from 3253 for Lng/Lat=0
+---> Binning data.
+	Using geo           County
+	Using set           Deaths
+---> Generating dictionary - pass 1.
+---> Updating JHU - pass 1.
+Index 2952, key ('51', '015') for 0.0 already present
+Index 2955, key ('51', '015') for 0.0 already present
+Index 2957, key ('51', '069') for 0.0 already present
+Index 2901, key ('51', '161') for 0.0 already present
+Index 2950, key ('51', '161') for 0.0 already present
+Index 2951, key ('51', '161') for 0.0 already present
+Index 2935, key ('51', '165') for 0.0 already present
+Index 2926, key ('51', '005') for 0.0 already present
+Index 2868, key ('51', '089') for 0.0 already present
+Index 2941, key ('51', '089') for 0.0 already present
+Index 2928, key ('51', '081') for 0.0 already present
+Index 2944, key ('51', '195') for 0.0 already present
+Index 2923, key ('51', '003') for 1.0 already present
+Index 2929, key ('51', '059') for 0.0 already present
+Index 2944, key ('51', '720') for 0.0 already present
+Index 2939, key ('51', '153') for 0.0 already present
+Index 2940, key ('51', '153') for 0.0 already present
+Index 2940, key ('51', '685') for 0.0 already present
+Index 2923, key ('51', '540') for 1.0 already present
+Index 2952, key ('51', '790') for 0.0 already present
+Index 256, key ('08', '014') for 2.0 already present
+Index 256, key ('08', '014') for 2.0 already present
+Index 2926, key ('51', '580') for 0.0 already present
+Index 2929, key ('51', '600') for 0.0 already present
+Index 2939, key ('51', '683') for 0.0 already present
+Index 2957, key ('51', '840') for 0.0 already present
+Index 2955, key ('51', '820') for 0.0 already present
+Index 2950, key ('51', '770') for 0.0 already present
+Index 2901, key ('51', '775') for 0.0 already present
+Index 2951, key ('51', '775') for 0.0 already present
+Index 2935, key ('51', '660') for 0.0 already present
+Index 2868, key ('51', '690') for 0.0 already present
+Index 2941, key ('51', '690') for 0.0 already present
+Index 2928, key ('51', '595') for 0.0 already present
+Index 2922, key ('51', '163') for 0.0 already present
+Index 2937, key ('51', '163') for 0.0 already present
+Index 2937, key ('51', '163') for 0.0 already present
+Index 2922, key ('51', '163') for 0.0 already present
+WARNING - duplicates in point binning.
+---> Processing unbinned entries.
+	118 of 3253
+	13 rebinned
+	102 unassign
+	3 unbinned
+2  Northern Mariana Islands 145.6739 15.0979
+3200  Diamond Princess 0.0 0.0
+3252  Grand Princess 0.0 0.0
+---> Updating Deaths_County_20200409.csv
+---> Writing Deaths_County_20200409.json
+./update_json.py
+./make_csv_dist.py
+Skipped 2367 of 3283 for no non-zero data
+Total sum 14690

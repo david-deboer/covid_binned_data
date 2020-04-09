@@ -1,0 +1,119 @@
+---> Read in run parameters.
+---> Read in JHU COVID-19 data.
+Reduced:  3149 from 3253 for lng/lat=0
+---> Binning data.
+---./count_map_covid.py---
+	Using geo           Congress_District
+	Using set           Deaths
+---> Generating dictionary - pass 1.
+---> Updating JHU - pass 1.
+---> Processing unbinned entries.
+	118 of 3253
+	19 rebinned
+	0 unassign
+	99 unbinned
+0  American Samoa -170.132 -14.270999999999999
+2  Northern Mariana Islands 145.6739 15.0979
+1250 Charlevoix Michigan -85.19614053 45.37790017
+1277 Keweenaw Michigan -88.41434263 47.63197653
+1922 Dare North Carolina -75.71767334 35.66520691
+2531 Aransas Texas -96.9995047 28.10556197
+2883 Middlesex Virginia -76.55064617 37.63191998
+2972 Island Washington -122.5216407 48.14713305
+2985 San Juan Washington -122.96745 48.60182783
+3149 Out of AL Alabama 0.0 0.0
+3151 Out of AZ Arizona 0.0 0.0
+3152 Out of AR Arkansas 0.0 0.0
+3153 Out of CA California 0.0 0.0
+3154 Out of CO Colorado 0.0 0.0
+3155 Out of CT Connecticut 0.0 0.0
+3157 Out of DC District of Columbia 0.0 0.0
+3158 Out of FL Florida 0.0 0.0
+3159 Out of GA Georgia 0.0 0.0
+3160 Out of HI Hawaii 0.0 0.0
+3161 Out of ID Idaho 0.0 0.0
+3162 Out of IL Illinois 0.0 0.0
+3163 Out of IN Indiana 0.0 0.0
+3164 Out of IA Iowa 0.0 0.0
+3165 Out of KS Kansas 0.0 0.0
+3166 Out of KY Kentucky 0.0 0.0
+3167 Out of LA Louisiana 0.0 0.0
+3168 Out of ME Maine 0.0 0.0
+3169 Out of MD Maryland 0.0 0.0
+3170 Out of MA Massachusetts 0.0 0.0
+3171 Out of MI Michigan 0.0 0.0
+3172 Out of MN Minnesota 0.0 0.0
+3173 Out of MS Mississippi 0.0 0.0
+3174 Out of MO Missouri 0.0 0.0
+3176 Out of NE Nebraska 0.0 0.0
+3177 Out of NV Nevada 0.0 0.0
+3178 Out of NH New Hampshire 0.0 0.0
+3179 Out of NJ New Jersey 0.0 0.0
+3180 Out of NM New Mexico 0.0 0.0
+3181 Out of NY New York 0.0 0.0
+3182 Out of NC North Carolina 0.0 0.0
+3184 Out of OH Ohio 0.0 0.0
+3185 Out of OK Oklahoma 0.0 0.0
+3186 Out of OR Oregon 0.0 0.0
+3187 Out of PA Pennsylvania 0.0 0.0
+3188 Out of RI Rhode Island 0.0 0.0
+3189 Out of SC South Carolina 0.0 0.0
+3191 Out of TN Tennessee 0.0 0.0
+3192 Out of TX Texas 0.0 0.0
+3193 Out of UT Utah 0.0 0.0
+3195 Out of VA Virginia 0.0 0.0
+3196 Out of WA Washington 0.0 0.0
+3197 Out of WV West Virginia 0.0 0.0
+3198 Out of WI Wisconsin 0.0 0.0
+3200  Diamond Princess 0.0 0.0
+3201 Unassigned Alabama 0.0 0.0
+3203 Unassigned Arizona 0.0 0.0
+3204 Unassigned Arkansas 0.0 0.0
+3205 Unassigned California 0.0 0.0
+3206 Unassigned Colorado 0.0 0.0
+3207 Unassigned Connecticut 0.0 0.0
+3209 Unassigned District of Columbia 0.0 0.0
+3210 Unassigned Florida 0.0 0.0
+3211 Unassigned Georgia 0.0 0.0
+3212 Unassigned Hawaii 0.0 0.0
+3213 Unassigned Idaho 0.0 0.0
+3214 Unassigned Illinois 0.0 0.0
+3215 Unassigned Indiana 0.0 0.0
+3216 Unassigned Iowa 0.0 0.0
+3217 Unassigned Kansas 0.0 0.0
+3218 Unassigned Kentucky 0.0 0.0
+3219 Unassigned Louisiana 0.0 0.0
+3220 Unassigned Maine 0.0 0.0
+3221 Unassigned Maryland 0.0 0.0
+3222 Unassigned Massachusetts 0.0 0.0
+3223 Unassigned Michigan 0.0 0.0
+3224 Unassigned Minnesota 0.0 0.0
+3225 Unassigned Mississippi 0.0 0.0
+3226 Unassigned Missouri 0.0 0.0
+3228 Unassigned Nebraska 0.0 0.0
+3229 Unassigned Nevada 0.0 0.0
+3230 Unassigned New Hampshire 0.0 0.0
+3231 Unassigned New Jersey 0.0 0.0
+3232 Unassigned New Mexico 0.0 0.0
+3233 Unassigned New York 0.0 0.0
+3234 Unassigned North Carolina 0.0 0.0
+3236 Unassigned Ohio 0.0 0.0
+3237 Unassigned Oklahoma 0.0 0.0
+3238 Unassigned Oregon 0.0 0.0
+3239 Unassigned Pennsylvania 0.0 0.0
+3240 Unassigned Rhode Island 0.0 0.0
+3241 Unassigned South Carolina 0.0 0.0
+3243 Unassigned Tennessee 0.0 0.0
+3244 Unassigned Texas 0.0 0.0
+3245 Unassigned Utah 0.0 0.0
+3247 Unassigned Virginia 0.0 0.0
+3248 Unassigned Washington 0.0 0.0
+3249 Unassigned West Virginia 0.0 0.0
+3250 Unassigned Wisconsin 0.0 0.0
+3252  Grand Princess 0.0 0.0
+---> Updating Deaths_Congress_District_20200409.csv
+---> Writing Deaths_Congress_District_20200409.json
+./update_json.py
+./make_csv_dist.py
+Skipped 104 of 440 for no non-zero data
+Total 14328
