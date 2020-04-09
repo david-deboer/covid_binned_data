@@ -1,0 +1,169 @@
+---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
+---> Read in run parameters.
+---> Read in JHU COVID-19 data.
+Out of AL Alabama 0.0 0.0
+Out of AK Alaska 0.0 0.0
+Out of AZ Arizona 0.0 0.0
+Out of AR Arkansas 0.0 0.0
+Out of CA California 0.0 0.0
+Out of CO Colorado 0.0 0.0
+Out of CT Connecticut 0.0 0.0
+Out of DE Delaware 0.0 0.0
+Out of DC District of Columbia 0.0 0.0
+Out of FL Florida 0.0 0.0
+Out of GA Georgia 0.0 0.0
+Out of HI Hawaii 0.0 0.0
+Out of ID Idaho 0.0 0.0
+Out of IL Illinois 0.0 0.0
+Out of IN Indiana 0.0 0.0
+Out of IA Iowa 0.0 0.0
+Out of KS Kansas 0.0 0.0
+Out of KY Kentucky 0.0 0.0
+Out of LA Louisiana 0.0 0.0
+Out of ME Maine 0.0 0.0
+Out of MD Maryland 0.0 0.0
+Out of MA Massachusetts 0.0 0.0
+Out of MI Michigan 0.0 0.0
+Out of MN Minnesota 0.0 0.0
+Out of MS Mississippi 0.0 0.0
+Out of MO Missouri 0.0 0.0
+Out of MT Montana 0.0 0.0
+Out of NE Nebraska 0.0 0.0
+Out of NV Nevada 0.0 0.0
+Out of NH New Hampshire 0.0 0.0
+Out of NJ New Jersey 0.0 0.0
+Out of NM New Mexico 0.0 0.0
+Out of NY New York 0.0 0.0
+Out of NC North Carolina 0.0 0.0
+Out of ND North Dakota 0.0 0.0
+Out of OH Ohio 0.0 0.0
+Out of OK Oklahoma 0.0 0.0
+Out of OR Oregon 0.0 0.0
+Out of PA Pennsylvania 0.0 0.0
+Out of RI Rhode Island 0.0 0.0
+Out of SC South Carolina 0.0 0.0
+Out of SD South Dakota 0.0 0.0
+Out of TN Tennessee 0.0 0.0
+Out of TX Texas 0.0 0.0
+Out of UT Utah 0.0 0.0
+Out of VT Vermont 0.0 0.0
+Out of VA Virginia 0.0 0.0
+Out of WA Washington 0.0 0.0
+Out of WV West Virginia 0.0 0.0
+Out of WI Wisconsin 0.0 0.0
+Out of WY Wyoming 0.0 0.0
+ Diamond Princess 0.0 0.0
+Unassigned Alabama 0.0 0.0
+Unassigned Alaska 0.0 0.0
+Unassigned Arizona 0.0 0.0
+Unassigned Arkansas 0.0 0.0
+Unassigned California 0.0 0.0
+Unassigned Colorado 0.0 0.0
+Unassigned Connecticut 0.0 0.0
+Unassigned Delaware 0.0 0.0
+Unassigned District of Columbia 0.0 0.0
+Unassigned Florida 0.0 0.0
+Unassigned Georgia 0.0 0.0
+Unassigned Hawaii 0.0 0.0
+Unassigned Idaho 0.0 0.0
+Unassigned Illinois 0.0 0.0
+Unassigned Indiana 0.0 0.0
+Unassigned Iowa 0.0 0.0
+Unassigned Kansas 0.0 0.0
+Unassigned Kentucky 0.0 0.0
+Unassigned Louisiana 0.0 0.0
+Unassigned Maine 0.0 0.0
+Unassigned Maryland 0.0 0.0
+Unassigned Massachusetts 0.0 0.0
+Unassigned Michigan 0.0 0.0
+Unassigned Minnesota 0.0 0.0
+Unassigned Mississippi 0.0 0.0
+Unassigned Missouri 0.0 0.0
+Unassigned Montana 0.0 0.0
+Unassigned Nebraska 0.0 0.0
+Unassigned Nevada 0.0 0.0
+Unassigned New Hampshire 0.0 0.0
+Unassigned New Jersey 0.0 0.0
+Unassigned New Mexico 0.0 0.0
+Unassigned New York 0.0 0.0
+Unassigned North Carolina 0.0 0.0
+Unassigned North Dakota 0.0 0.0
+Unassigned Ohio 0.0 0.0
+Unassigned Oklahoma 0.0 0.0
+Unassigned Oregon 0.0 0.0
+Unassigned Pennsylvania 0.0 0.0
+Unassigned Rhode Island 0.0 0.0
+Unassigned South Carolina 0.0 0.0
+Unassigned South Dakota 0.0 0.0
+Unassigned Tennessee 0.0 0.0
+Unassigned Texas 0.0 0.0
+Unassigned Utah 0.0 0.0
+Unassigned Vermont 0.0 0.0
+Unassigned Virginia 0.0 0.0
+Unassigned Washington 0.0 0.0
+Unassigned West Virginia 0.0 0.0
+Unassigned Wisconsin 0.0 0.0
+Unassigned Wyoming 0.0 0.0
+ Grand Princess 0.0 0.0
+Reduced:  3149 from 3253 for lng/lat=0
+---> Binning data.
+---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
+	Using geo           County
+	Using set           Confirmed
+---> Generating dictionary - pass 1.
+---> Updating JHU - pass 1.
+Index 2952, key ('51', '015') for 1.0 already present
+Index 2955, key ('51', '015') for 2.0 already present
+Index 2957, key ('51', '069') for 15.0 already present
+Index 2901, key ('51', '161') for 9.0 already present
+Index 2950, key ('51', '161') for 14.0 already present
+Index 2951, key ('51', '161') for 1.0 already present
+Index 2935, key ('51', '165') for 36.0 already present
+Index 2926, key ('51', '005') for 1.0 already present
+Index 2868, key ('51', '089') for 4.0 already present
+Index 2941, key ('51', '089') for 0.0 already present
+Index 2928, key ('51', '081') for 4.0 already present
+Index 2944, key ('51', '195') for 0.0 already present
+Index 2923, key ('51', '003') for 23.0 already present
+Index 2929, key ('51', '059') for 0.0 already present
+Index 2944, key ('51', '720') for 0.0 already present
+Index 2939, key ('51', '153') for 20.0 already present
+Index 2940, key ('51', '153') for 5.0 already present
+Index 2940, key ('51', '685') for 5.0 already present
+Index 2923, key ('51', '540') for 23.0 already present
+Index 2952, key ('51', '790') for 1.0 already present
+Index 256, key ('08', '014') for 52.0 already present
+Index 256, key ('08', '014') for 52.0 already present
+Index 2926, key ('51', '580') for 1.0 already present
+Index 2929, key ('51', '600') for 0.0 already present
+Index 2939, key ('51', '683') for 20.0 already present
+Index 2957, key ('51', '840') for 15.0 already present
+Index 2955, key ('51', '820') for 2.0 already present
+Index 2950, key ('51', '770') for 14.0 already present
+Index 2901, key ('51', '775') for 9.0 already present
+Index 2951, key ('51', '775') for 1.0 already present
+Index 2935, key ('51', '660') for 36.0 already present
+Index 2868, key ('51', '690') for 4.0 already present
+Index 2941, key ('51', '690') for 0.0 already present
+Index 2928, key ('51', '595') for 4.0 already present
+Index 2922, key ('51', '163') for 4.0 already present
+Index 2937, key ('51', '163') for 3.0 already present
+Index 2937, key ('51', '163') for 3.0 already present
+Index 2922, key ('51', '163') for 4.0 already present
+WARNING - duplicates in point binning.
+	38 entries totaling 388.0
+---> Processing unbinned entries.
+	118 of 3253
+	13 rebinned
+	102 unassign
+	3 unbinned
+2  Northern Mariana Islands 145.6739 15.0979
+3200  Diamond Princess 0.0 0.0
+3252  Grand Princess 0.0 0.0
+---> Updating Confirmed_County_20200409.csv
+---> Writing Confirmed_County_20200409.json
+
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+---/Users/ddeboer/miniconda3/bin/make_csv_dist.py---
+Skipped 708 of 3283 for no non-zero data
+Total final date 428889.0
