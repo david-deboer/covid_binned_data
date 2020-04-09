@@ -29,4 +29,8 @@ Columns are:
 * 6 - Count on date
 .......
 
-.txt files have run information
+.txt files have run meta-information
+
+A simple reader is provided called 'quickcsv'.
+
+E.g. at your command prompt type './quickcsv.py'
