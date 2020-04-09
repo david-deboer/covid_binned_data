@@ -10,6 +10,7 @@ This is a simple csv reader for the covid_binned_data files.
 
 
 class BGBC:
+    """Class for reading csv files."""
     def __init__(self, filename=None):
         self.filename = filename
         self.header = []
@@ -20,6 +21,14 @@ class BGBC:
             self.load()
 
     def load(self, filename=None):
+        """
+        Load csv files.
+
+        Parameters
+        ----------
+        filename : str or None
+            filename of csv
+        """
         if filename is None:
             filename = self.filename
         with open(filename, 'r') as fp:
@@ -41,6 +50,7 @@ class BGBC:
         self.Latitude = [float(x) for x in self.Latitude]
 
     def plot_scatter(self):
+        """Scatter plot of longitude/latitude of cases."""
         plt.figure('USA')
         plt.plot(self.Longitude, self.Latitude, '.')
         plt.axis([-160, -60, 18, 65])
@@ -49,6 +59,7 @@ class BGBC:
         plt.ylabel('Latitude')
 
     def plot_row(self, fip):
+        """Row plot of data."""
         ind = self.FIP.index(fip)
         fig = plt.figure(self.header[2])
         lbl = getattr(self, self.header[2])[ind]
@@ -57,6 +68,7 @@ class BGBC:
         plt.title(self.header[2])
 
     def plot_col(self, date):
+        """Column plot of data."""
         dati = datetime.strptime(date, self.date_fmt)
         ind = self.dates.index(dati)
         plt.figure('Date')
