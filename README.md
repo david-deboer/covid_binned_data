@@ -20,10 +20,10 @@ Current files:
 * Bin_Deaths_County.csv
 
 Columns are:
-*1 - FIP number state-geo
-*2 - State name
-*3 - County name/Congressional District Number
-*4 - Longitude:  longitude of the weighted centroid on the last day of the file
-*5 - Latitude:  latitude of the weighted centroid on the last day of the file
-*6 - Count on date
+* 1 - FIP number state-geo
+* 2 - State name
+* 3 - County name/Congressional District Number
+* 4 - Longitude:  longitude of the weighted centroid on the last day of the file
+* 5 - Latitude:  latitude of the weighted centroid on the last day of the file
+* 6 - Count on date
 .......
