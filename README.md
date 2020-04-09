@@ -1,6 +1,8 @@
 # covid_binned_data
 
-Geographically bins US COVID-19 data from https://github.com/CSSEGISandData/COVID-19.git
+Geographically bins US COVID-19 data from the Johns Hopkins online database at https://github.com/CSSEGISandData/COVID-19.git
+
+Updated daily after Johns Hopkins updates.
 
 Uses Basemap from Matplotlib to locate longitude and latitude into shapefiles for congressional districts and counties.
 
