@@ -1,9 +1,9 @@
- ./count_map_covid.py 
+$ count_map_covid.py
 ---> Read in run parameters.
 ---> Read in JHU COVID-19 data.
-Reduced:  3149 from 3253 for lng/lat=0
+Reduced:  Using 3149 of 3253 for lng/lat=0
 ---> Binning data.
----./count_map_covid.py---
+---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
 	Using geo           Congress_District
 	Using set           Confirmed
 ---> Generating dictionary - pass 1.
@@ -114,8 +114,9 @@ Reduced:  3149 from 3253 for lng/lat=0
 3252  Grand Princess 0.0 0.0
 ---> Updating Confirmed_Congress_District_20200409.csv
 ---> Writing Confirmed_Congress_District_20200409.json
-./update_json.py
-./make_csv_dist.py 
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+ make_csv_dist.py
+File date:  20200409
 Skipped 85 of 440 for no non-zero data
-Total final date 423185
+Total final date 423185.0
 

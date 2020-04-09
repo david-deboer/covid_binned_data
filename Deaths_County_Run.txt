@@ -1,8 +1,8 @@
-./count_map_covid.py
 ---> Read in run parameters.
 ---> Read in JHU COVID-19 data.
-Reduced:  3149 from 3253 for Lng/Lat=0
+Reduced:  Using 3149 of 3253 for lng/lat=0
 ---> Binning data.
+---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
 	Using geo           County
 	Using set           Deaths
 ---> Generating dictionary - pass 1.
@@ -46,6 +46,7 @@ Index 2937, key ('51', '163') for 0.0 already present
 Index 2937, key ('51', '163') for 0.0 already present
 Index 2922, key ('51', '163') for 0.0 already present
 WARNING - duplicates in point binning.
+	38 entries totaling 6.0
 ---> Processing unbinned entries.
 	118 of 3253
 	13 rebinned
@@ -56,7 +57,8 @@ WARNING - duplicates in point binning.
 3252  Grand Princess 0.0 0.0
 ---> Updating Deaths_County_20200409.csv
 ---> Writing Deaths_County_20200409.json
-./update_json.py
-./make_csv_dist.py
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+	Using geo           County
+	Using set           Deaths
 Skipped 2367 of 3283 for no non-zero data
-Total sum 14690
+Total final date 14690.0
