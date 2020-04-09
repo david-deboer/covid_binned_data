@@ -4,10 +4,9 @@ Geographically binned US COVID-19 data from the Johns Hopkins online database at
 
 Updated daily after Johns Hopkins updates.
 
-Uses Basemap from Matplotlib to locate longitude and latitude into shapefiles for counties.
-Congressional districts will follow when tested.
+Uses Basemap from Matplotlib to locate longitude and latitude into shapefiles for counties and Congressional districts.
 
-Unbinned data are assigned to "State, Unassigned"
+Unbinned data are assigned to "State FIP-0000"
 
 Numbers are US Census Bureau FIP.
     State are two digit numbers
@@ -15,9 +14,11 @@ Numbers are US Census Bureau FIP.
     Congressional district are two digit numbers
     Unassigned are 0000
 
-Current files:
+Current data files:
 * Bin_Confirmed_County.csv
 * Bin_Deaths_County.csv
+* Bin_Confirmed_Congress_District.csv
+* Bin_Deaths_Congress_District.csv
 
 Columns are:
 * 1 - FIP number state-geo
@@ -27,3 +28,5 @@ Columns are:
 * 5 - Latitude:  latitude of the weighted centroid on the last day of the file
 * 6 - Count on date
 .......
+
+.txt files have run information
