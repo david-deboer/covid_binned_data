@@ -59,20 +59,38 @@ class BGBC:
         plt.ylabel('Latitude')
 
     def plot_row(self, fip):
-        """Row plot of data."""
-        ind = self.FIP.index(fip)
+        """
+        Row plot of fip data.
+
+        Parameter
+        ---------
+        fip : str of list of str
+            fip codes of row
+        """
+        if not isinstance(fip, list):
+            fip = [fip]
         fig = plt.figure(self.header[2])
-        lbl = getattr(self, self.header[2])[ind]
+        for _f in fip:
+            ind = self.FIP.index(_f)
+            lbl = getattr(self, self.header[2])[ind]
+            plt.plot(self.dates, self.data[ind, :], label=lbl)
         fig.autofmt_xdate()
-        plt.plot(self.dates, self.data[ind, :], label=lbl)
         plt.title(self.header[2])
 
     def plot_col(self, date):
-        """Column plot of data."""
-        dati = datetime.strptime(date, self.date_fmt)
-        ind = self.dates.index(dati)
+        """
+        Column plot of date data.
+
+        Parameter
+        ---------
+        date : str or list of str
+            Dates to plot in e.g. 3/22/20 format
+        """
         plt.figure('Date')
-        plt.semilogy(self.data[:, ind], '.', label=date)
+        for _d in date:
+            dati = datetime.strptime(_d, self.date_fmt)
+            ind = self.dates.index(dati)
+            plt.semilogy(self.data[:, ind], '.', label=_d)
         plt.title('Date')
 
 
@@ -87,10 +105,8 @@ if __name__ == '__main__':
     args.date = args.date.split(',')
     q = BGBC(args.filename)
     q.plot_scatter()
-    for fip in args.fip:
-        q.plot_row(fip)
+    q.plot_row(args.fip)
     plt.legend()
-    for d in args.date:
-        q.plot_col(d)
+    q.plot_col(args.date)
     plt.legend()
     plt.show()
