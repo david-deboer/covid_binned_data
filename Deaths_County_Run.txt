@@ -1,10 +1,9 @@
----> Read in run parameters.
----> Read in JHU COVID-19 data.
-Reduced:  Using 3149 of 3253 for lng/lat=0
----> Binning data.
 ---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
 	Using geo           County
 	Using set           Deaths
+---> Read in run parameters.
+---> Read in JHU COVID-19 data.
+---> Binning data.
 ---> Generating dictionary - pass 1.
 ---> Updating JHU - pass 1.
 Index 2952, key ('51', '015') for 0.0 already present
@@ -52,13 +51,14 @@ WARNING - duplicates in point binning.
 	13 rebinned
 	102 unassign
 	3 unbinned
-2  Northern Mariana Islands 145.6739 15.0979
-3200  Diamond Princess 0.0 0.0
-3252  Grand Princess 0.0 0.0
----> Updating Deaths_County_20200409.csv
----> Writing Deaths_County_20200409.json
+2,,Northern Mariana Islands,145.6739,15.0979
+3200,,Diamond Princess,0.0,0.0
+3252,,Grand Princess,0.0,0.0
+---> Updating Deaths_County.csv
+---> Writing Deaths_County.json
 ---/Users/ddeboer/miniconda3/bin/update_json.py---
 	Using geo           County
 	Using set           Deaths
+	Using file_date     20200409
 Skipped 2367 of 3283 for no non-zero data
 Total final date 14690.0
