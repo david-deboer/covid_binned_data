@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 from datetime import datetime
+import metro_areas
 """
 This is a simple csv reader for the covid_binned_data files.
 """
@@ -92,6 +93,9 @@ class BGBC:
             ind = self.dates.index(dati)
             plt.semilogy(self.data[:, ind], '.', label=_d)
         plt.title('Date')
+
+    def smooth_metro(self):
+        metro_areas('a')
 
 
 if __name__ == '__main__':
