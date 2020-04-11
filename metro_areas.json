@@ -129,12 +129,12 @@
     {
         "state": "Missouri",
         "districts": [1,2],
-        "counties": [71,99.113,183,189,219,],
+        "counties": [71,99.113,183,189,219],
         "description": "Counties/districts of St. Louis in Missouri.  Note that St. Louis is an independent city."
     },
     "Saint Louis-IL":
     {
-        "state":  "Illinois":
+        "state":  "Illinois",
         "districts": [],
         "counties": [83,119,133,163],
         "description": "Counties/districts of St. Louis in Illinois."
