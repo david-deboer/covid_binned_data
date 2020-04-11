@@ -1,0 +1,6 @@
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-11 12:41:51.017158
+	Using geo           County
+	Using set           Deaths
+Writing State from Deaths_State.
+Writing csv dist from Deaths_County.

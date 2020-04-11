@@ -1,4 +1,0 @@
-Skipped 3 of 55 for no non-zero data
-Total final date 18577.0
-Skipped 3 of 55 for no non-zero data
-Total final at 4/10/20:  18577.0
