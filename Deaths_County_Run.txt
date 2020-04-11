@@ -1,4 +1,5 @@
 ---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
+2020-04-10 21:09:24.334991
 	Using geo           County
 	Using set           Deaths
 ---> Read in run parameters.
@@ -57,8 +58,8 @@ WARNING - duplicates in point binning.
 ---> Updating Deaths_County.csv
 ---> Writing Deaths_County.json
 ---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-10 21:16:30.645389
 	Using geo           County
 	Using set           Deaths
-	Using file_date     20200409
-Skipped 2367 of 3283 for no non-zero data
-Total final date 14690.0
+Skipped 2281 of 3283 for no non-zero data
+Total final date 18577.0

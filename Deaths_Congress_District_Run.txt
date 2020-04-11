@@ -1,4 +1,5 @@
 ---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
+2020-04-10 20:57:12.211252
 	Using geo           Congress_District
 	Using set           Deaths
 ---> Read in run parameters.
@@ -11,7 +12,7 @@
 	19 rebinned
 	0 unassign
 	99 unbinned
-0,,American Samoa,-170.132,-14.271
+0,,American Samoa,-170.132,-14.270999999999999
 2,,Northern Mariana Islands,145.6739,15.0979
 1250,Charlevoix,Michigan,-85.19614053,45.37790017
 1277,Keweenaw,Michigan,-88.41434263,47.63197653
@@ -113,7 +114,8 @@
 ---> Updating Deaths_Congress_District.csv
 ---> Writing Deaths_Congress_District.json
 ---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-10 21:01:03.165380
 	Using geo           Congress_District
 	Using set           Deaths
-Skipped 104 of 440 for no non-zero data
-Total final date 14328.0
+Skipped 100 of 440 for no non-zero data
+Total final date 18111.0
