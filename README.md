@@ -36,5 +36,7 @@ A simple reader is provided called 'quickcsv'.
 E.g. at your command prompt type './quickcsv.py'
 
 <html>
-<a href=https://astro.berkeley.edu/~ddeboer/uswithmega.png>US counties overlay</a>
+<a href=https://astro.berkeley.edu/~ddeboer/uswithmega.png>US counties with overlay</a>
+<a href=https://astro.berkeley.edu/~ddeboer/CA_track.png>California counties with overlay</a>
+<a href=https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png.png>California counties in time</a>
 </html>
