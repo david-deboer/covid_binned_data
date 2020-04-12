@@ -1,5 +1,0 @@
----/Users/ddeboer/miniconda3/bin/update_json.py---
-2020-04-11 12:59:24.897071
-	Using geo           Congress_District
-	Using set           Deaths
-Writing State from Deaths_Congress_District.

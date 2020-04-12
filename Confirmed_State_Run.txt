@@ -1,2 +1,0 @@
-Skipped 2 of 55 for no non-zero data
-Total final at 4/10/20:  496372.0

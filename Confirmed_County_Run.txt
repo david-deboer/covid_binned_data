@@ -1,7 +1,0 @@
----/Users/ddeboer/miniconda3/bin/update_json.py---
-2020-04-11 12:45:20.295407
-	Using geo           County
-	Using set           Confirmed
-Generating State json from County
-Writing State from Confirmed_State.
-Writing State from Confirmed_County.
