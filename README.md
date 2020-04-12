@@ -53,5 +53,5 @@ Please contact ddeboer@berkeley.edu if interested.
 ![US Counties with overlay](https://astro.berkeley.edu/~ddeboer/uswithmega.png)
 Overlay points for illustrative purposes are the largest 500 mega-churches, taken from wikipedia (https://en.wikipedia.org/wiki/List_of_megachurches_in_the_United_States)
 ![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/CA_track.png)
-Overlay points track the centroid over time.  The size if proportional to confirmed cases, with the largest the current value.
+Overlay points track the centroid over time.  The size is linearly proportional to confirmed cases, with the largest the current value.
 ![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png)
