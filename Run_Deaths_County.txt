@@ -1,0 +1,18 @@
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-11 22:01:22.753282
+	Using geo           County
+	Using set           Deaths
+Writing csv dist from Deaths_County.
+Generating State json from County
+Writing csv dist from Deaths_State.
+Writing csv dist from Deaths_State.
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-11 22:08:45.003865
+	Using geo           County
+	Using set           Deaths
+Writing csv dist from Deaths_County.
+Generating State json from County
+Writing csv dist from Deaths_State.
+Writing csv dist from Deaths_County.
+Generating State json from County
+Writing csv dist from Deaths_State.

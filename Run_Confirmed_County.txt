@@ -1,0 +1,66 @@
+---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
+2020-04-11 22:13:36.681349
+	Using geo           County
+	Using set           Confirmed
+---> Read in run parameters.
+---> Read in JHU COVID-19 data.
+Reduced by 611 of 3253
+	104 for location.
+	507 for no count.
+---> Binning data.
+---> Generating dictionary - pass 1.
+---> Updating JHU - pass 1.
+Index 2466, key ('51', '015') for 1.0 already present
+Index 2469, key ('51', '015') for 5.0 already present
+Index 2471, key ('51', '069') for 19.0 already present
+Index 2418, key ('51', '161') for 13.0 already present
+Index 2464, key ('51', '161') for 17.0 already present
+Index 2465, key ('51', '161') for 1.0 already present
+Index 2451, key ('51', '165') for 79.0 already present
+Index 2443, key ('51', '005') for 1.0 already present
+Index 2387, key ('51', '089') for 8.0 already present
+Index 2445, key ('51', '081') for 7.0 already present
+Index 2440, key ('51', '003') for 31.0 already present
+Index 2446, key ('51', '059') for 1.0 already present
+Index 2455, key ('51', '153') for 34.0 already present
+Index 2456, key ('51', '153') for 10.0 already present
+Index 2456, key ('51', '685') for 10.0 already present
+Index 2440, key ('51', '540') for 31.0 already present
+Index 2466, key ('51', '790') for 1.0 already present
+Index 226, key ('08', '014') for 68.0 already present
+Index 226, key ('08', '014') for 68.0 already present
+Index 2443, key ('51', '580') for 1.0 already present
+Index 2446, key ('51', '600') for 1.0 already present
+Index 2455, key ('51', '683') for 34.0 already present
+Index 2471, key ('51', '840') for 19.0 already present
+Index 2469, key ('51', '820') for 5.0 already present
+Index 2464, key ('51', '770') for 17.0 already present
+Index 2418, key ('51', '775') for 13.0 already present
+Index 2465, key ('51', '775') for 1.0 already present
+Index 2451, key ('51', '660') for 79.0 already present
+Index 2387, key ('51', '690') for 8.0 already present
+Index 2445, key ('51', '595') for 7.0 already present
+Index 2439, key ('51', '163') for 4.0 already present
+Index 2453, key ('51', '163') for 3.0 already present
+Index 2453, key ('51', '163') for 3.0 already present
+Index 2439, key ('51', '163') for 4.0 already present
+WARNING - duplicates in point binning.
+	34 entries totaling 604.0
+---> Processing unbinned entries.
+	620 of 3253
+	514 rebinned
+	102 unassign
+	4 unbinned
+2,,Northern Mariana Islands,145.6739,15.0979
+86,Kusilvak,Alaska,-163.39678830000003,62.15429159999999
+3200,,Diamond Princess,0.0,0.0
+3252,,Grand Princess,0.0,0.0
+---> Updating Confirmed_County.csv
+---> Writing Confirmed_County.json
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-11 22:19:28.855623
+	Using geo           County
+	Using set           Confirmed
+Writing csv dist from Confirmed_County.
+Generating State json from County
+Writing csv dist from Confirmed_State.
