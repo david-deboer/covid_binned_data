@@ -34,3 +34,7 @@ Columns are:
 A simple reader is provided called 'quickcsv'.
 
 E.g. at your command prompt type './quickcsv.py'
+
+<html>
+<a href=https://astro.berkeley.edu/~ddeboer/uswithmega.png>US counties overlay</a>
+</html>
