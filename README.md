@@ -26,6 +26,9 @@ Col | District/County                           | State
 1   | FIP number state-geo                      | FIP number state
 2   | State                                     | State
 3   | County name/Congressional District Number | State name
+
+Col | All
+----|------
 4   | Longitude:  longitude of the weighted centroid on the last day of the file
 5   | Latitude:  latitude of the weighted centroid on the last day of the file
 6   | Count on date
