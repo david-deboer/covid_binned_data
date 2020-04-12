@@ -43,6 +43,6 @@ E.g. at your command prompt type './quickcsv.py'
 <a href=https://astro.berkeley.edu/~ddeboer/CA_track.png>California counties with overlay</a>
 </p>
 <p>
-<a href=https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png.png>California counties in time</a>
+<a href=https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png>California counties in time</a>
 </p>
 </html>
