@@ -22,10 +22,11 @@ Bin_Deaths_Congress_District.csv    | Deaths binned into Congressional Districts
 Files have columns:
 
 Col | District/County                           | State
-----|-------------------------------------------|
+----|-------------------------------------------|-------------
 1   | FIP number state-geo                      | FIP number state
 2   | State                                     | State
 3   | County name/Congressional District Number | State name
+
 
 Col | All
 ----|------
