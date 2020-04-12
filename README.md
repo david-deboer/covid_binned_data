@@ -1,12 +1,13 @@
 # covid_binned_data
 
-Geographically binned US COVID-19 data from the Johns Hopkins online database at https://github.com/CSSEGISandData/COVID-19.git
+This derived database is intended to provide up-to-date easily accessible geo-binned data for research purposes from the Johns Hopkins maintained database
+https://github.com/CSSEGISandData/COVID-19.git
 
 Updated daily after Johns Hopkins updates.
 
-Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau shapefiles for counties and Congressional districts.
+Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau shapefiles for states, counties and Congressional districts.
 
-Unbinned data are assigned to "State-0000"
+Unbinned data are assigned to "0000" to within that state.
 
 Current data files:
 
@@ -42,14 +43,13 @@ A simple reader is provided called 'quickcsv'.
 
 E.g. at your command prompt type './quickcsv.py'
 
-<html>
-<p>
-<a href=https://astro.berkeley.edu/~ddeboer/uswithmega.png>US counties with overlay</a>
-</p>
-<p>
-<a href=https://astro.berkeley.edu/~ddeboer/CA_track.png>California counties with overlay</a>
-</p>
-<p>
-<a href=https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png>California counties in time</a>
-</p>
-</html>
+The code used to generate draws maps, with overlays and contains slightly more data than in this repo
+(currently only the centroid over time).  The software comprises two Python packages, which are very rough
+research quality at this point in time.  They use a json format that is intermediate to these csv files and
+draw maps with overlays and time series.
+Please contact ddeboer@berkeley.edu if interested.
+
+
+![US Counties with overlay](https://astro.berkeley.edu/~ddeboer/uswithmega.png>)
+![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/CA_track.png>)
+![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png)
