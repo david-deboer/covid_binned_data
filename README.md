@@ -25,7 +25,7 @@ Bin_Deaths_CSA.csv         | Deaths binned into Combined Statistical Areas
 The first three columns vary of geographical bin as follows (the first column is a unique key):
 
 Geo      | Key |Column 1 | Column 2
----------|-------------------------
+---------|-----|---------|---------
 County   | Key | State   | County Name
 Congress | Key | State   | District
 State    | Key | State   | State name
