@@ -4,41 +4,33 @@ Geographically binned US COVID-19 data from the Johns Hopkins online database at
 
 Updated daily after Johns Hopkins updates.
 
-Uses Basemap from Matplotlib to locate longitude and latitude into shapefiles for counties and Congressional districts.
+Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau shapefiles for counties and Congressional districts.
 
-Unbinned data are assigned to "State FIP-0000"
-
-Numbers are US Census Bureau FIP.
-    State are two digit numbers
-    County are three digit numbers
-    Congressional district are two digit numbers
-    Unassigned are 0000
+Unbinned data are assigned to "State-0000"
 
 Current data files:
-* Bin_Confirmed_County.csv
-* Bin_Deaths_County.csv
-* Bin_Confirmed_State.csv
-* Bin_Deaths_State.csv
-* Bin_Confirmed_Congress_District.csv
-* Bin_Deaths_Congress_District.csv
 
-Files for County and Congress_District have columns:
-* 1 - FIP number state-geo
-* 2 - State
-* 3 - County name/Congressional District Number
-* 4 - Longitude:  longitude of the weighted centroid on the last day of the file
-* 5 - Latitude:  latitude of the weighted centroid on the last day of the file
-* 6 - Count on date
+Name                                | Description
+------------------------------------|----------------------
+Bin_Confirmed_County.csv            | Confirmed cases binned into counties
+Bin_Deaths_County.csv               | Deaths binned into counties
+Bin_Confirmed_State.csv             | Confirmed cases binned into states
+Bin_Deaths_State.csv                | Deaths binned into states
+Bin_Confirmed_Congress_District.csv | Confirmed cases binned into Congressional Districts
+Bin_Deaths_Congress_District.csv    | Deaths binned into Congressional Districts
+
+Files have columns:
+
+Col | District/County                           | State
+----|-------------------------------------------|
+1   | FIP number state-geo                      | FIP number state
+2   | State                                     | State
+3   | County name/Congressional District Number | State name
+4   | Longitude:  longitude of the weighted centroid on the last day of the file
+5   | Latitude:  latitude of the weighted centroid on the last day of the file
+6   | Count on date
 .......
 
-Files for State have columns:
-* 1 - FIP number state
-* 2 - State
-* 3 - State name
-* 4 - Longitude:  longitude of the weighted centroid on the last day of the file
-* 5 - Latitude:  latitude of the weighted centroid on the last day of the file
-* 6 - Count on date
-.......
 
 Run*.txt files have run meta-information
 
