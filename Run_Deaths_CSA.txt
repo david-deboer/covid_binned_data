@@ -1,0 +1,19 @@
+---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
+2020-04-12 15:32:01.584515
+	Using geo           CSA
+	Using set           Deaths
+---> Read in run parameters.
+---> Read in JHU COVID-19 data.
+Reduced by 2257 of 3253
+	104 for location.
+	2153 for no count.
+---> Binning data.
+---> Generating dictionary - pass 1.
+---> Updating JHU - pass 1.
+---> Updating Deaths_CSA.csv
+---> Writing Deaths_CSA.json
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-12 15:33:49.230999
+	Using geo           CSA
+	Using set           Deaths
+Writing csv dist from Deaths_CSA.

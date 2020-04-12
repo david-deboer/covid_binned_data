@@ -11,23 +11,28 @@ Unbinned data are assigned to "0000" to within that state.
 
 Current data files:
 
-Name                                | Description
-------------------------------------|----------------------
-Bin_Confirmed_County.csv            | Confirmed cases binned into counties
-Bin_Deaths_County.csv               | Deaths binned into counties
-Bin_Confirmed_State.csv             | Confirmed cases binned into states
-Bin_Deaths_State.csv                | Deaths binned into states
-Bin_Confirmed_Congress_District.csv | Confirmed cases binned into Congressional Districts
-Bin_Deaths_Congress_District.csv    | Deaths binned into Congressional Districts
+Name                       | Description
+---------------------------|----------------------
+Bin_Confirmed_County.csv   | Confirmed cases binned into Counties
+Bin_Deaths_County.csv      | Deaths binned into Counties
+Bin_Confirmed_State.csv    | Confirmed cases binned into States
+Bin_Deaths_State.csv       | Deaths binned into States
+Bin_Confirmed_Congress.csv | Confirmed cases binned into Congressional Districts
+Bin_Deaths_Congress.csv    | Deaths binned into Congressional Districts
+Bin_Confirmed_CSA.csv      | Confirmed cases binned into Combined Statistical Areas
+Bin_Deaths_CSA.csv         | Deaths binned into Combined Statistical Areas
 
-Files have columns:
+The first three columns vary of geographical bin as follows (the first column is a unique key):
 
-Col | District/County                           | State
-----|-------------------------------------------|-------------
-1   | FIP number state-geo                      | FIP number state
-2   | State                                     | State
-3   | County name/Congressional District Number | State name
+Geo      | Key |Column 1 | Column 2
+---------|-------------------------
+County   | Key | State   | County Name
+Congress | Key | State   | District
+State    | Key | State   | State name
+CSA      | Key | CSAFP   | NAME
+Urban    | Key | ALAND10 | NAME10
 
+The following columns contain data:
 
 Col | All
 ----|------
