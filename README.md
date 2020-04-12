@@ -50,6 +50,6 @@ draw maps with overlays and time series.
 Please contact ddeboer@berkeley.edu if interested.
 
 
-![US Counties with overlay](https://astro.berkeley.edu/~ddeboer/uswithmega.png>)
-![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/CA_track.png>)
+![US Counties with overlay](https://astro.berkeley.edu/~ddeboer/uswithmega.png)
+![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/CA_track.png)
 ![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png)
