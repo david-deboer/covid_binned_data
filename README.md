@@ -17,19 +17,30 @@ Numbers are US Census Bureau FIP.
 Current data files:
 * Bin_Confirmed_County.csv
 * Bin_Deaths_County.csv
+* Bin_Confirmed_State.csv
+* Bin_Deaths_State.csv
 * Bin_Confirmed_Congress_District.csv
 * Bin_Deaths_Congress_District.csv
 
-Columns are:
+Files for County and Congress_District have columns:
 * 1 - FIP number state-geo
-* 2 - State name
+* 2 - State
 * 3 - County name/Congressional District Number
 * 4 - Longitude:  longitude of the weighted centroid on the last day of the file
 * 5 - Latitude:  latitude of the weighted centroid on the last day of the file
 * 6 - Count on date
 .......
 
-.txt files have run meta-information
+Files for State have columns:
+* 1 - FIP number state
+* 2 - State
+* 3 - State name
+* 4 - Longitude:  longitude of the weighted centroid on the last day of the file
+* 5 - Latitude:  latitude of the weighted centroid on the last day of the file
+* 6 - Count on date
+.......
+
+Run*.txt files have run meta-information
 
 A simple reader is provided called 'quickcsv'.
 
