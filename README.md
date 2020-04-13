@@ -21,6 +21,8 @@ Bin_Confirmed_Congress.csv | Confirmed cases binned into Congressional Districts
 Bin_Deaths_Congress.csv    | Deaths binned into Congressional Districts
 Bin_Confirmed_CSA.csv      | Confirmed cases binned into Combined Statistical Areas
 Bin_Deaths_CSA.csv         | Deaths binned into Combined Statistical Areas
+Bin_Confirmed_Urban.csv    | Confirmed cases binned into national Urban areas
+Bin_Deaths_Urban.csv       | Deaths binned into national Urban areas
 
 The first three columns vary of geographical bin as follows (the first column is a unique key):
 
