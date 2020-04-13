@@ -1,0 +1,5 @@
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-12 17:10:37.413713
+	Using geo           Urban
+	Using set           Confirmed
+Writing csv dist from Confirmed_Urban.
