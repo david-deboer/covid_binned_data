@@ -1,14 +1,14 @@
 ---run_parameters---
-runtime:  2020-04-14 15:57:45.997930
-geo:  Urban
+runtime:  2020-04-14 14:39:33.127378
+geo:  State
 set:  Deaths
-geo_info:  {'sfield1': 'aland10', 'sfield2': 'name10', 'file': 'tl_2019_us_uac10', 'headers': ['ALAND10', 'NAME10']}
+geo_info:  {'sfield1': 'ST99_D00_I', 'sfield2': 'NAME', 'file': 'st99_d00', 'headers': ['ST99_D00_I', 'NAME']}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Deaths_US.csv
 
 ---make_map_count---
 ---> Running make_map_count
-	geo: Urban
+	geo: State
 	set: Deaths
 
 ---jhu_to_count---
@@ -22,21 +22,15 @@ Reduced by 2210 of 3253
 ---> Binning data: us_map.count_points
 ---> Generating dictionary - pass 1.
 ---> Updating csv - pass 1.
-Index 469, key ('4852726061', 'Boston, MA--NH--RI') for 101.0 already present
-Index 475, key ('4852726061', 'Boston, MA--NH--RI') for 55.0 already present
-Index 849, key ('5131784571', 'Philadelphia, PA--NJ--DE--MD') for 65.0 already present
-Index 197, key ('6852231566', 'Atlanta, GA') for 5.0 already present
-WARNING - duplicates in point binning.
-	4 entries totaling 226.0
 
 ---rebin---
 No rebin
 
 ---update_jhu---
----> Updating Deaths_Urban.csv
+---> Updating Deaths_State.csv
 
 ---write_json---
----> Writing Deaths_Urban.json
+---> Writing Deaths_State.json
 
 ---update_json---
 Running update_json
@@ -44,10 +38,10 @@ Missing key:  ---
 
 ---make_csv_dist---
 ---> Writing distribution files.
-Writing csv dist from Deaths_Urban.
-Writing Bin_Deaths_Urban.csv
-Skipped 3375 of 3601 for no non-zero data
-Total final at 4/13/20:  3860.0
+Writing csv dist from Deaths_State.
+Writing Bin_Deaths_State.csv
+Skipped 11 of 54 for no non-zero data
+Total final at 4/13/20:  373.0
 
 ---make_state_json---
 Not generating State json

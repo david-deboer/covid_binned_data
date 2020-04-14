@@ -1,4 +1,63 @@
+---run_parameters---
+runtime:  2020-04-14 15:02:14.581666
+geo:  County
+set:  Deaths
+geo_info:  {'sfield1': 'statefp', 'sfield2': 'countyfp', 'file': 'cb_2018_us_county_500k', 'headers': ['State', 'County']}
+scope:  US
+setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Deaths_US.csv
+
+---make_map_count---
+---> Running make_map_count
+	geo: County
+	set: Deaths
+
+---jhu_to_count---
+---> Read in JHU COVID-19 data.
+Culling data on location and no data over 83 dates.
+Reduced by 2210 of 3253
+	104 for location.
+	2106 for no count.
+
+---count_map_covid---
+---> Binning data: us_map.count_points
+---> Generating dictionary - pass 1.
+---> Updating csv - pass 1.
+Index 989, key ('51', '3') for 1.0 already present
+Index 989, key ('51', '540') for 1.0 already present
+Index 88, key ('8', '14') for 2.0 already present
+Index 88, key ('8', '14') for 2.0 already present
+WARNING - duplicates in point binning.
+	4 entries totaling 6.0
+
+---rebin---
+---> Processing unbinned entries.
+	2214 of 3253
+	2106 rebinned
+	102 unassign
+	6 unbinned
+2,,Northern Mariana Islands,145.6739,15.0979
+86,Kusilvak,Alaska,-163.39678830000003,62.15429159999999
+1147,LaSalle,Louisiana,-92.15907765,31.67884782
+2417,Oglala Lakota,South Dakota,-102.5555498,43.33749164
+3200,,Diamond Princess,0.0,0.0
+3252,,Grand Princess,0.0,0.0
+
+---update_jhu---
+---> Updating Deaths_County.csv
+
+---write_json---
+---> Writing Deaths_County.json
+
+---update_json---
+Running update_json
+
+---make_csv_dist---
 ---> Writing distribution files.
 Writing csv dist from Deaths_County.
----> Writing distribution files.
-Writing csv dist from Deaths_State.
+Writing Bin_Deaths_County.csv
+Skipped 2205 of 3288 for no non-zero data
+Total final at 4/13/20:  23461.0
+
+---make_state_json---
+Not generating State json
+

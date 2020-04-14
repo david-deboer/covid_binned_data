@@ -1,21 +1,48 @@
----/Users/ddeboer/miniconda3/bin/count_map_covid.py---
-2020-04-13 16:10:10.956739
-	Using geo           CSA
-	Using set           Deaths
----> Read in run parameters.
+---run_parameters---
+runtime:  2020-04-14 14:46:34.973082
+geo:  CSA
+set:  Deaths
+geo_info:  {'sfield1': 'csafp', 'sfield2': 'name', 'file': 'tl_2019_us_csa', 'headers': ['CSAFP', 'NAME']}
+scope:  US
+setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Deaths_US.csv
+
+---make_map_count---
+---> Running make_map_count
+	geo: CSA
+	set: Deaths
+
+---jhu_to_count---
 ---> Read in JHU COVID-19 data.
-Reduced by 2236 of 3253
+Culling data on location and no data over 83 dates.
+Reduced by 2210 of 3253
 	104 for location.
-	2132 for no count.
----> Binning data.
+	2106 for no count.
+
+---count_map_covid---
+---> Binning data: us_map.count_points
 ---> Generating dictionary - pass 1.
----> Updating JHU - pass 1.
+---> Updating csv - pass 1.
+
+---rebin---
+No rebin
+
+---update_jhu---
 ---> Updating Deaths_CSA.csv
+
+---write_json---
 ---> Writing Deaths_CSA.json
----/Users/ddeboer/miniconda3/bin/update_json.py---
-2020-04-13 16:11:45.047104
-	Using geo           CSA
-	Using set           Deaths
+
+---update_json---
+Running update_json
+Missing key:  ---
+
+---make_csv_dist---
 ---> Writing distribution files.
 Writing csv dist from Deaths_CSA.
----> Writing distribution files.
+Writing Bin_Deaths_CSA.csv
+Skipped 27 of 175 for no non-zero data
+Total final at 4/13/20:  1790.0
+
+---make_state_json---
+Not generating State json
+
