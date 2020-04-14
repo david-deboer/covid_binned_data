@@ -1,5 +1,27 @@
----/Users/ddeboer/miniconda3/bin/update_json.py---
-2020-04-12 17:10:37.413713
+---/Users/ddeboer/miniconda3/bin/count_map_covid.py---
+2020-04-13 16:21:34.373220
 	Using geo           Urban
 	Using set           Confirmed
+---> Read in run parameters.
+---> Read in JHU COVID-19 data.
+Reduced by 589 of 3253
+	104 for location.
+	485 for no count.
+---> Binning data.
+---> Generating dictionary - pass 1.
+---> Updating JHU - pass 1.
+Index 1076, key ('4852726061', 'Boston, MA--NH--RI') for 3170.0 already present
+Index 1082, key ('4852726061', 'Boston, MA--NH--RI') for 2024.0 already present
+Index 1951, key ('5131784571', 'Philadelphia, PA--NJ--DE--MD') for 2164.0 already present
+Index 409, key ('6852231566', 'Atlanta, GA') for 99.0 already present
+WARNING - duplicates in point binning.
+	4 entries totaling 7457.0
+---> Updating Confirmed_Urban.csv
+---> Writing Confirmed_Urban.json
+---/Users/ddeboer/miniconda3/bin/update_json.py---
+2020-04-13 17:02:33.745782
+	Using geo           Urban
+	Using set           Confirmed
+---> Writing distribution files.
 Writing csv dist from Confirmed_Urban.
+---> Writing distribution files.

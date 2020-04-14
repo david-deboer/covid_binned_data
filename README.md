@@ -21,8 +21,8 @@ Bin_Confirmed_Congress.csv | Confirmed cases binned into Congressional Districts
 Bin_Deaths_Congress.csv    | Deaths binned into Congressional Districts
 Bin_Confirmed_CSA.csv      | Confirmed cases binned into Combined Statistical Areas
 Bin_Deaths_CSA.csv         | Deaths binned into Combined Statistical Areas
-Bin_Confirmed_Urban.csv    | Confirmed cases binned into national Urban areas
-Bin_Deaths_Urban.csv       | Deaths binned into national Urban areas
+Bin_Confirmed_Urban.csv    | Confirmed cases binned into National Urban Areas
+Bin_Deaths_Urban.csv       | Deaths binned into National Urban areas
 
 The first three columns vary of geographical bin as follows (the first column is a unique key):
 
@@ -61,6 +61,8 @@ Please contact ddeboer@berkeley.edu if interested.
 Overlay points for illustrative purposes are the largest 500 mega-churches, taken from wikipedia (https://en.wikipedia.org/wiki/List_of_megachurches_in_the_United_States)
 ![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/CSA_200411.png)
 Combined statistical areas.
+![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/Urban_200412.png)
+National urban areas.
 ![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/CA_track.png)
 Overlay points track the centroid over time.  The size is linearly proportional to confirmed cases, with the largest the current value.
 ![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png)
