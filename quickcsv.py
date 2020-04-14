@@ -43,10 +43,12 @@ class BGBC:
                     self.dates = [datetime.strptime(x, self.date_fmt) for x in row[dataslice]]
                 else:
                     this_row = [float(x) for x in row[dataslice]]
+                    if len(this_row) != len(self.dates):
+                        continue
                     self.data.append(this_row)
                     for i, _d in enumerate(self.dtype):
                         getattr(self, _d).append(row[i])
-        #self.data = np.ndarray(self.data)
+        self.data = np.asarray(self.data)
         self.Longitude = [float(x) for x in self.Longitude]
         self.Latitude = [float(x) for x in self.Latitude]
 
@@ -108,6 +110,6 @@ if __name__ == '__main__':
     q.plot_scatter()
     q.plot_row(args.fip)
     plt.legend()
-    # q.plot_col(args.date)
-    # plt.legend()
+    q.plot_col(args.date)
+    plt.legend()
     plt.show()
