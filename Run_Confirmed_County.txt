@@ -1,6 +1,4 @@
 ---> Writing distribution files.
-Writing csv dist from Confirmed_County.
-Generating State json from County
-Generating State json from County
----> Writing distribution files.
 Writing csv dist from Confirmed_State.
+---> Writing distribution files.
+Writing csv dist from Confirmed_County.
