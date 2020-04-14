@@ -42,10 +42,11 @@ class BGBC:
                     dataslice = slice(len(self.dtype)+1, len(row))
                     self.dates = [datetime.strptime(x, self.date_fmt) for x in row[dataslice]]
                 else:
-                    self.data.append([float(x) for x in row[dataslice]])
+                    this_row = [float(x) for x in row[dataslice]]
+                    self.data.append(this_row)
                     for i, _d in enumerate(self.dtype):
                         getattr(self, _d).append(row[i])
-        self.data = np.array(self.data)
+        #self.data = np.ndarray(self.data)
         self.Longitude = [float(x) for x in self.Longitude]
         self.Latitude = [float(x) for x in self.Latitude]
 
@@ -73,7 +74,7 @@ class BGBC:
         for _f in fip:
             ind = self.Key.index(_f)
             lbl = getattr(self, self.header[2])[ind]
-            plt.plot(self.dates, self.data[ind, :], label=lbl)
+            plt.plot(self.dates, self.data[ind], label=lbl)
         fig.autofmt_xdate()
         plt.title(self.header[2])
 
