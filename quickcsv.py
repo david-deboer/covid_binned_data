@@ -4,7 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import argparse
 from datetime import datetime
-import metro_areas
 """
 This is a simple csv reader for the covid_binned_data files.
 """
@@ -72,7 +71,7 @@ class BGBC:
             fip = [fip]
         fig = plt.figure(self.header[2])
         for _f in fip:
-            ind = self.FIP.index(_f)
+            ind = self.Key.index(_f)
             lbl = getattr(self, self.header[2])[ind]
             plt.plot(self.dates, self.data[ind, :], label=lbl)
         fig.autofmt_xdate()
@@ -94,23 +93,20 @@ class BGBC:
             plt.semilogy(self.data[:, ind], '.', label=_d)
         plt.title('Date')
 
-    def smooth_metro(self):
-        metro_areas('a')
-
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('filename', nargs='?', help="Name of csv file (include .csv)",
                     default="Bin_Confirmed_County.csv")
-    ap.add_argument('-f', '--fip', help="Row plot for FIP (csv-list)", default='06-001,06-013')
+    ap.add_argument('-f', '--fip', help="Row plot for FIP (csv-list)", default='6-1,6-13')
     ap.add_argument('-d', '--date', help="Col plot for date (csv-list)", default='4/7/20,3/15/20')
     args = ap.parse_args()
     args.fip = args.fip.split(',')
     args.date = args.date.split(',')
     q = BGBC(args.filename)
     q.plot_scatter()
-    q.plot_row(args.fip)
-    plt.legend()
-    q.plot_col(args.date)
-    plt.legend()
+    # q.plot_row(args.fip)
+    # plt.legend()
+    # q.plot_col(args.date)
+    # plt.legend()
     plt.show()
