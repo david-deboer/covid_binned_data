@@ -1,5 +1,5 @@
 ---run_parameters---
-runtime:  2020-04-14 15:57:45.997930
+runtime:  2020-04-14 19:29:26.028862
 geo:  Urban
 set:  Deaths
 geo_info:  {'sfield1': 'aland10', 'sfield2': 'name10', 'file': 'tl_2019_us_uac10', 'headers': ['ALAND10', 'NAME10']}
@@ -13,21 +13,21 @@ setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_c
 
 ---jhu_to_count---
 ---> Read in JHU COVID-19 data.
-Culling data on location and no data over 83 dates.
-Reduced by 2210 of 3253
+Culling data on location and no data over 84 dates.
+Reduced by 2165 of 3253
 	104 for location.
-	2106 for no count.
+	2061 for no count.
 
 ---count_map_covid---
 ---> Binning data: us_map.count_points
 ---> Generating dictionary - pass 1.
 ---> Updating csv - pass 1.
-Index 469, key ('4852726061', 'Boston, MA--NH--RI') for 101.0 already present
-Index 475, key ('4852726061', 'Boston, MA--NH--RI') for 55.0 already present
-Index 849, key ('5131784571', 'Philadelphia, PA--NJ--DE--MD') for 65.0 already present
-Index 197, key ('6852231566', 'Atlanta, GA') for 5.0 already present
+Index 488, key ('4852726061', 'Boston, MA--NH--RI') for 101.0 already present
+Index 494, key ('4852726061', 'Boston, MA--NH--RI') for 55.0 already present
+Index 878, key ('5131784571', 'Philadelphia, PA--NJ--DE--MD') for 76.0 already present
+Index 201, key ('6852231566', 'Atlanta, GA') for 5.0 already present
 WARNING - duplicates in point binning.
-	4 entries totaling 226.0
+	4 entries totaling 237.0
 
 ---rebin---
 No rebin
@@ -46,8 +46,8 @@ Missing key:  ---
 ---> Writing distribution files.
 Writing csv dist from Deaths_Urban.
 Writing Bin_Deaths_Urban.csv
-Skipped 3375 of 3601 for no non-zero data
-Total final at 4/13/20:  3860.0
+Skipped 3368 of 3601 for no non-zero data
+Total final at 4/14/20:  4259.0
 
 ---make_state_json---
 Not generating State json

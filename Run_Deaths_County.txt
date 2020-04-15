@@ -1,5 +1,5 @@
 ---run_parameters---
-runtime:  2020-04-14 15:02:14.581666
+runtime:  2020-04-14 20:18:59.705760
 geo:  County
 set:  Deaths
 geo_info:  {'sfield1': 'statefp', 'sfield2': 'countyfp', 'file': 'cb_2018_us_county_500k', 'headers': ['State', 'County']}
@@ -13,32 +13,32 @@ setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_c
 
 ---jhu_to_count---
 ---> Read in JHU COVID-19 data.
-Culling data on location and no data over 83 dates.
-Reduced by 2210 of 3253
+Culling data on location and no data over 84 dates.
+Reduced by 2165 of 3253
 	104 for location.
-	2106 for no count.
+	2061 for no count.
 
 ---count_map_covid---
 ---> Binning data: us_map.count_points
 ---> Generating dictionary - pass 1.
 ---> Updating csv - pass 1.
-Index 989, key ('51', '3') for 1.0 already present
-Index 989, key ('51', '540') for 1.0 already present
-Index 88, key ('8', '14') for 2.0 already present
-Index 88, key ('8', '14') for 2.0 already present
+Index 1028, key ('51', '3') for 1.0 already present
+Index 1028, key ('51', '540') for 1.0 already present
+Index 91, key ('8', '14') for 2.0 already present
+Index 91, key ('8', '14') for 2.0 already present
 WARNING - duplicates in point binning.
 	4 entries totaling 6.0
 
 ---rebin---
 ---> Processing unbinned entries.
-	2214 of 3253
-	2106 rebinned
+	2169 of 3253
+	2061 rebinned
 	102 unassign
 	6 unbinned
 2,,Northern Mariana Islands,145.6739,15.0979
 86,Kusilvak,Alaska,-163.39678830000003,62.15429159999999
 1147,LaSalle,Louisiana,-92.15907765,31.67884782
-2417,Oglala Lakota,South Dakota,-102.5555498,43.33749164
+2417,Oglala Lakota,South Dakota,-102.55554980000001,43.33749164
 3200,,Diamond Princess,0.0,0.0
 3252,,Grand Princess,0.0,0.0
 
@@ -55,8 +55,8 @@ Running update_json
 ---> Writing distribution files.
 Writing csv dist from Deaths_County.
 Writing Bin_Deaths_County.csv
-Skipped 2205 of 3288 for no non-zero data
-Total final at 4/13/20:  23461.0
+Skipped 2159 of 3288 for no non-zero data
+Total final at 4/14/20:  25683.0
 
 ---make_state_json---
 Not generating State json

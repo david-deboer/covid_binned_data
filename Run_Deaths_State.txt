@@ -1,5 +1,5 @@
 ---run_parameters---
-runtime:  2020-04-14 14:39:33.127378
+runtime:  2020-04-14 20:08:50.781069
 geo:  State
 set:  Deaths
 geo_info:  {'sfield1': 'ST99_D00_I', 'sfield2': 'NAME', 'file': 'st99_d00', 'headers': ['ST99_D00_I', 'NAME']}
@@ -13,10 +13,10 @@ setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_c
 
 ---jhu_to_count---
 ---> Read in JHU COVID-19 data.
-Culling data on location and no data over 83 dates.
-Reduced by 2210 of 3253
+Culling data on location and no data over 84 dates.
+Reduced by 2165 of 3253
 	104 for location.
-	2106 for no count.
+	2061 for no count.
 
 ---count_map_covid---
 ---> Binning data: us_map.count_points
@@ -40,8 +40,8 @@ Missing key:  ---
 ---> Writing distribution files.
 Writing csv dist from Deaths_State.
 Writing Bin_Deaths_State.csv
-Skipped 11 of 54 for no non-zero data
-Total final at 4/13/20:  373.0
+Skipped 10 of 54 for no non-zero data
+Total final at 4/14/20:  446.0
 
 ---make_state_json---
 Not generating State json
