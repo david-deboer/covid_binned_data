@@ -1,5 +1,5 @@
 ---run_parameters---
-runtime:  2020-04-14 20:23:24.565675
+runtime:  2020-04-15 17:48:04.947882
 geo:  CSA
 set:  Confirmed
 geo_info:  {'sfield1': 'csafp', 'sfield2': 'name', 'file': 'tl_2019_us_csa', 'headers': ['CSAFP', 'NAME']}
@@ -13,10 +13,10 @@ setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_c
 
 ---jhu_to_count---
 ---> Read in JHU COVID-19 data.
-Culling data on location and no data over 84 dates.
-Reduced by 560 of 3253
-	104 for location.
-	456 for no count.
+Culling data on location and no data over 85 dates.
+Reduced by 551 of 3256
+	107 for location.
+	444 for no count.
 
 ---count_map_covid---
 ---> Binning data: us_map.count_points
@@ -41,8 +41,6 @@ Missing key:  ---
 Writing csv dist from Confirmed_CSA.
 Writing Bin_Confirmed_CSA.csv
 Skipped 3 of 175 for no non-zero data
-Total final at 4/14/20:  31097.0
+Total final at 4/15/20:  32271.0
 
 ---make_state_json---
-Not generating State json
-

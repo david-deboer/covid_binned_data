@@ -1,5 +1,5 @@
 ---run_parameters---
-runtime:  2020-04-14 20:15:49.161870
+runtime:  2020-04-15 17:14:15.013017
 geo:  County
 set:  Confirmed
 geo_info:  {'sfield1': 'statefp', 'sfield2': 'countyfp', 'file': 'cb_2018_us_county_500k', 'headers': ['State', 'County']}
@@ -13,62 +13,65 @@ setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_c
 
 ---jhu_to_count---
 ---> Read in JHU COVID-19 data.
-Culling data on location and no data over 84 dates.
-Reduced by 560 of 3253
-	104 for location.
-	456 for no count.
+Culling data on location and no data over 85 dates.
+Reduced by 551 of 3256
+	107 for location.
+	444 for no count.
 
 ---count_map_covid---
 ---> Binning data: us_map.count_points
 ---> Generating dictionary - pass 1.
 ---> Updating csv - pass 1.
-Index 2512, key ('51', '15') for 2.0 already present
-Index 2515, key ('51', '15') for 6.0 already present
-Index 2517, key ('51', '69') for 20.0 already present
-Index 2463, key ('51', '161') for 18.0 already present
-Index 2510, key ('51', '161') for 21.0 already present
-Index 2511, key ('51', '161') for 3.0 already present
-Index 2497, key ('51', '165') for 95.0 already present
-Index 2488, key ('51', '5') for 1.0 already present
-Index 2432, key ('51', '89') for 8.0 already present
-Index 2490, key ('51', '81') for 8.0 already present
-Index 2485, key ('51', '3') for 36.0 already present
-Index 2491, key ('51', '59') for 1.0 already present
-Index 2501, key ('51', '153') for 49.0 already present
-Index 2502, key ('51', '153') for 13.0 already present
-Index 2502, key ('51', '685') for 13.0 already present
-Index 2485, key ('51', '540') for 36.0 already present
-Index 2512, key ('51', '790') for 2.0 already present
-Index 227, key ('8', '14') for 88.0 already present
-Index 227, key ('8', '14') for 88.0 already present
-Index 2488, key ('51', '580') for 1.0 already present
-Index 2491, key ('51', '600') for 1.0 already present
-Index 2501, key ('51', '683') for 49.0 already present
-Index 2517, key ('51', '840') for 20.0 already present
-Index 2515, key ('51', '820') for 6.0 already present
-Index 2510, key ('51', '770') for 21.0 already present
-Index 2463, key ('51', '775') for 18.0 already present
-Index 2511, key ('51', '775') for 3.0 already present
-Index 2497, key ('51', '660') for 95.0 already present
-Index 2432, key ('51', '690') for 8.0 already present
-Index 2490, key ('51', '595') for 8.0 already present
-Index 2484, key ('51', '163') for 4.0 already present
-Index 2499, key ('51', '163') for 3.0 already present
-Index 2499, key ('51', '163') for 3.0 already present
-Index 2484, key ('51', '163') for 4.0 already present
+Index 2523, key ('51', '15') for 2.0 already present
+Index 2526, key ('51', '15') for 6.0 already present
+Index 2528, key ('51', '69') for 21.0 already present
+Index 2474, key ('51', '161') for 17.0 already present
+Index 2521, key ('51', '161') for 22.0 already present
+Index 2522, key ('51', '161') for 3.0 already present
+Index 2508, key ('51', '165') for 101.0 already present
+Index 2499, key ('51', '5') for 1.0 already present
+Index 2443, key ('51', '89') for 8.0 already present
+Index 2501, key ('51', '81') for 7.0 already present
+Index 2496, key ('51', '3') for 38.0 already present
+Index 2502, key ('51', '59') for 0.0 already present
+Index 2512, key ('51', '153') for 53.0 already present
+Index 2513, key ('51', '153') for 14.0 already present
+Index 2513, key ('51', '685') for 14.0 already present
+Index 2496, key ('51', '540') for 38.0 already present
+Index 2523, key ('51', '790') for 2.0 already present
+Index 228, key ('8', '14') for 88.0 already present
+Index 228, key ('8', '14') for 88.0 already present
+Index 2499, key ('51', '580') for 1.0 already present
+Index 2502, key ('51', '600') for 0.0 already present
+Index 2512, key ('51', '683') for 53.0 already present
+Index 2528, key ('51', '840') for 21.0 already present
+Index 2526, key ('51', '820') for 6.0 already present
+Index 2521, key ('51', '770') for 22.0 already present
+Index 2474, key ('51', '775') for 17.0 already present
+Index 2522, key ('51', '775') for 3.0 already present
+Index 2508, key ('51', '660') for 101.0 already present
+Index 2443, key ('51', '690') for 8.0 already present
+Index 2501, key ('51', '595') for 7.0 already present
+Index 2495, key ('51', '163') for 4.0 already present
+Index 2510, key ('51', '163') for 3.0 already present
+Index 2510, key ('51', '163') for 3.0 already present
+Index 2495, key ('51', '163') for 4.0 already present
 WARNING - duplicates in point binning.
-	34 entries totaling 752.0
+	34 entries totaling 776.0
 
 ---rebin---
 ---> Processing unbinned entries.
-	569 of 3253
-	463 rebinned
+	560 of 3256
+	451 rebinned
 	102 unassign
-	4 unbinned
+	7 unbinned
 2,,Northern Mariana Islands,145.6739,15.0979
 86,Kusilvak,Alaska,-163.39678830000003,62.15429159999999
 3200,,Diamond Princess,0.0,0.0
 3252,,Grand Princess,0.0,0.0
+3253,Michigan Department of Corrections (MDOC),Michigan,0.0,0.0
+3254,Federal Correctional Institution (FCI),Michigan,0.0,0.0
+3255,Unassigned,Northern Mariana Islands,0.0,0.0
 
 ---update_jhu---
 ---> Updating Confirmed_County.csv
@@ -83,9 +86,7 @@ Running update_json
 ---> Writing distribution files.
 Writing csv dist from Confirmed_County.
 Writing Bin_Confirmed_County.csv
-Skipped 557 of 3286 for no non-zero data
-Total final at 4/14/20:  601062.0
+Skipped 546 of 3287 for no non-zero data
+Total final at 4/15/20:  631918.0
 
 ---make_state_json---
-Not generating State json
-
