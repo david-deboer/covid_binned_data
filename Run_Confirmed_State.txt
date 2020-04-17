@@ -1,22 +1,18 @@
 ---run_parameters---
-runtime:  2020-04-15 17:50:59.733994
+runtime:  2020-04-17 13:51:56.003985
 geo:  State
 set:  Confirmed
-geo_info:  {'sfield1': 'ST99_D00_I', 'sfield2': 'NAME', 'file': 'st99_d00', 'headers': ['ST99_D00_I', 'NAME']}
+geo_info:  {'name': 'State', 'sfield': ['NAME'], 'file': 'st99_d00', 'headers': ['NAME']}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Confirmed_US.csv
 
 ---make_map_count---
----> Running make_map_count
-	geo: State
-	set: Confirmed
-
 ---jhu_to_count---
 ---> Read in JHU COVID-19 data.
-Culling data on location and no data over 85 dates.
-Reduced by 551 of 3256
+Culling data on location and no data over 86 dates.
+Reduced by 536 of 3256
 	107 for location.
-	444 for no count.
+	429 for no count.
 
 ---count_map_covid---
 ---> Binning data: us_map.count_points
@@ -34,13 +30,12 @@ No rebin
 
 ---update_json---
 Running update_json
-Missing key:  ---
 
 ---make_csv_dist---
 ---> Writing distribution files.
 Writing csv dist from Confirmed_State.
 Writing Bin_Confirmed_State.csv
-Skipped 11 of 54 for no non-zero data
-Total final at 4/15/20:  5394.0
+Skipped 11 of 55 for no non-zero data
+Total final at 4/16/20:  5367.0
 
 ---make_state_json---
