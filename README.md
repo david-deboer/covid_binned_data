@@ -1,5 +1,7 @@
 # covid_binned_data
 
+NOTE - CURRENTLY REDOING KEYS - DATA WILL BE AVAILABLE LATER TODAY
+
 This derived database is intended to provide up-to-date easily accessible geo-binned data for research purposes from the Johns Hopkins maintained database
 https://github.com/CSSEGISandData/COVID-19.git
 
@@ -9,10 +11,10 @@ Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau
 * States
 * Counties
 * Congressional districts
-* Combined statistcial areas
+* Combined statistical areas
 * National Urban areas
 
-Unbinned data are assigned to "0000" to within that state.
+Unbinned data are assigned to "9999" to within that state.
 
 Current data files:
 
