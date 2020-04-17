@@ -1,8 +1,8 @@
 ---run_parameters---
-runtime:  2020-04-16 23:03:43.404205
+runtime:  2020-04-17 16:17:27.345482
 geo:  Congress
 set:  Confirmed
-geo_info:  {'sfield1': 'STATEFP', 'sfield2': 'CD116FP', 'file': 'cb_2018_us_cd116_500k', 'headers': ['State', 'District']}
+geo_info:  {'name': 'Congress', 'sfield': ['STATEFP', 'CD116FP'], 'file': 'cb_2018_us_cd116_500k', 'headers': ['State', 'District']}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Confirmed_US.csv
 
@@ -10,8 +10,8 @@ setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_c
 ---jhu_to_count---
 ---> Read in JHU COVID-19 data.
 Culling data on location and no data over 86 dates.
-Reduced by 536 of 3256
-	107 for location.
+Reduced by 535 of 3255
+	106 for location.
 	429 for no count.
 
 ---count_map_covid---
@@ -21,52 +21,33 @@ Reduced by 536 of 3256
 
 ---rebin---
 ---> Processing unbinned entries.
-	546 of 3256
-	0 rebinned
+	545 of 3255
+	105 rebinned
 	0 unassign
-	546 unbinned
+	440 unbinned
 0,,American Samoa,-170.132,-14.271
 2,,Northern Mariana Islands,145.6739,15.0979
-72,Aleutians East,Alaska,-161.9722021,55.32222414
-73,Aleutians West,Alaska,-110.4086433,52.72541116
-76,Bristol Bay,Alaska,-156.701064,58.74513976
-77,Denali,Alaska,-150.0076108,63.67264044
-78,Dillingham,Alaska,-158.23819419999995,59.79603738
-80,Haines,Alaska,-135.4679843,59.09893571
-81,Hoonah-Angoon,Alaska,-135.64244240000002,58.29307365
-83,Kenai Peninsula,Alaska,-151.53888840000005,60.24429722
-84,Ketchikan Gateway,Alaska,-130.975561,55.57445008
-85,Kodiak Island,Alaska,-153.7493579,57.65529415
-86,Kusilvak,Alaska,-163.39678830000003,62.15429159999999
-87,Lake and Peninsula,Alaska,-156.21405890000003,58.62403337
-90,North Slope,Alaska,-153.4836093,69.31479216
-91,Northwest Arctic,Alaska,-159.7503946,67.04919196
-94,Sitka,Alaska,-135.3206587,57.24124555
-95,Skagway,Alaska,-135.3337748,59.56149996
-97,Valdez-Cordova,Alaska,-144.7126799,61.47502768
-98,Wrangell,Alaska,-132.05837309999998,56.3202004
-99,Yakutat,Alaska,-140.36014509999998,59.8909808
 122,Calhoun,Arkansas,-92.49974403,33.55598792
 140,Fulton,Arkansas,-91.81729127,36.38177105
 156,Little River,Arkansas,-94.23468591,33.70375665
 164,Montgomery,Arkansas,-93.65824478,34.53704874
-208,Lassen,California,-120.59350990000002,40.67311306
+208,Lassen,California,-120.5935099,40.67311306
 212,Mariposa,California,-119.9073334,37.57978556
 215,Modoc,California,-120.7244817,41.58965602
-236,Sierra,California,-120.52007009999998,39.57713498
-243,Trinity,California,-123.114713,40.64917670000001
+236,Sierra,California,-120.5200701,39.57713498
+243,Trinity,California,-123.114713,40.6491767
 254,Bent,Colorado,-103.0720195,37.95474293
 258,Cheyenne,Colorado,-102.6032558,38.82777431
-260,Conejos,Colorado,-106.19174879999998,37.201606
+260,Conejos,Colorado,-106.1917488,37.201606
 266,Dolores,Colorado,-108.5211585,37.75208676
-278,Jackson,Colorado,-106.3408905,40.66593870000001
+278,Jackson,Colorado,-106.3408905,40.6659387
 280,Kiowa,Colorado,-102.7392145,38.43260896
-305,San Juan,Colorado,-107.67632890000002,37.76248981
+305,San Juan,Colorado,-107.6763289,37.76248981
 307,Sedgwick,Colorado,-102.3519227,40.87595412
 453,Glascock,Georgia,-82.61297636,33.22879932
 522,Taliaferro,Georgia,-82.88136816,33.56543317
 553,Kalawao,Hawaii,-156.9583592,21.17882515
-559,Bear Lake,Idaho,-111.32892379999998,42.28269683
+559,Bear Lake,Idaho,-111.3289238,42.28269683
 560,Benewah,Idaho,-116.6586851,47.21754179
 563,Boise,Idaho,-115.7309284,43.98829931
 567,Butte,Idaho,-113.1735463,43.72592209
@@ -74,7 +55,7 @@ Reduced by 536 of 3256
 573,Clearwater,Idaho,-115.6622393,46.67459924
 576,Franklin,Idaho,-111.8149666,42.18332217
 585,Lemhi,Idaho,-113.9309747,44.9438088
-591,Oneida,Idaho,-112.5407838,42.19494279999999
+591,Oneida,Idaho,-112.5407838,42.1949428
 595,Shoshone,Idaho,-115.8916749,47.35364087
 601,Alexander,Illinois,-89.32910838,37.18049267
 604,Brown,Illinois,-90.75068024,39.96209138
@@ -95,8 +76,8 @@ Reduced by 536 of 3256
 819,Davis,Iowa,-92.41005468,40.74773536
 820,Decatur,Iowa,-93.78645949,40.73742757
 825,Emmet,Iowa,-94.67858943,43.37782951
-827,Floyd,Iowa,-92.78940097,43.06000529999999
-829,Fremont,Iowa,-95.60129045,40.74542720000001
+827,Floyd,Iowa,-92.78940097,43.0600053
+829,Fremont,Iowa,-95.60129045,40.7454272
 839,Humboldt,Iowa,-94.20722537,42.7764426
 840,Ida,Iowa,-95.51355387,42.38696136
 852,Lucas,Iowa,-93.32780803,41.02958964
@@ -111,7 +92,7 @@ Reduced by 536 of 3256
 901,Chase,Kansas,-96.59563862,38.30292938
 904,Cheyenne,Kansas,-101.7318201,39.78580976
 905,Clark,Kansas,-99.81883015,37.23577007
-909,Comanche,Kansas,-99.27113247,37.19114520000001
+909,Comanche,Kansas,-99.27113247,37.1911452
 912,Decatur,Kansas,-100.4594081,39.78468441
 916,Edwards,Kansas,-99.31263309,37.88735543
 917,Elk,Kansas,-96.24369667,37.45338105
@@ -146,13 +127,13 @@ Reduced by 536 of 3256
 994,Wichita,Kansas,-101.3471509,38.48178252
 995,Wilson,Kansas,-95.74323255,37.55937174
 1004,Bell,Kentucky,-83.67766671,36.73355174
-1017,Carlisle,Kentucky,-88.96692220000001,36.85372876
+1017,Carlisle,Kentucky,-88.9669222,36.85372876
 1023,Clay,Kentucky,-83.712575,37.16451126
 1029,Elliott,Kentucky,-83.09771563,38.11624059
 1030,Estill,Kentucky,-83.95956369,37.69241417
 1035,Fulton,Kentucky,-89.20140068,36.55238827
 1045,Harlan,Kentucky,-83.21899516,36.85699301
-1050,Hickman,Kentucky,-88.97875928,36.67948079999999
+1050,Hickman,Kentucky,-88.97875928,36.6794808
 1062,Lee,Kentucky,-83.71513901,37.59645942
 1074,Magoffin,Kentucky,-83.0657714,37.70820545
 1082,Metcalfe,Kentucky,-85.63123699,36.99459295
@@ -207,33 +188,6 @@ Reduced by 536 of 3256
 1588,Shannon,Missouri,-91.40190382,37.15772072
 1592,Sullivan,Missouri,-93.11150106,40.2099105
 1598,Wayne,Missouri,-90.46001416,37.11303869
-1605,Blaine,Montana,-108.9582723,48.43175214
-1608,Carter,Montana,-104.5395536,45.5197966
-1610,Chouteau,Montana,-110.4353362,47.88084126
-1611,Custer,Montana,-105.57375259999998,46.25319932
-1612,Daniels,Montana,-105.54763429999998,48.78420029
-1613,Dawson,Montana,-104.89444170000002,47.26584855
-1615,Fallon,Montana,-104.4183565,46.33478338
-1616,Fergus,Montana,-109.2245206,47.26331584
-1619,Garfield,Montana,-107.0002351,47.27545948
-1622,Granite,Montana,-113.4414186,46.40605220000001
-1625,Judith Basin,Montana,-110.2660688,47.04581276
-1630,McCone,Montana,-105.7944994,47.64469406
-1633,Mineral,Montana,-115.0015239,47.15283992
-1637,Petroleum,Montana,-108.2508876,47.1182463
-1638,Phillips,Montana,-107.9128511,48.25936577
-1640,Powder River,Montana,-105.636738,45.39617714
-1641,Powell,Montana,-112.9359164,46.85538891
-1642,Prairie,Montana,-105.379384,46.86048047
-1646,Rosebud,Montana,-106.72928799999998,46.23397237
-1647,Sanders,Montana,-115.1329916,47.67657534
-1648,Sheridan,Montana,-104.503829,48.72085833
-1651,Sweet Grass,Montana,-109.9425686,45.81367654
-1652,Teton,Montana,-112.2410688,47.83741052
-1654,Treasure,Montana,-107.2666516,46.20973220000001
-1655,Valley,Montana,-106.6669635,48.36435097
-1656,Wheatland,Montana,-109.8464636,46.46652491
-1657,Wibaux,Montana,-104.2510927,46.95925154
 1661,Arthur,Nebraska,-101.6959559,41.56896142
 1662,Banner,Nebraska,-103.7114332,41.54634427
 1663,Blaine,Nebraska,-99.97677845,41.91311716
@@ -269,7 +223,7 @@ Reduced by 536 of 3256
 1723,Nuckolls,Nebraska,-98.04743961,40.17637905
 1725,Pawnee,Nebraska,-96.23705437,40.13141096
 1726,Perkins,Nebraska,-101.6502942,40.85082525
-1731,Red Willow,Nebraska,-100.476998,40.17556879999999
+1731,Red Willow,Nebraska,-100.476998,40.1755688
 1732,Richardson,Nebraska,-95.71755036,40.1247415
 1733,Rock,Nebraska,-99.44832069,42.42252217
 1739,Sheridan,Nebraska,-102.4126613,42.50284406
@@ -284,7 +238,7 @@ Reduced by 536 of 3256
 1757,Eureka,Nevada,-116.2683204,39.98100864
 1759,Lander,Nevada,-117.0397075,39.9332233
 1762,Mineral,Nevada,-118.4344506,38.53841696
-1764,Pershing,Nevada,-118.40056409999998,40.44003782
+1764,Pershing,Nevada,-118.4005641,40.44003782
 1765,Storey,Nevada,-119.5250207,39.44875482
 1806,De Baca,New Mexico,-104.4117842,34.34274529
 1810,Guadalupe,New Mexico,-104.790669,34.86319296
@@ -302,27 +256,6 @@ Reduced by 536 of 3256
 1932,Graham,North Carolina,-83.83369267,35.3506925
 1952,Madison,North Carolina,-82.71346418,35.85402722
 1994,Yancey,North Carolina,-82.31237181,35.90079156
-1995,Adams,North Dakota,-102.5285397,46.09686891
-1997,Benson,North Dakota,-99.35916363,48.0683985
-1998,Billings,North Dakota,-103.3762965,47.02366884
-1999,Bottineau,North Dakota,-100.8378166,48.79106111
-2004,Cavalier,North Dakota,-98.46685243,48.77286211
-2005,Dickey,North Dakota,-98.5049008,46.11017712
-2011,Golden Valley,North Dakota,-103.8465421,46.94022281
-2014,Griggs,North Dakota,-98.23850925,47.45785838
-2015,Hettinger,North Dakota,-102.4632417,46.43375068
-2016,Kidder,North Dakota,-99.77507857,46.97830064
-2017,LaMoure,North Dakota,-98.53542355,46.45681054
-2018,Logan,North Dakota,-99.47719806,46.45729487
-2026,Nelson,North Dakota,-98.19038437,47.9226426
-2028,Pembina,North Dakota,-97.5523809,48.76623521
-2031,Ransom,North Dakota,-97.65742504,46.45621782
-2032,Renville,North Dakota,-101.6603912,48.71982533
-2036,Sheridan,North Dakota,-100.3426391,47.57700669
-2040,Steele,North Dakota,-97.72728747,47.45611548
-2042,Towner,North Dakota,-99.24564265,48.68565745
-2043,Traill,North Dakota,-97.16323288,47.45367788
-2046,Wells,North Dakota,-99.65904998,47.58614526
 2129,Vinton,Ohio,-82.4831444,39.25208988
 2141,Blaine,Oklahoma,-98.43307003,35.87518314
 2148,Cimarron,Oklahoma,-102.5173885,36.74817177
@@ -330,7 +263,7 @@ Reduced by 536 of 3256
 2158,Ellis,Oklahoma,-99.75324573,36.2180194
 2164,Harmon,Oklahoma,-99.84741652,34.7440135
 2165,Harper,Oklahoma,-99.6679804,36.78836519
-2166,Haskell,Oklahoma,-95.11513306,35.22257600000001
+2166,Haskell,Oklahoma,-95.11513306,35.222576
 2167,Hughes,Oklahoma,-96.24921145,35.04912569
 2185,Murray,Oklahoma,-97.06826283,34.48116015
 2199,Pushmataha,Oklahoma,-95.37603505,34.41635232
@@ -340,33 +273,10 @@ Reduced by 536 of 3256
 2223,Gilliam,Oregon,-120.2048869,45.37160076
 2225,Harney,Oregon,-118.9666306,43.06422669
 2231,Lake,Oregon,-120.3850163,42.79246693
-2247,Wheeler,Oregon,-120.02814270000002,44.72698162
-2369,Bennett,South Dakota,-101.6665572,43.19486375
-2374,Buffalo,South Dakota,-99.20814467,44.07657829
-2376,Campbell,South Dakota,-100.0510181,45.77074915
-2382,Custer,South Dakota,-103.4534521,43.67741105
-2384,Day,South Dakota,-97.60737498,45.367281
-2386,Dewey,South Dakota,-100.8709139,45.15639647
-2387,Douglas,South Dakota,-98.36978007,43.38520741
-2388,Edmunds,South Dakota,-99.21545423,45.41846445
-2391,Grant,South Dakota,-96.77002276,45.1723937
-2392,Gregory,South Dakota,-99.18883902,43.19419064
-2393,Haakon,South Dakota,-101.539099,44.29299053
-2395,Hand,South Dakota,-99.00386459,44.54708407
-2396,Hanson,South Dakota,-97.78715148,43.6746384
-2397,Harding,South Dakota,-103.4958629,45.58015551
-2401,Jackson,South Dakota,-101.6255063,43.69318385
-2403,Jones,South Dakota,-100.6940008,43.96278565
-2410,McPherson,South Dakota,-99.22118798,45.76626028
-2413,Mellette,South Dakota,-100.7563186,43.58078848
-2419,Perkins,South Dakota,-102.4755586,45.49049506
-2420,Potter,South Dakota,-99.95498503,45.06583079
-2424,Stanley,South Dakota,-100.7349153,44.41381872
-2427,Tripp,South Dakota,-99.8854891,43.34459388
-2432,Ziebach,South Dakota,-101.6654622,44.97881876
+2247,Wheeler,Oregon,-120.0281427,44.72698162
 2449,Crockett,Tennessee,-89.14916269,35.81830662
 2466,Hancock,Tennessee,-83.22375847,36.52692871
-2501,Pickett,Tennessee,-85.07763299999998,36.55606529
+2501,Pickett,Tennessee,-85.077633,36.55606529
 2531,Aransas,Texas,-96.9995047,28.10556197
 2532,Archer,Texas,-98.68754589,33.61569967
 2536,Bailey,Texas,-102.8299707,34.06854817
@@ -376,7 +286,7 @@ Reduced by 536 of 3256
 2550,Briscoe,Texas,-101.2084947,34.53026962
 2551,Brooks,Texas,-98.21808402,27.03103197
 2560,Carson,Texas,-101.3542669,35.40365929
-2565,Childress,Texas,-100.2077916,34.529304100000004
+2565,Childress,Texas,-100.2077916,34.5293041
 2567,Cochran,Texas,-102.8284499,33.60425307
 2568,Coke,Texas,-100.5297533,31.88911733
 2569,Coleman,Texas,-99.45240766,31.76736834
@@ -463,15 +373,12 @@ Reduced by 536 of 3256
 3086,Lincoln,Wisconsin,-89.73411273,45.33737523
 3112,Taylor,Wisconsin,-90.5004405,45.21179252
 3114,Vernon,Wisconsin,-90.8324691,43.59422667
-3146,Weston,Wyoming,-104.5674881,43.83961191
 3149,Out of AL,Alabama,0.0,0.0
-3150,Out of AK,Alaska,0.0,0.0
 3151,Out of AZ,Arizona,0.0,0.0
 3152,Out of AR,Arkansas,0.0,0.0
 3153,Out of CA,California,0.0,0.0
 3154,Out of CO,Colorado,0.0,0.0
 3155,Out of CT,Connecticut,0.0,0.0
-3156,Out of DE,Delaware,0.0,0.0
 3157,Out of DC,District of Columbia,0.0,0.0
 3158,Out of FL,Florida,0.0,0.0
 3159,Out of GA,Georgia,0.0,0.0
@@ -490,7 +397,6 @@ Reduced by 536 of 3256
 3172,Out of MN,Minnesota,0.0,0.0
 3173,Out of MS,Mississippi,0.0,0.0
 3174,Out of MO,Missouri,0.0,0.0
-3175,Out of MT,Montana,0.0,0.0
 3176,Out of NE,Nebraska,0.0,0.0
 3177,Out of NV,Nevada,0.0,0.0
 3178,Out of NH,New Hampshire,0.0,0.0
@@ -498,32 +404,26 @@ Reduced by 536 of 3256
 3180,Out of NM,New Mexico,0.0,0.0
 3181,Out of NY,New York,0.0,0.0
 3182,Out of NC,North Carolina,0.0,0.0
-3183,Out of ND,North Dakota,0.0,0.0
 3184,Out of OH,Ohio,0.0,0.0
 3185,Out of OK,Oklahoma,0.0,0.0
 3186,Out of OR,Oregon,0.0,0.0
 3187,Out of PA,Pennsylvania,0.0,0.0
 3188,Out of RI,Rhode Island,0.0,0.0
 3189,Out of SC,South Carolina,0.0,0.0
-3190,Out of SD,South Dakota,0.0,0.0
 3191,Out of TN,Tennessee,0.0,0.0
 3192,Out of TX,Texas,0.0,0.0
 3193,Out of UT,Utah,0.0,0.0
-3194,Out of VT,Vermont,0.0,0.0
 3195,Out of VA,Virginia,0.0,0.0
 3196,Out of WA,Washington,0.0,0.0
 3197,Out of WV,West Virginia,0.0,0.0
 3198,Out of WI,Wisconsin,0.0,0.0
-3199,Out of WY,Wyoming,0.0,0.0
 3200,,Diamond Princess,0.0,0.0
 3201,Unassigned,Alabama,0.0,0.0
-3202,Unassigned,Alaska,0.0,0.0
 3203,Unassigned,Arizona,0.0,0.0
 3204,Unassigned,Arkansas,0.0,0.0
 3205,Unassigned,California,0.0,0.0
 3206,Unassigned,Colorado,0.0,0.0
 3207,Unassigned,Connecticut,0.0,0.0
-3208,Unassigned,Delaware,0.0,0.0
 3209,Unassigned,District of Columbia,0.0,0.0
 3210,Unassigned,Florida,0.0,0.0
 3211,Unassigned,Georgia,0.0,0.0
@@ -542,7 +442,6 @@ Reduced by 536 of 3256
 3224,Unassigned,Minnesota,0.0,0.0
 3225,Unassigned,Mississippi,0.0,0.0
 3226,Unassigned,Missouri,0.0,0.0
-3227,Unassigned,Montana,0.0,0.0
 3228,Unassigned,Nebraska,0.0,0.0
 3229,Unassigned,Nevada,0.0,0.0
 3230,Unassigned,New Hampshire,0.0,0.0
@@ -550,27 +449,22 @@ Reduced by 536 of 3256
 3232,Unassigned,New Mexico,0.0,0.0
 3233,Unassigned,New York,0.0,0.0
 3234,Unassigned,North Carolina,0.0,0.0
-3235,Unassigned,North Dakota,0.0,0.0
 3236,Unassigned,Ohio,0.0,0.0
 3237,Unassigned,Oklahoma,0.0,0.0
 3238,Unassigned,Oregon,0.0,0.0
 3239,Unassigned,Pennsylvania,0.0,0.0
 3240,Unassigned,Rhode Island,0.0,0.0
 3241,Unassigned,South Carolina,0.0,0.0
-3242,Unassigned,South Dakota,0.0,0.0
 3243,Unassigned,Tennessee,0.0,0.0
 3244,Unassigned,Texas,0.0,0.0
 3245,Unassigned,Utah,0.0,0.0
-3246,Unassigned,Vermont,0.0,0.0
 3247,Unassigned,Virginia,0.0,0.0
 3248,Unassigned,Washington,0.0,0.0
 3249,Unassigned,West Virginia,0.0,0.0
 3250,Unassigned,Wisconsin,0.0,0.0
-3251,Unassigned,Wyoming,0.0,0.0
 3252,,Grand Princess,0.0,0.0
 3253,Michigan Department of Corrections (MDOC),Michigan,0.0,0.0
 3254,Federal Correctional Institution (FCI),Michigan,0.0,0.0
-3255,Unassigned,Northern Mariana Islands,0.0,0.0
 
 ---update_jhu---
 ---> Updating Confirmed_Congress.csv
@@ -585,7 +479,7 @@ Running update_json
 ---> Writing distribution files.
 Writing csv dist from Confirmed_Congress.
 Writing Bin_Confirmed_Congress.csv
-Skipped 96 of 494 for no non-zero data
-Total final at 4/15/20:  419039.0
+Skipped 96 of 487 for no non-zero data
+Total final at 4/16/20:  438764.0
 
 ---make_state_json---
