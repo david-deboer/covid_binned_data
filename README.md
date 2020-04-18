@@ -1,6 +1,5 @@
 # covid_binned_data
 
-NOTE - CURRENTLY REDOING KEYS - DATA WILL BE AVAILABLE LATER TODAY
 
 This derived database is intended to provide up-to-date easily accessible geo-binned data for research purposes from the Johns Hopkins maintained database
 https://github.com/CSSEGISandData/COVID-19.git
