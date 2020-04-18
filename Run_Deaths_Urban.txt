@@ -1,10 +1,10 @@
 ---run_parameters---
-runtime:  2020-04-17 23:41:22.046701
+runtime:  2020-04-18 07:44:04.287014
 C19_git_hash:  a62b8218124eded66adcb6390fcca3ddc86fa1aa
 
 geo:  Urban
 set:  Deaths
-geo_info:  {'name': 'Urban', 'sfield': ['UACE10'], 'file': 'tl_2019_us_uac10', 'binned_headers': ['UACE10', 'NAME10']}
+geo_info:  {'name': 'Urban', 'sfield': ['UACE10'], 'file': 'tl_2019_us_uac10', 'binned_headers': ['State', 'Name']}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Deaths_US.csv
 

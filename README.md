@@ -34,11 +34,11 @@ The first three columns vary of geographical bin as follows (the first column is
 
 Geo      | Column 1 |Column 2 | Column 3
 ---------|----------|---------|---------
-County   | Key      | State   | County Name
+County   | Key      | State   | Name
 Congress | Key      | State   | District
-State    | Key      | State   | State name
+State    | Key      | State   | State
 CSA      | Key      | CSAFP   | NAME
-Urban    | Key      | ALAND10 | NAME10
+Urban    | Key      | State   | Name
 
 The following columns contain data:
 
