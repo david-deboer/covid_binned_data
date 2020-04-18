@@ -1,0 +1,42 @@
+---run_parameters---
+runtime:  2020-04-18 14:11:43.255668
+C19_git_hash:  a62b8218124eded66adcb6390fcca3ddc86fa1aa
+
+geo:  Country
+set:  Deaths
+geo_info:  {'name': 'Country', 'sfield': ['Name'], 'file': 'N/A', 'binned_headers': ['Provinces']}
+scope:  global
+setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv
+
+---make_map_count---
+---jhu_to_count---
+---> Read in JHU COVID-19 data.
+Culling data on location and no data over 87 dates.
+Reduced by 61 of 264
+	4 for location.
+	57 for no count.
+
+---count_map_covid---
+---> Binning data: us_map.count_points
+---> Generating dictionary - pass 1.
+---> Updating csv - pass 1.
+
+---rebin---
+No rebin
+
+---update_jhu---
+---> Updating Deaths_Country.csv
+
+---write_json---
+---> Writing Deaths_Country.json
+
+---update_json---
+Running update_json
+
+---make_csv_dist---
+---> Writing distribution files.
+Writing csv dist from Deaths_Country.
+Writing Bin_Deaths_Country.csv
+Skipped 32 of 185 for no non-zero data
+Total final at 4/17/20:  153821.0
+

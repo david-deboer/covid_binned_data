@@ -13,6 +13,9 @@ Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau
 * Combined statistical areas
 * National Urban areas
 
+Additionally, the global data files are binned into Country.  If the county data are listed in provinces,
+the provinces supplied are listed.
+
 Unbinned data are assigned to "9999" to within that state.
 
 Current data files:
@@ -29,16 +32,19 @@ Bin_Confirmed_CSA.csv      | Confirmed cases binned into Combined Statistical Ar
 Bin_Deaths_CSA.csv         | Deaths binned into Combined Statistical Areas
 Bin_Confirmed_Urban.csv    | Confirmed cases binned into National Urban Areas
 Bin_Deaths_Urban.csv       | Deaths binned into National Urban areas
+Bin_Confirmed_Country.csv  | Confirmed cases binned into Countries
+Bin_Deaths_Country.csv     | Deaths binned into Countries
 
 The first three columns vary of geographical bin as follows (the first column is a unique key):
 
-Geo      | Column 1 |Column 2 | Column 3
----------|----------|---------|---------
-County   | Key      | State   | Name
-Congress | Key      | State   | District
-State    | Key      | State   | State
-CSA      | Key      | CSAFP   | NAME
-Urban    | Key      | State   | Name
+Geo      | Column 1 |Column 2   | Column 3
+---------|----------|-----------|---------
+County   | Key      | State     | Name
+Congress | Key      | State     | District
+State    | Key      | State     | State
+CSA      | Key      | CSAFP     | NAME
+Urban    | Key      | State     | Name
+Country  | Key      | Provinces | (blank)
 
 The following columns contain data:
 
