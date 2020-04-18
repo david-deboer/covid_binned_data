@@ -1,0 +1,60 @@
+---run_parameters---
+runtime:  2020-04-17 20:46:19.159231
+C19_git_hash:  a62b8218124eded66adcb6390fcca3ddc86fa1aa
+
+geo:  County
+set:  Deaths
+geo_info:  {'name': 'County', 'sfield': ['STATEFP', 'COUNTYFP'], 'file': 'cb_2018_us_county_500k', 'binned_headers': ['State', 'County']}
+scope:  US
+setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Deaths_US.csv
+
+---make_map_count---
+---jhu_to_count---
+---> Read in JHU COVID-19 data.
+Culling data on location and no data over 87 dates.
+Reduced by 2068 of 3255
+	106 for location.
+	1962 for no count.
+
+---count_map_covid---
+---> Binning data: us_map.count_points
+---> Generating dictionary - pass 1.
+---> Updating csv - pass 1.
+Index 1118, key ('26', '139') for 1.0 already present
+Index 1118, key ('26', '139') for 1.0 already present
+Index 99, key ('26', '139') for 2.0 already present
+Index 99, key ('26', '139') for 2.0 already present
+WARNING - duplicates in point binning.
+	4 entries totaling 6.0
+
+---rebin---
+---> Processing unbinned entries.
+	2072 of 3255
+	1962 rebinned
+	102 unassign
+	8 unbinned
+2,,Northern Mariana Islands,145.6739,15.0979
+86,Kusilvak,Alaska,-163.39678830000003,62.15429159999999
+1147,LaSalle,Louisiana,-92.15907765,31.67884782
+2417,Oglala Lakota,South Dakota,-102.55554980000001,43.33749164
+3200,,Diamond Princess,0.0,0.0
+3252,,Grand Princess,0.0,0.0
+3253,Michigan Department of Corrections (MDOC),Michigan,0.0,0.0
+3254,Federal Correctional Institution (FCI),Michigan,0.0,0.0
+
+---update_jhu---
+---> Updating Deaths_County.csv
+
+---write_json---
+---> Writing Deaths_County.json
+
+---update_json---
+Running update_json
+
+---make_csv_dist---
+---> Writing distribution files.
+Writing csv dist from Deaths_County.
+Writing Bin_Deaths_County.csv
+Skipped 2099 of 3289 for no non-zero data
+Total final at 4/16/20:  32916.0
+
