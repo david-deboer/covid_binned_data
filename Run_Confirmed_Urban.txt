@@ -1,0 +1,49 @@
+---run_parameters---
+runtime:  2020-04-17 22:00:58.446206
+C19_git_hash:  a62b8218124eded66adcb6390fcca3ddc86fa1aa
+
+geo:  Urban
+set:  Confirmed
+geo_info:  {'name': 'Urban', 'sfield': ['UACE10'], 'file': 'tl_2019_us_uac10', 'binned_headers': ['UACE10', 'NAME10']}
+scope:  US
+setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Confirmed_US.csv
+
+---make_map_count---
+---jhu_to_count---
+---> Read in JHU COVID-19 data.
+Culling data on location and no data over 87 dates.
+Reduced by 523 of 3255
+	106 for location.
+	417 for no count.
+
+---count_map_covid---
+---> Binning data: us_map.count_points
+---> Generating dictionary - pass 1.
+---> Updating csv - pass 1.
+Index 1098, key ('16171',) for 4584.0 already present
+Index 1104, key ('16171',) for 2577.0 already present
+Index 1994, key ('16171',) for 2684.0 already present
+Index 413, key ('16171',) for 133.0 already present
+WARNING - duplicates in point binning.
+	4 entries totaling 9978.0
+
+---rebin---
+No rebin
+
+---update_jhu---
+---> Updating Confirmed_Urban.csv
+
+---write_json---
+---> Writing Confirmed_Urban.json
+
+---update_json---
+Running update_json
+Missing key:  9999
+
+---make_csv_dist---
+---> Writing distribution files.
+Writing csv dist from Confirmed_Urban.
+Writing Bin_Confirmed_Urban.csv
+Skipped 3246 of 3601 for no non-zero data
+Total final at 4/17/20:  477225.0
+

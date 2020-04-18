@@ -1,0 +1,49 @@
+---run_parameters---
+runtime:  2020-04-17 23:41:22.046701
+C19_git_hash:  a62b8218124eded66adcb6390fcca3ddc86fa1aa
+
+geo:  Urban
+set:  Deaths
+geo_info:  {'name': 'Urban', 'sfield': ['UACE10'], 'file': 'tl_2019_us_uac10', 'binned_headers': ['UACE10', 'NAME10']}
+scope:  US
+setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Deaths_US.csv
+
+---make_map_count---
+---jhu_to_count---
+---> Read in JHU COVID-19 data.
+Culling data on location and no data over 87 dates.
+Reduced by 2068 of 3255
+	106 for location.
+	1962 for no count.
+
+---count_map_covid---
+---> Binning data: us_map.count_points
+---> Generating dictionary - pass 1.
+---> Updating csv - pass 1.
+Index 528, key ('16171',) for 159.0 already present
+Index 534, key ('16171',) for 93.0 already present
+Index 945, key ('16171',) for 97.0 already present
+Index 212, key ('16171',) for 5.0 already present
+WARNING - duplicates in point binning.
+	4 entries totaling 354.0
+
+---rebin---
+No rebin
+
+---update_jhu---
+---> Updating Deaths_Urban.csv
+
+---write_json---
+---> Writing Deaths_Urban.json
+
+---update_json---
+Running update_json
+Missing key:  9999
+
+---make_csv_dist---
+---> Writing distribution files.
+Writing csv dist from Deaths_Urban.
+Writing Bin_Deaths_Urban.csv
+Skipped 3357 of 3601 for no non-zero data
+Total final at 4/17/20:  27825.0
+
