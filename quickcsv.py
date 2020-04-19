@@ -75,7 +75,7 @@ class BGBC:
         fig = plt.figure(self.header[2])
         for _f in fip:
             ind = self.Key.index(_f)
-            lbl = getattr(self, self.header[2])[ind]
+            lbl = getattr(self, self.header[0])[ind]
             plt.plot(self.dates, self.data[ind], label=lbl)
         fig.autofmt_xdate()
         plt.title(self.header[2])

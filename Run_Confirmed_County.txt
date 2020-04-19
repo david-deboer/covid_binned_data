@@ -1,62 +1,16 @@
 ---run_parameters---
-runtime:  2020-04-17 20:42:22.355953
-C19_git_hash:  a62b8218124eded66adcb6390fcca3ddc86fa1aa
+runtime:  20200418
+C19_git_hash:  752899743af8dca28986418e070ee626365889d9
 
 geo:  County
 set:  Confirmed
 geo_info:  {'name': 'County', 'sfield': ['STATEFP', 'COUNTYFP'], 'file': 'cb_2018_us_county_500k', 'binned_headers': ['State', 'County']}
 scope:  US
-setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_Confirmed_US.csv
+setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv
 
 ---make_map_count---
 ---jhu_to_count---
----> Read in JHU COVID-19 data.
-Culling data on location and no data over 87 dates.
-Reduced by 523 of 3255
-	106 for location.
-	417 for no count.
-
 ---count_map_covid---
----> Binning data: us_map.count_points
----> Generating dictionary - pass 1.
----> Updating csv - pass 1.
-Index 2549, key ('26', '139') for 4.0 already present
-Index 2552, key ('26', '139') for 7.0 already present
-Index 2554, key ('26', '139') for 22.0 already present
-Index 2500, key ('26', '139') for 20.0 already present
-Index 2547, key ('26', '139') for 24.0 already present
-Index 2548, key ('26', '139') for 6.0 already present
-Index 2534, key ('26', '139') for 214.0 already present
-Index 2525, key ('26', '139') for 1.0 already present
-Index 2469, key ('26', '139') for 10.0 already present
-Index 2527, key ('26', '139') for 7.0 already present
-Index 2522, key ('26', '139') for 40.0 already present
-Index 2528, key ('26', '139') for 2.0 already present
-Index 2538, key ('26', '139') for 72.0 already present
-Index 2539, key ('26', '139') for 21.0 already present
-Index 2539, key ('26', '139') for 21.0 already present
-Index 2522, key ('26', '139') for 40.0 already present
-Index 2549, key ('26', '139') for 4.0 already present
-Index 229, key ('26', '139') for 95.0 already present
-Index 229, key ('26', '139') for 95.0 already present
-Index 2525, key ('26', '139') for 1.0 already present
-Index 2528, key ('26', '139') for 2.0 already present
-Index 2538, key ('26', '139') for 72.0 already present
-Index 2554, key ('26', '139') for 22.0 already present
-Index 2552, key ('26', '139') for 7.0 already present
-Index 2547, key ('26', '139') for 24.0 already present
-Index 2500, key ('26', '139') for 20.0 already present
-Index 2548, key ('26', '139') for 6.0 already present
-Index 2534, key ('26', '139') for 214.0 already present
-Index 2469, key ('26', '139') for 10.0 already present
-Index 2527, key ('26', '139') for 7.0 already present
-Index 2521, key ('26', '139') for 5.0 already present
-Index 2536, key ('26', '139') for 3.0 already present
-Index 2536, key ('26', '139') for 3.0 already present
-Index 2521, key ('26', '139') for 5.0 already present
-WARNING - duplicates in point binning.
-	34 entries totaling 1106.0
-
 ---rebin---
 ---> Processing unbinned entries.
 	533 of 3255
@@ -64,7 +18,7 @@ WARNING - duplicates in point binning.
 	102 unassign
 	6 unbinned
 2,,Northern Mariana Islands,145.6739,15.0979
-86,Kusilvak,Alaska,-163.39678830000003,62.15429159999999
+86,Kusilvak,Alaska,-163.3967883,62.1542916
 3200,,Diamond Princess,0.0,0.0
 3252,,Grand Princess,0.0,0.0
 3253,Michigan Department of Corrections (MDOC),Michigan,0.0,0.0
@@ -83,6 +37,6 @@ Running update_json
 ---> Writing distribution files.
 Writing csv dist from Confirmed_County.
 Writing Bin_Confirmed_County.csv
-Skipped 542 of 3287 for no non-zero data
-Total final at 4/16/20:  667801.0
+Skipped 530 of 3287 for no non-zero data
+Total final at 4/17/2020:  699706.0
 

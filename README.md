@@ -11,7 +11,7 @@ Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau
 * Counties
 * Congressional districts
 * Combined statistical areas
-* National Urban areas
+* National urban areas
 
 Additionally, the global data files are binned into Country.  If the county data are listed in provinces,
 the provinces supplied are listed.

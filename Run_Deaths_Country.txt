@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  2020-04-18 14:11:43.255668
-C19_git_hash:  a62b8218124eded66adcb6390fcca3ddc86fa1aa
+runtime:  20200418
+C19_git_hash:  752899743af8dca28986418e070ee626365889d9
 
 geo:  Country
 set:  Deaths
@@ -10,17 +10,7 @@ setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_c
 
 ---make_map_count---
 ---jhu_to_count---
----> Read in JHU COVID-19 data.
-Culling data on location and no data over 87 dates.
-Reduced by 61 of 264
-	4 for location.
-	57 for no count.
-
 ---count_map_covid---
----> Binning data: us_map.count_points
----> Generating dictionary - pass 1.
----> Updating csv - pass 1.
-
 ---rebin---
 No rebin
 
