@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200418
-C19_git_hash:  752899743af8dca28986418e070ee626365889d9
+runtime:  20200419
+C19_git_hash:  d4b26e43f1b12457cc51759a3cdaf1bb603027cd
 
 geo:  Urban
 set:  Deaths
@@ -9,17 +9,6 @@ scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv
 
 ---make_map_count---
----jhu_to_count---
----count_map_covid---
----rebin---
-No rebin
-
----update_jhu---
----> Updating Deaths_Urban.csv
-
----write_json---
----> Writing Deaths_Urban.json
-
 ---update_json---
 Running update_json
 Missing key:  9999
@@ -28,6 +17,6 @@ Missing key:  9999
 ---> Writing distribution files.
 Writing csv dist from Deaths_Urban.
 Writing Bin_Deaths_Urban.csv
-Skipped 3357 of 3601 for no non-zero data
-Total final at 4/17/2020:  27825.0
+Skipped 3354 of 3601 for no non-zero data
+Total final at 4/18/20:  28721.0
 

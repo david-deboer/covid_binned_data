@@ -2,9 +2,9 @@
 runtime:  20200419
 C19_git_hash:  d4b26e43f1b12457cc51759a3cdaf1bb603027cd
 
-geo:  State
+geo:  Congress
 set:  Deaths
-geo_info:  {'name': 'State', 'sfield': ['STATE'], 'file': 'st99_d00', 'binned_headers': ['NAME', 'ABBR']}
+geo_info:  {'name': 'Congress', 'sfield': ['STATEFP', 'CD116FP'], 'file': 'cb_2018_us_cd116_500k', 'binned_headers': ['State', 'District']}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv
 
@@ -14,8 +14,8 @@ Running update_json
 
 ---make_csv_dist---
 ---> Writing distribution files.
-Writing csv dist from Deaths_State.
-Writing Bin_Deaths_State.csv
-Skipped 1 of 55 for no non-zero data
+Writing csv dist from Deaths_Congress.
+Writing Bin_Deaths_Congress.csv
+Skipped 100 of 487 for no non-zero data
 Total final at 4/18/20:  38664.0
 

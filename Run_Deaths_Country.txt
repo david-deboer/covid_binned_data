@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200418
-C19_git_hash:  752899743af8dca28986418e070ee626365889d9
+runtime:  20200419
+C19_git_hash:  d4b26e43f1b12457cc51759a3cdaf1bb603027cd
 
 geo:  Country
 set:  Deaths
@@ -9,17 +9,6 @@ scope:  global
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv
 
 ---make_map_count---
----jhu_to_count---
----count_map_covid---
----rebin---
-No rebin
-
----update_jhu---
----> Updating Deaths_Country.csv
-
----write_json---
----> Writing Deaths_Country.json
-
 ---update_json---
 Running update_json
 
@@ -28,5 +17,5 @@ Running update_json
 Writing csv dist from Deaths_Country.
 Writing Bin_Deaths_Country.csv
 Skipped 32 of 185 for no non-zero data
-Total final at 4/17/20:  153821.0
+Total final at 4/18/20:  159509.0
 

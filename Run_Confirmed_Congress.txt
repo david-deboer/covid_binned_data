@@ -2,9 +2,9 @@
 runtime:  20200419
 C19_git_hash:  d4b26e43f1b12457cc51759a3cdaf1bb603027cd
 
-geo:  County
+geo:  Congress
 set:  Confirmed
-geo_info:  {'name': 'County', 'sfield': ['STATEFP', 'COUNTYFP'], 'file': 'cb_2018_us_county_500k', 'binned_headers': ['State', 'County']}
+geo_info:  {'name': 'Congress', 'sfield': ['STATEFP', 'CD116FP'], 'file': 'cb_2018_us_cd116_500k', 'binned_headers': ['State', 'District']}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv
 
@@ -14,8 +14,8 @@ Running update_json
 
 ---make_csv_dist---
 ---> Writing distribution files.
-Writing csv dist from Confirmed_County.
-Writing Bin_Confirmed_County.csv
-Skipped 522 of 3287 for no non-zero data
+Writing csv dist from Confirmed_Congress.
+Writing Bin_Confirmed_Congress.csv
+Skipped 91 of 487 for no non-zero data
 Total final at 4/18/20:  732197.0
 

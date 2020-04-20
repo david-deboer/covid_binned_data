@@ -1,25 +1,14 @@
 ---run_parameters---
-runtime:  20200418
-C19_git_hash:  752899743af8dca28986418e070ee626365889d9
+runtime:  20200419
+C19_git_hash:  d4b26e43f1b12457cc51759a3cdaf1bb603027cd
 
 geo:  State
 set:  Confirmed
-geo_info:  {'name': 'State', 'sfield': ['NAME'], 'file': 'st99_d00', 'binned_headers': ['NAME', 'ABBR']}
+geo_info:  {'name': 'State', 'sfield': ['STATE'], 'file': 'st99_d00', 'binned_headers': ['NAME', 'ABBR']}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv
 
 ---make_map_count---
----jhu_to_count---
----count_map_covid---
----rebin---
-No rebin
-
----update_jhu---
----> Updating Confirmed_State.csv
-
----write_json---
----> Writing Confirmed_State.json
-
 ---update_json---
 Running update_json
 
@@ -28,5 +17,5 @@ Running update_json
 Writing csv dist from Confirmed_State.
 Writing Bin_Confirmed_State.csv
 Skipped 1 of 55 for no non-zero data
-Total final at 4/17/2020:  699706.0
+Total final at 4/18/20:  732197.0
 
