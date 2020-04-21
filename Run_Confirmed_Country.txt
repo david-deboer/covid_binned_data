@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200419
-C19_git_hash:  d4b26e43f1b12457cc51759a3cdaf1bb603027cd
+runtime:  20200420
+C19_git_hash:  ca11cb6e451fa5f4c89e063accc9a7a3b0b6e3e6
 
 geo:  Country
 set:  Confirmed
@@ -17,5 +17,5 @@ Running update_json
 Writing csv dist from Confirmed_Country.
 Writing Bin_Confirmed_Country.csv
 Skipped 0 of 185 for no non-zero data
-Total final at 4/18/20:  2317758.0
+Total final at 4/20/20:  2472258.0
 
