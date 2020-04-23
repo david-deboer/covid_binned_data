@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200421
-C19_git_hash:  db4efa2b362f56ee03b5fc5664330d7282c610b9
+runtime:  20200422
+C19_git_hash:  8497921b7f543b5422b2707625818893df1d8a14
 
 geo:  Urban
 set:  Deaths
