@@ -28,7 +28,7 @@ for i, set in enumerate(sets):
     if args.highlight is not None:
         for hl in args.highlight:
             plot_func(hl, colname=args.highlight_col, figname=filename,
-                      linewidth=2, label=hl)
+                      linewidth=3, label=hl)
 
 plt.legend()
 plt.yscale('log')
