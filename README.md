@@ -69,12 +69,9 @@ draw maps with overlays and time series.
 Please contact ddeboer@berkeley.edu if interested.
 
 
-![US Counties with overlay](https://astro.berkeley.edu/~ddeboer/uswithmega.png)
-Overlay points for illustrative purposes are the largest 500 mega-churches, taken from wikipedia (https://en.wikipedia.org/wiki/List_of_megachurches_in_the_United_States)
-![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/CSA_200411.png)
-Combined statistical areas.
-![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/Urban_200412.png)
-National urban areas.
-![CA with centroid track over time](https://astro.berkeley.edu/~ddeboer/CA_track.png)
-Overlay points track the centroid over time.  The size is linearly proportional to confirmed cases, with the largest the current value.
+![US States](https://astro.berkeley.edu/~ddeboer/Confirmed_States_042320.png)
+![US Counties](https://astro.berkeley.edu/~ddeboer/Confirmed_County_042320.png)
+![US Combined Statistical Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_CSA_042320.png)
+![US National Urban Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_042320.png)
+![US National Urban Areas - zoom](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_close_042320.png)
 ![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png)
