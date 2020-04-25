@@ -21,7 +21,7 @@ def plot_kwargs(**kwargs):
                 'linewidth': None,
                 'marker': None,
                 'markersize': None,
-                'label': 'auto'
+                'label': None
                 }
     for k, v in kwargs.items():
         if k == 'lw':

@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import argparse
 from binc19 import viewer
+import numpy as np
 
 
 ap = argparse.ArgumentParser()
@@ -11,8 +12,8 @@ ap.add_argument('geo', help="One of Country/State/County/Congress/CSA/Urban",
 ap.add_argument('-l', '--highlight', help="Rows to highlight.  Must be identical to "
                 "value in col.  In not Key col, set --col as well.", default=None)
 ap.add_argument('--hcol', dest='highlight_col', help="Name of column for highlight.", default='Key')
-ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.  None "
-                "will use the highlight column name.", default=None)
+ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.  'hcol' "
+                "will use the highlight column name.", default='hcol')
 ap.add_argument('-p', '--plot-type', dest='plot_type', help="One of logslope/slope/row",
                 choices=['logslope', 'slope', 'row'], default='row')
 ap.add_argument('-s', '--states', dest='states', help="If State/County/Congress "
@@ -26,12 +27,10 @@ ap.add_argument('-X', '--no-background', dest='include_background', help="Flag t
                 "the background profiles.", action='store_false')
 args = ap.parse_args()
 
-if args.include_average or args.include_total:
-    print("Average/total not implemented.")
 sets = [x.capitalize() for x in args.set.split(',')]
 if args.highlight is not None:
     args.highlight = args.highlight.split(',')
-if args.label_col is None:
+if args.label_col == 'hcol':
     args.label_col = args.highlight_col
 if args.states is not None:
     if args.geo not in ['State', 'County', 'Congress']:
@@ -39,25 +38,28 @@ if args.states is not None:
         args.states = None
     else:
         args.states = args.states.split(',')
-        if args.geo == 'State':
-            args.include_background = False
 
 for i, set in enumerate(sets):
     filename = "Bin_{}_{}.csv".format(set, args.geo)
     b = viewer.View(filename)
     plot_func = getattr(b, 'plot_{}'.format(args.plot_type))
+    total = np.zeros(len(b.data[0]))
+    counts = np.zeros(len(b.data[0]))
     for i, key in enumerate(b.Key):
         if args.states is None or b.State[i] in args.states:
-            tot = -1
-            # print("COMPUTE AVE/TOT HERE")
+            total += b.row(key, colname='Key')
+            counts += 1
             if args.include_background:
                 plot_func(key, colname='Key', figname=filename, color='0.5', label=None)
     if args.highlight is not None:
         for hl in args.highlight:
-            lbl = getattr(b, args.label_col)[i]
             plot_func(hl, colname=args.highlight_col, figname=filename,
-                      linewidth=3, label=lbl)
-
+                      linewidth=3, label=args.label_col)
+    plt.figure(filename)
+    if args.include_total:
+        plt.plot(b.dates, total, color='k', linewidth=4, label='Total', linestyle='--')
+    if args.include_average:
+        plt.plot(b.dates, total/counts, color='k', linewidth=4, label='Average')
 plt.legend()
 plt.yscale('log')
 plt.show()

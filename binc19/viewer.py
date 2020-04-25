@@ -69,6 +69,10 @@ class View:
         col4ind = getattr(self, colname)
         return self.data[col4ind.index(key)]
 
+    def rowind(self, key, colname='Key'):
+        col4ind = getattr(self, colname)
+        return col4ind.index(key)
+
     def plot_logslope(self, key, colname='Key', figname='key', **kwargs):
         self.plot_log = True
         self.plot_slope(key, colname=colname, figname=figname, **kwargs)
@@ -79,17 +83,14 @@ class View:
         if not isinstance(key, list):
             key = [key]
         plt_args = binc_util.plot_kwargs(**kwargs)
-        auto_label = False
-        if plt_args['label'] == 'auto':
-            auto_label = True
         for k in key:
-            if auto_label:
-                plt_args['label'] = k
-            lsdat = self.row(k, colname=colname)
+            ind = self.rowind(k, colname=colname)
+            if plt_args['label'] is not None:
+                plt_args['label'] = getattr(self, plt_args['label'])[ind]
             if self.plot_log:
-                x, y = stats.logslope(self.dates, lsdat)
+                x, y = stats.logslope(self.dates, self.data[ind])
             else:
-                x, y = stats.slope(self.dates, lsdat)
+                x, y = stats.slope(self.dates, self.data[ind])
             plt.plot(x, y, **plt_args)
         fig.autofmt_xdate()
         plt.title(colname)
@@ -107,14 +108,11 @@ class View:
         if not isinstance(key, list):
             key = [key]
         plt_args = binc_util.plot_kwargs(**kwargs)
-        auto_label = False
-        if plt_args['label'] == 'auto':
-            auto_label = True
         for k in key:
-            if auto_label:
-                plt_args['label'] = k
-            data = self.row(k, colname=colname)
-            plt.plot(self.dates, data, **plt_args)
+            ind = self.rowind(k, colname=colname)
+            if plt_args['label'] is not None:
+                plt_args['label'] = getattr(self, plt_args['label'])[ind]
+            plt.plot(self.dates, self.data[ind], **plt_args)
         fig.autofmt_xdate()
         plt.title(colname)
 
