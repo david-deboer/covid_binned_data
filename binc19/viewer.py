@@ -73,12 +73,7 @@ class View:
         col4ind = getattr(self, colname)
         return col4ind.index(key)
 
-    def plot_logslope(self, key, colname='Key', figname='key', **kwargs):
-        self.plot_log = True
-        self.plot_slope(key, colname=colname, figname=figname, **kwargs)
-        self.plot_log = False
-
-    def plot_slope(self, key, colname='Key', figname='key', **kwargs):
+    def plot(self, plot_type, key, colname='Key', figname='key', **kwargs):
         fig = plt.figure(figname)
         if not isinstance(key, list):
             key = [key]
@@ -87,32 +82,14 @@ class View:
             ind = self.rowind(k, colname=colname)
             if plt_args['label'] is not None:
                 plt_args['label'] = getattr(self, plt_args['label'])[ind]
-            if self.plot_log:
+            if plot_type == 'logslope':
                 x, y = stats.logslope(self.dates, self.data[ind])
-            else:
+            elif plot_type == 'slope':
                 x, y = stats.slope(self.dates, self.data[ind])
+            else:
+                x = self.dates
+                y = self.data[ind]
             plt.plot(x, y, **plt_args)
-        fig.autofmt_xdate()
-        plt.title(colname)
-
-    def plot_row(self, key, colname='Key', figname='key', **kwargs):
-        """
-        Row plot of data.
-
-        Parameter
-        ---------
-        key : str of list of str
-            fip codes of row
-        """
-        fig = plt.figure(figname)
-        if not isinstance(key, list):
-            key = [key]
-        plt_args = binc_util.plot_kwargs(**kwargs)
-        for k in key:
-            ind = self.rowind(k, colname=colname)
-            if plt_args['label'] is not None:
-                plt_args['label'] = getattr(self, plt_args['label'])[ind]
-            plt.plot(self.dates, self.data[ind], **plt_args)
         fig.autofmt_xdate()
         plt.title(colname)
 
