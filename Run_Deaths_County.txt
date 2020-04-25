@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200423
-C19_git_hash:  19299ca1750e06041c7dd0dbd29b5bb473ebe533
+runtime:  20200424
+C19_git_hash:  9d48f7da3911221fb7d42c46e35f5e7d9e2fd1af
 
 geo:  County
 set:  Deaths
