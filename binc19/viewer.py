@@ -87,8 +87,7 @@ class View:
             elif plot_type == 'slope':
                 x, y = stats.slope(self.dates, self.data[ind])
             else:
-                x = self.dates
-                y = self.data[ind]
+                x, y = self.dates, self.data[ind]
             plt.plot(x, y, **plt_args)
         fig.autofmt_xdate()
         plt.title(colname)

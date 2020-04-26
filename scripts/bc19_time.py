@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 import matplotlib.pyplot as plt
 import argparse
-from binc19 import plots
+from binc19 import plots_and_tables as pat
 
 
 ap = argparse.ArgumentParser()
@@ -39,8 +39,8 @@ if args.states is not None:
     else:
         args.states = args.states.split(',')
 
-plots.time(set=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
-           label_col=args.label_col, plot_type=args.plot_type, states=args.states,
-           include_average=args.include_average, include_total=args.include_total,
-           include_background=args.include_background)
+pat.time_plot(set=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
+              label_col=args.label_col, plot_type=args.plot_type, states=args.states,
+              include_average=args.include_average, include_total=args.include_total,
+              include_background=args.include_background)
 plt.show()
