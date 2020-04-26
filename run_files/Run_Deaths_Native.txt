@@ -2,9 +2,9 @@
 runtime:  20200426
 C19_git_hash:  46a7433bc03defa2f9327abde2d16c34e74fdc58
 
-geo:  Urban
+geo:  Native
 set:  Deaths
-geo_info:  {'name': 'Urban', 'sfield': ['UACE10'], 'file': 'tl_2019_us_uac10', 'binned_headers': ['State', 'Name']}
+geo_info:  {'name': 'Native', 'sfield': ['NAMELSAD'], 'file': 'tl_2019_us_aiannh', 'binned_headers': ['NAME', 'NAMELSAD']}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv
 
@@ -15,8 +15,8 @@ Missing key:  9999
 
 ---make_csv_dist---
 ---> Writing distribution files.
-Writing csv dist from Deaths_Urban.
-Writing Bin_Deaths_Urban.csv
-Skipped 3332 of 3601 for no non-zero data
-Total final at 4/25/20:  40672.0
+Writing csv dist from Deaths_Native.
+Writing Bin_Deaths_Native.csv
+Skipped 821 of 848 for no non-zero data
+Total final at 4/25/20:  395.0
 

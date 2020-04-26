@@ -12,6 +12,7 @@ Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau
 * Congressional districts
 * Combined statistical areas
 * National urban areas
+* Native American areas
 
 Additionally, the global data files are binned into Country.  If the county data are listed in provinces,
 the provinces supplied are listed.
@@ -32,6 +33,8 @@ Bin_Confirmed_CSA.csv      | Confirmed cases binned into Combined Statistical Ar
 Bin_Deaths_CSA.csv         | Deaths binned into Combined Statistical Areas
 Bin_Confirmed_Urban.csv    | Confirmed cases binned into National Urban Areas
 Bin_Deaths_Urban.csv       | Deaths binned into National Urban areas
+Bin_Confirmed_Native.csv   | Confirmed cases binned into Native American areas
+Bin_Deaths_Native.csv      | Deaths binned into Native American areas
 Bin_Confirmed_Country.csv  | Confirmed cases binned into Countries
 Bin_Deaths_Country.csv     | Deaths binned into Countries
 
@@ -44,6 +47,7 @@ Congress | Key      | State     | District
 State    | Key      | State     | State
 CSA      | Key      | CSAFP     | NAME
 Urban    | Key      | State     | Name
+Native   | Key      | NAME      | NAMELSAD  
 Country  | Key      | Provinces | (blank)
 
 The following columns contain data:
@@ -72,6 +76,7 @@ Please contact ddeboer@berkeley.edu if interested.
 ![US States](https://astro.berkeley.edu/~ddeboer/Confirmed_States_042320.png)
 ![US Counties](https://astro.berkeley.edu/~ddeboer/Confirmed_County_042320.png)
 ![US Combined Statistical Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_CSA_042320.png)
+![US Native American Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Native_200425.png)
 ![US National Urban Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_042320.png)
 ![US National Urban Areas - zoom](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_close_042320.png)
 ![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png)
