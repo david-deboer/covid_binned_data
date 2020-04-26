@@ -1,9 +1,10 @@
 from binc19 import viewer, binc_util
 import numpy as np
 import matplotlib.pyplot as plt
+from datetime import timedelta
 
 
-def time_plot(set=['Confirmed', 'Deaths'], geo='County', highlight=['6-13', '6-1', '6-37'],
+def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['6-13', '6-1', '6-37'],
               highlight_col='Key', label_col='County', plot_type='row', states=['CA'],
               include_average=True, include_total=True, include_background=True):
     """
@@ -11,10 +12,10 @@ def time_plot(set=['Confirmed', 'Deaths'], geo='County', highlight=['6-13', '6-1
 
     Parameters
     ----------
-    set : list of str
+    sets : list of str
         'Confirmed' and/or 'Deaths'
     geo : str
-        'Country', 'State', 'County', 'Congress', 'CSA', 'Urban'
+        'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
     highlight : list of str
         Rows to overplot
     highlight : str
@@ -29,7 +30,7 @@ def time_plot(set=['Confirmed', 'Deaths'], geo='County', highlight=['6-13', '6-1
     include_total : bool
     include_background : bool
     """
-    for i, set in enumerate(set):
+    for i, set in enumerate(sets):
         filename = "Bin_{}_{}.csv".format(set, geo)
         b = viewer.View(filename)
         total = np.zeros(len(b.data[0]))
@@ -70,3 +71,30 @@ def time_table(date=14, geo='County', highlight='6-13', highlight_col='Key', lab
         Name of column to use as labels
     """
     from tabulate import tabulate
+    filename = "Bin_Confirmed_{}.csv".format(geo)
+    confirmed = viewer.View(filename)
+    filename = "Bin_Deaths_{}.csv".format(geo)
+    deaths = viewer.View(filename)
+
+    if isinstance(date, list):
+        start = binc_util.string_to_date(date[0])
+        stop = binc_util.string_to_date(date[1])
+    else:
+        stop = confirmed.dates[-1]
+        start = binc_util.string_to_date(date)
+        if start is None:
+            num_days = int(date)
+            start = stop - timedelta(days=num_days)
+        else:
+            num_days = (stop - start).days
+
+    headers = ['Date', 'Confirmed', 'Deaths']
+    row_confirmed = confirmed.row(highlight, colname=highlight_col)
+    row_deaths = deaths.row(highlight, colname=highlight_col)
+    table_data = []
+    for i in range(num_days):
+        this_date = start + timedelta(days=i)
+        ind = confirmed.dates.index(this_date)
+        table_data.append([str(this_date), row_confirmed[ind], row_deaths[ind]])
+    table = tabulate(table_data, headers=headers, tablefmt='orgtbl')
+    print(table)

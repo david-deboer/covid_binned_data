@@ -7,7 +7,7 @@ from binc19 import plots_and_tables as pat
 ap = argparse.ArgumentParser()
 ap.add_argument('set', help="Confirmed and/or Deaths (csv-list)")
 ap.add_argument('geo', help="One of Country/State/County/Congress/CSA/Urban",
-                choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban'])
+                choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'])
 ap.add_argument('-l', '--highlight', help="Rows to highlight.  Must be identical to "
                 "value in col.  In not Key col, set --col as well.", default=None)
 ap.add_argument('--hcol', dest='highlight_col', help="Name of column for highlight.",
@@ -39,7 +39,7 @@ if args.states is not None:
     else:
         args.states = args.states.split(',')
 
-pat.time_plot(set=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
+pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
               label_col=args.label_col, plot_type=args.plot_type, states=args.states,
               include_average=args.include_average, include_total=args.include_total,
               include_background=args.include_background)

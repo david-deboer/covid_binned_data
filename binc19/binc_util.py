@@ -4,6 +4,8 @@ from datetime import datetime
 def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d'], return_format=False):
     if isinstance(strings_to_try, str):
         strings_to_try = [strings_to_try]
+    if isinstance(date, datetime):
+        return date
     for fmt in strings_to_try:
         try:
             dt = datetime.strptime(date, fmt)
@@ -12,6 +14,9 @@ def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d'], retu
             return dt
         except ValueError:
             continue
+        except TypeError:
+            break
+    return None
 
 
 def plot_kwargs(**kwargs):
