@@ -75,7 +75,7 @@ CAPTION CA counties in time
 
 ## Generating software
 ![US States with centroid of cases over time](https://astro.berkeley.edu/~ddeboer/Confirmed_States_200426_time_centroid.png)
-CAPTION State totals of confirmed cases, with the centroid of where deaths occurred over time.
+CAPTION State totals of deaths, with the centroid of where deaths occurred over time.
 
 As mentioned above, the generating mapping software use matplotlib Basemap and shapefiles from the US Census Bureau.
 The two packages written and used are:  mymaps and bgbcovid (Berkeley Geo-Binned Covid).  These aren't currently
