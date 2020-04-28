@@ -75,7 +75,7 @@ are rough research-grade modules.
 
 ## Generating software
 ![US States with centroid of cases over time](https://astro.berkeley.edu/~ddeboer/Confirmed_States_200426_time_centroid.png)
-State totals of confirmed cases, with the centroid of where deaths occurred over time.
+CAPTION State totals of confirmed cases, with the centroid of where deaths occurred over time.
 
 As mentioned above, the generating mapping software use matplotlib Basemap and shapefiles from the US Census Bureau.
 The two packages written and used are:  mymaps and bgbcovid (Berkeley Geo-Binned Covid).  These aren't currently
@@ -89,8 +89,13 @@ draw maps with overlays and time series.
 Please contact ddeboer@berkeley.edu if interested.
 
 ![US Counties](https://astro.berkeley.edu/~ddeboer/Confirmed_County_042320.png)
+CAPTION Confirmed cases by County.
 ![US Combined Statistical Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_CSA_042320.png)
+CAPTION Confirmed cases by Combined Statistical Areas
 ![US Native American Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Native_200425.png)
+CAPTION Confirmed cases by Native American Areas
 ![US National Urban Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_042320.png)
+CAPTION Confirmed cases by National Urban Areas
 ![US National Urban Areas - zoom](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_close_042320.png)
 ![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png)
+CAPTION CA counties in time
