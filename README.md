@@ -67,7 +67,8 @@ A very simple reader is provided called 'quickcsv' to provide an initial glimpse
 E.g. at your command prompt (in the directory where you installed) type './quickcsv.py'
 
 More sophisticated plots may be made by installing binc19 and using the methods there.  These files
-are in-process research-grade modules to view time series of data.
+are in-process research-grade modules to view time series of data.  The figure below if from the
+script bc19_time.py
 
 ![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County_200427.png)
 CAPTION CA counties in time
