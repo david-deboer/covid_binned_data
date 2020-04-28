@@ -65,6 +65,10 @@ class View:
         plt.xlabel('Longitude')
         plt.ylabel('Latitude')
 
+    def meta(self, val, key, colname):
+        ind = self.rowind(key, colname)
+        return getattr(self, val)[ind]
+
     def row(self, key, colname='Key'):
         col4ind = getattr(self, colname)
         return self.data[col4ind.index(key)]

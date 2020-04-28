@@ -54,7 +54,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['6-13', '6-
         plt.yscale('log')
 
 
-def time_table(date=14, geo='County', highlight='6-13', highlight_col='Key', label_col='County'):
+def time_table(highlight='6-13', date=14, geo='County', highlight_col='Key', label_col='County'):
     """
     Table for 'highlight'.
 
@@ -84,17 +84,26 @@ def time_table(date=14, geo='County', highlight='6-13', highlight_col='Key', lab
         start = binc_util.string_to_date(date)
         if start is None:
             num_days = int(date)
-            start = stop - timedelta(days=num_days)
+            start = stop - timedelta(days=(num_days - 1))
         else:
             num_days = (stop - start).days
 
     headers = ['Date', 'Confirmed', 'Deaths']
     row_confirmed = confirmed.row(highlight, colname=highlight_col)
     row_deaths = deaths.row(highlight, colname=highlight_col)
+    title = confirmed.meta(label_col, highlight, highlight_col)
     table_data = []
     for i in range(num_days):
         this_date = start + timedelta(days=i)
         ind = confirmed.dates.index(this_date)
-        table_data.append([str(this_date), row_confirmed[ind], row_deaths[ind]])
+        table_data.append([binc_util.date_to_string(this_date),
+                           row_confirmed[ind], row_deaths[ind]])
     table = tabulate(table_data, headers=headers, tablefmt='orgtbl')
+    max_line = 0
+    for line in table.splitlines():
+        if len(line) > max_line:
+            max_line = len(line)
+    title_line = int((max_line - len(title)) / 2.0) - 1
+    print("|{}{}{}|".format('_'*title_line, title, '_'*title_line))
+    print("|{}|".format(' ' * (title_line * 2 + len(title))))
     print(table)

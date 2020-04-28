@@ -1,6 +1,10 @@
 from datetime import datetime
 
 
+def date_to_string(date, fmt='%m/%d/%Y'):
+    return datetime.strftime(date, fmt)
+
+
 def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d'], return_format=False):
     if isinstance(strings_to_try, str):
         strings_to_try = [strings_to_try]

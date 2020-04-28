@@ -1,10 +1,10 @@
 ---run_parameters---
-runtime:  20200426
-C19_git_hash:  46a7433bc03defa2f9327abde2d16c34e74fdc58
+runtime:  20200427
+C19_git_hash:  19a8fab10d8dfbe49e9de12c9ab30f7903b8f294
 
 geo:  Country
 set:  Deaths
-geo_info:  {'name': 'Country', 'sfield': ['Name'], 'file': 'N/A', 'binned_headers': ['Provinces']}
+geo_info:  {'name': 'Country', 'sfield': ['Name'], 'file': 'N/A'}
 scope:  global
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv
 
@@ -16,6 +16,6 @@ Running update_json
 ---> Writing distribution files.
 Writing csv dist from Deaths_Country.
 Writing Bin_Deaths_Country.csv
-Skipped 30 of 185 for no non-zero data
-Total final at 4/25/20:  202844.0
+Skipped 29 of 185 for no non-zero data
+Total final at 4/26/20:  206568.0
 

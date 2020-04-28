@@ -1,10 +1,10 @@
 ---run_parameters---
-runtime:  20200426
-C19_git_hash:  46a7433bc03defa2f9327abde2d16c34e74fdc58
+runtime:  20200427
+C19_git_hash:  19a8fab10d8dfbe49e9de12c9ab30f7903b8f294
 
 geo:  State
 set:  Deaths
-geo_info:  {'name': 'State', 'sfield': ['STATE'], 'file': 'st99_d00', 'binned_headers': ['NAME', 'State']}
+geo_info:  {'name': 'State', 'sfield': ['STATE'], 'file': 'st99_d00'}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv
 
@@ -17,5 +17,5 @@ Running update_json
 Writing csv dist from Deaths_State.
 Writing Bin_Deaths_State.csv
 Skipped 1 of 55 for no non-zero data
-Total final at 4/25/20:  53755.0
+Total final at 4/26/20:  54881.0
 
