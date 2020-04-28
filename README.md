@@ -1,5 +1,7 @@
 # covid_binned_data
 
+UPDATE NOTE:  The headers have changed to be simpler and less repetitive.  Longitude and latitude are not truncated
+to 5 decimals.
 
 This derived database is intended to provide up-to-date easily accessible geo-binned data for research purposes from the Johns Hopkins maintained database
 https://github.com/CSSEGISandData/COVID-19.git
@@ -40,15 +42,15 @@ Bin_Deaths_Country.csv     | Deaths binned into Countries
 
 The first three columns vary of geographical bin as follows (the first column is a unique key):
 
-Geo      | Column 1 |Column 2   | Column 3
----------|----------|-----------|---------
-County   | Key      | State     | Name
-Congress | Key      | State     | District
-State    | Key      | State     | State
-CSA      | Key      | CSAFP     | NAME
-Urban    | Key      | State     | Name
-Native   | Key      | NAME      | NAMELSAD  
-Country  | Key      | Provinces | (blank)
+Geo      | Column 1 |Column 2   | Column 3   | Key comprises
+---------|----------|-----------|------------|---------------
+County   | Key      | Name      | (blank)    | STate-COUNTYFP
+Congress | Key      | State     | District   | STate-District
+State    | Key      | State     | (blank)    | STate
+CSA      | Key      | Name      | States     | CSAFP
+Urban    | Key      | Name      | States     | UACE10
+Native   | Key      | NAME      | NAMELSAD   | GEOID
+Country  | Key      | Provinces | (blank)    | Country
 
 The following columns contain data:
 
