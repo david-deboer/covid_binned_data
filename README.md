@@ -1,6 +1,6 @@
 # covid_binned_data
 
-UPDATE NOTE:  The headers have changed to be simpler and less repetitive.  Longitude and latitude are not truncated
+UPDATE NOTE:  The headers have changed to be simpler and less repetitive.  Longitude and latitude are now truncated
 to 5 decimals.
 
 This derived database is intended to provide up-to-date easily accessible geo-binned data for research purposes from the Johns Hopkins maintained database

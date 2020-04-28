@@ -104,6 +104,7 @@ def time_table(highlight='6-13', date=14, geo='County', highlight_col='Key', lab
         if len(line) > max_line:
             max_line = len(line)
     title_line = int((max_line - len(title)) / 2.0) - 1
-    print("|{}{}{}|".format('_'*title_line, title, '_'*title_line))
-    print("|{}|".format(' ' * (title_line * 2 + len(title))))
+    extra = max_line - (title_line * 2 + 2 + len(title))
+    print("|{}{}{}{}|".format('_'*title_line, title, '_'*title_line, '_'*extra))
+    print("|{}{}|".format(' ' * (title_line * 2 + len(title)), ' '*extra))
     print(table)
