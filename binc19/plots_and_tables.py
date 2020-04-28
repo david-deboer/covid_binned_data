@@ -47,9 +47,10 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['6-13', '6-
             plt.plot(b.dates, total/counts, color='0.4', linewidth=4, label='Average')
         if highlight is not None:
             for hl in highlight:
-                b.plot(plot_type, colname=highlight_col, figname=filename,
+                b.plot(plot_type, hl, colname=highlight_col, figname=filename,
                        linewidth=3, label=label_col)
         plt.legend()
+        plt.title(set)
         plt.axis(ymin=1.0)
         plt.yscale('log')
 

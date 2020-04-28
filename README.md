@@ -41,13 +41,13 @@ The first three columns vary by geographical bin as follows (the first column is
 
 Geo      | Column 1 |Column 2   | Column 3   | Key comprises
 ---------|----------|-----------|------------|---------------
-County   | Key      | Name      | (blank)    | STate-COUNTYFP
-Congress | Key      | State     | District   | STate-District
-State    | Key      | State     | (blank)    | STate
-CSA      | Key      | Name      | States     | CSAFP
-Urban    | Key      | Name      | States     | UACE10
+County   | Key      | Name      | STate      | STate-COUNTYFP
+Congress | Key      | STate     | District   | STate-District
+State    | Key      | State     | STate      | STate
+CSA      | Key      | Name      | STates     | CSAFP
+Urban    | Key      | Name      | STates     | UACE10
 Native   | Key      | NAME      | NAMELSAD   | GEOID
-Country  | Key      | Provinces | (blank)    | Country
+Country  | Key      | Provinces | STate      | Country
 
 The following columns contain data:
 
@@ -68,6 +68,9 @@ E.g. at your command prompt (in the directory where you installed) type './quick
 
 More sophisticated plots may be made by installing binc19 and using the methods there.  These files
 are in-process research-grade modules to view time series of data.
+
+![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County_200427.png)
+CAPTION CA counties in time
 
 ## Generating software
 ![US States with centroid of cases over time](https://astro.berkeley.edu/~ddeboer/Confirmed_States_200426_time_centroid.png)
@@ -90,5 +93,4 @@ CAPTION Confirmed cases by Native American Areas
 ![US National Urban Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_042320.png)
 CAPTION Confirmed cases by National Urban Areas
 ![US National Urban Areas - zoom](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_close_042320.png)
-![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County-4_10_20.png)
-CAPTION CA counties in time
+CAPTION Zoom in on confirmed cases by National Urban Areas
