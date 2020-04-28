@@ -1,4 +1,5 @@
 # covid_binned_data
+David DeBoer (ddeboer@berkeley.edu)
 
 UPDATE NOTE:  The headers have changed to be simpler and less repetitive.  Longitude and latitude are now truncated
 to 5 decimals.
@@ -21,7 +22,7 @@ the provinces supplied are listed.
 
 Unbinned data are assigned to "9999" to within that state.
 
-Current data files:
+## Current data files:
 
 Name                       | Description
 ---------------------------|----------------------
@@ -62,20 +63,29 @@ Col | All
 .......
 
 
-Run*.txt files have run meta-information
+Run*.txt files have run meta-informatiConfon
 
-A simple reader is provided called 'quickcsv'.
+## Viewing software
+![US States with centroid of cases over time](https://astro.berkeley.edu/~ddeboer/Confirmed_States_200426_time_centroid.png)
+A very simple reader is provided called 'quickcsv'.
 
-E.g. at your command prompt type './quickcsv.py'
+E.g. at your command prompt (in the directory where you installed) type './quickcsv.py'
 
-The code used to generate draws maps, with overlays and contains slightly more data than in this repo
+More sophisticated plots may be made by installing binc19 and using the methods there.  These files
+are rough research-grade modules.
+
+## Generating software
+As mentioned above, the generating mapping software use matplotlib Basemap and shapefiles from the US Census Bureau.
+The two packages written and used are:  mymaps and bgbcovid (Berkeley Geo-Binned Covid).  These aren't currently
+distributed as they are even rougher
+
+The code draws maps, calculates and displays overlays and contains slightly more data than in this repo
 (currently only the centroid over time).  The software comprises two Python packages, which are very rough
 research quality at this point in time.  They use a json format that is intermediate to these csv files and
 draw maps with overlays and time series.
+
 Please contact ddeboer@berkeley.edu if interested.
 
-
-![US States](https://astro.berkeley.edu/~ddeboer/Confirmed_States_042320.png)
 ![US Counties](https://astro.berkeley.edu/~ddeboer/Confirmed_County_042320.png)
 ![US Combined Statistical Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_CSA_042320.png)
 ![US Native American Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Native_200425.png)

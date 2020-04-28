@@ -72,13 +72,13 @@ class BGBC:
         """
         if not isinstance(fip, list):
             fip = [fip]
-        fig = plt.figure(self.header[2])
+        fig = plt.figure(self.header[0])
         for _f in fip:
             ind = self.Key.index(_f)
-            lbl = getattr(self, self.header[0])[ind]
+            lbl = getattr(self, self.header[1])[ind]
             plt.plot(self.dates, self.data[ind], label=lbl)
         fig.autofmt_xdate()
-        plt.title(self.header[2])
+        plt.title(self.header[1])
 
     def plot_col(self, date):
         """
@@ -101,7 +101,7 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('filename', nargs='?', help="Name of csv file (include .csv)",
                     default="Bin_Confirmed_County.csv")
-    ap.add_argument('-f', '--fip', help="Row plot for FIP (csv-list)", default='6-1,6-13')
+    ap.add_argument('-f', '--fip', help="Row plot for FIP (csv-list)", default='CA-1,CA-13')
     ap.add_argument('-d', '--date', help="Col plot for date (csv-list)", default='4/7/20,3/15/20')
     args = ap.parse_args()
     args.fip = args.fip.split(',')
