@@ -7,15 +7,14 @@ https://github.com/CSSEGISandData/COVID-19.git
 Updated daily after Johns Hopkins updates.
 
 Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau shapefiles for all US:
-* States
 * Counties
 * Congressional districts
 * Combined statistical areas
 * National urban areas
 * Native American areas
 
-Additionally, the global data files are binned into Country.  If the county data are listed in provinces,
-the provinces supplied are listed.
+Additionally, US data files are binned by state and the global data files are binned into Country.
+If the country data are listed in provinces, the provinces supplied are listed.
 
 Unbinned data are assigned to "9999" to within that state/area.
 
