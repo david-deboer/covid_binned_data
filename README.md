@@ -20,7 +20,7 @@ Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau
 Additionally, the global data files are binned into Country.  If the county data are listed in provinces,
 the provinces supplied are listed.
 
-Unbinned data are assigned to "9999" to within that state.
+Unbinned data are assigned to "9999" to within that state/area.
 
 ## Current data files:
 
@@ -41,7 +41,7 @@ Bin_Deaths_Native.csv      | Deaths binned into Native American areas
 Bin_Confirmed_Country.csv  | Confirmed cases binned into Countries
 Bin_Deaths_Country.csv     | Deaths binned into Countries
 
-The first three columns vary of geographical bin as follows (the first column is a unique key):
+The first three columns vary by geographical bin as follows (the first column is a unique key):
 
 Geo      | Column 1 |Column 2   | Column 3   | Key comprises
 ---------|----------|-----------|------------|---------------
@@ -66,12 +66,12 @@ Col | All
 Run*.txt files have run meta-information
 
 ## Viewing software
-A very simple reader is provided called 'quickcsv'.
+A very simple reader is provided called 'quickcsv' to provide an initial glimpse.
 
 E.g. at your command prompt (in the directory where you installed) type './quickcsv.py'
 
 More sophisticated plots may be made by installing binc19 and using the methods there.  These files
-are rough research-grade modules.
+are in-process research-grade modules to view time series of data.
 
 ## Generating software
 ![US States with centroid of cases over time](https://astro.berkeley.edu/~ddeboer/Confirmed_States_200426_time_centroid.png)
@@ -79,14 +79,11 @@ CAPTION State totals of confirmed cases, with the centroid of where deaths occur
 
 As mentioned above, the generating mapping software use matplotlib Basemap and shapefiles from the US Census Bureau.
 The two packages written and used are:  mymaps and bgbcovid (Berkeley Geo-Binned Covid).  These aren't currently
-distributed as they are even rougher
-
-The code draws maps, calculates and displays overlays and contains slightly more data than in this repo
-(currently only the centroid over time).  The software comprises two Python packages, which are very rough
-research quality at this point in time.  They use a json format that is intermediate to these csv files and
-draw maps with overlays and time series.
+distributed as they are even rougher.  In addition to geo-binning, the code draws maps, calculates and displays overlays and contains slightly more data than in this repo (currently only the centroid over time).
 
 Please contact ddeboer@berkeley.edu if interested.
+
+In addition to states shown above, the areas used are:
 
 ![US Counties](https://astro.berkeley.edu/~ddeboer/Confirmed_County_042320.png)
 CAPTION Confirmed cases by County.
