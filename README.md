@@ -63,10 +63,9 @@ Col | All
 .......
 
 
-Run*.txt files have run meta-informatiConfon
+Run*.txt files have run meta-information
 
 ## Viewing software
-![US States with centroid of cases over time](https://astro.berkeley.edu/~ddeboer/Confirmed_States_200426_time_centroid.png)
 A very simple reader is provided called 'quickcsv'.
 
 E.g. at your command prompt (in the directory where you installed) type './quickcsv.py'
