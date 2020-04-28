@@ -75,6 +75,9 @@ More sophisticated plots may be made by installing binc19 and using the methods 
 are rough research-grade modules.
 
 ## Generating software
+![US States with centroid of cases over time](https://astro.berkeley.edu/~ddeboer/Confirmed_States_200426_time_centroid.png)
+State totals of confirmed cases, with the centroid of where deaths occurred over time.
+
 As mentioned above, the generating mapping software use matplotlib Basemap and shapefiles from the US Census Bureau.
 The two packages written and used are:  mymaps and bgbcovid (Berkeley Geo-Binned Covid).  These aren't currently
 distributed as they are even rougher
