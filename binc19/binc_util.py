@@ -23,7 +23,19 @@ def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d'], retu
     return None
 
 
-def plot_kwargs(**kwargs):
+def proc_kwargs(kwargs, allowed_dict):
+    return_values = []
+    for k, v in allowed_dict.items():
+        if k in kwargs.keys():
+            return_values.append(kwargs[k])
+        else:
+            return_values.append(allowed_dict[k])
+    if len(return_values) == 1:
+        return return_values[0]
+    return return_values
+
+
+def plot_kwargs(kwargs):
     plt_args = {'alpha': None,
                 'color': None,
                 'linestyle': None,

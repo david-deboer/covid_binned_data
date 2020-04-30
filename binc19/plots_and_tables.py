@@ -1,12 +1,11 @@
-from binc19 import viewer, binc_util
+from binc19 import viewer, binc_util, stats
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import timedelta
 
 
-def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['6-13', '6-1', '6-37'],
-              highlight_col='Key', label_col='County', plot_type='row', states=['CA'],
-              include_average=True, include_total=True, include_background=True):
+def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'CA-1', 'CA-37'],
+              highlight_col='Key', label_col='County', plot_type='row', states=['CA'], **kwargs):
     """
     Plot time sequences.
 
@@ -26,25 +25,48 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['6-13', '6-
         'row', 'slope', 'logslope'
     states : list of str
         For State, County, or Congress can limit background/stats to states
-    include_average : bool
-    include_total : bool
-    include_background : bool
+    kwargs:
+        include_average : bool
+        include_total : bool
+        include_background : bool
+        smooth : None or int
+        low_clip : None or float
     """
+    allowed_dict = {'include_average': True, 'include_total': True, 'include_background': True}
+    include_average, include_total, include_background = binc_util.proc_kwargs(kwargs, allowed_dict)
+    smooth, low_clip = binc_util.proc_kwargs(kwargs, {'smooth': False, 'low_clip': False})
+    dir = None
+    if isinstance(highlight, str):
+        if highlight[0] in ['<', '>']:
+            dir = 1.0 if highlight[0] == '<' else -1.0
+            thold = float(highlight[1:])
+            highlight_col = 'Key'
+        else:
+            highlight = highlight.split(',')
     for i, set in enumerate(sets):
+        if dir is not None:
+            highlight = []
         filename = "Bin_{}_{}.csv".format(set, geo)
         b = viewer.View(filename)
         total = np.zeros(len(b.data[0]))
         counts = np.zeros(len(b.data[0]))
         for i, key in enumerate(b.Key):
+            if dir is not None:
+                if dir * b.row(key)[-1] <= dir * thold:
+                    highlight.append(key)
             if states is None or b.State[i] in states:
                 total += b.row(key, colname='Key')
                 counts += 1
                 if include_background:
                     b.plot(plot_type, key, colname='Key', figname=filename, color='0.7', label=None)
+        print("Early return.")
+        return highlight
+        _xx, total = stats.stat_dat(b.dates, total, dtype=plot_type, **kwargs)
         if include_total:
-            plt.plot(b.dates, total, color='k', linewidth=4, label='Total', linestyle='--')
+            plt.figure(filename)
+            plt.plot(_xx, total, color='k', linewidth=4, label='Total', linestyle='--')
         if include_average:
-            plt.plot(b.dates, total/counts, color='0.4', linewidth=4, label='Average')
+            plt.plot(_xx, total/counts, color='0.4', linewidth=4, label='Average')
         if highlight is not None:
             for hl in highlight:
                 b.plot(plot_type, hl, colname=highlight_col, figname=filename,

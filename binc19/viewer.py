@@ -86,12 +86,7 @@ class View:
             ind = self.rowind(k, colname=colname)
             if plt_args['label'] is not None:
                 plt_args['label'] = getattr(self, plt_args['label'])[ind]
-            if plot_type == 'logslope':
-                x, y = stats.logslope(self.dates, self.data[ind])
-            elif plot_type == 'slope':
-                x, y = stats.slope(self.dates, self.data[ind])
-            else:
-                x, y = self.dates, self.data[ind]
+            x, y = stats.stat_dat(self.dates, self.data[ind], plot_type, **kwargs)
             plt.plot(x, y, **plt_args)
         fig.autofmt_xdate()
         plt.title(colname)

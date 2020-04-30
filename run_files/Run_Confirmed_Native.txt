@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200427
-C19_git_hash:  19a8fab10d8dfbe49e9de12c9ab30f7903b8f294
+runtime:  20200429
+C19_git_hash:  4fd1f718ecaf37852ec5a1821d4a2b8a5d83823c
 
 geo:  Native
 set:  Confirmed
@@ -17,6 +17,6 @@ Missing key:  9999
 ---> Writing distribution files.
 Writing csv dist from Confirmed_Native.
 Writing Bin_Confirmed_Native.csv
-Skipped 793 of 848 for no non-zero data
-Total final at 4/26/20:  8344.0
+Skipped 792 of 848 for no non-zero data
+Total final at 4/28/20:  8897.0
 

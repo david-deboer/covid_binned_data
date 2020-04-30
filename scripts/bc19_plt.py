@@ -19,6 +19,8 @@ ap.add_argument('-p', '--plot-type', dest='plot_type', help="One of logslope/slo
 ap.add_argument('-s', '--states', dest='states', help="If State/County/Congress "
                 "you can choose a csv-list of states to include in 'background', "
                 "average and total.  Use 2-letter abbreviations.", default=None)
+ap.add_argument('--smooth', help="Smooth factor (int)", default=False)
+ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=False)
 ap.add_argument('-A', '--include-average', dest='include_average', help="Flag to include "
                 "averaged profile over time", action='store_true')
 ap.add_argument('-T', '--include-total', dest='include_total', help="Flag to include "
@@ -28,8 +30,6 @@ ap.add_argument('-X', '--no-background', dest='include_background', help="Flag t
 args = ap.parse_args()
 
 sets = [x.capitalize() for x in args.set.split(',')]
-if args.highlight is not None:
-    args.highlight = args.highlight.split(',')
 if args.label_col == 'hcol':
     args.label_col = args.highlight_col
 if args.states is not None:
@@ -41,6 +41,6 @@ if args.states is not None:
 
 pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
               label_col=args.label_col, plot_type=args.plot_type, states=args.states,
-              include_average=args.include_average, include_total=args.include_total,
-              include_background=args.include_background)
+              smooth=args.smooth, include_average=args.include_average,
+              include_total=args.include_total, include_background=args.include_background)
 plt.show()
