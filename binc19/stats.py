@@ -37,6 +37,6 @@ def stat_dat(x, y, dtype, **kwargs):
         x, y = logslope(x, y, smooth=smooth, low_clip=low_clip)
     elif dtype == 'slope':
         x, y = slope(x, y, smooth=smooth)
-    elif 'smooth' in kwargs.keys():
+    elif 'smooth' in kwargs.keys() and kwargs['smooth']:
         y = smooth_days(y, boxcar=kwargs['smooth'])
     return x, y

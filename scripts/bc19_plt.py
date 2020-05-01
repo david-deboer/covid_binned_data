@@ -38,6 +38,11 @@ if args.states is not None:
         args.states = None
     else:
         args.states = args.states.split(',')
+if args.smooth:
+    try:
+        args.smooth = float(args.smooth)
+    except ValueError:
+        args.smooth = False
 
 pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
               label_col=args.label_col, plot_type=args.plot_type, states=args.states,

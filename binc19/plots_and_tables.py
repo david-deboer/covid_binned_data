@@ -59,8 +59,6 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'C
                 counts += 1
                 if include_background:
                     b.plot(plot_type, key, colname='Key', figname=filename, color='0.7', label=None)
-        print("Early return.")
-        return highlight
         _xx, total = stats.stat_dat(b.dates, total, dtype=plot_type, **kwargs)
         if include_total:
             plt.figure(filename)

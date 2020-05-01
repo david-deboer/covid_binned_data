@@ -81,7 +81,7 @@ class View:
         fig = plt.figure(figname)
         if not isinstance(key, list):
             key = [key]
-        plt_args = binc_util.plot_kwargs(**kwargs)
+        plt_args = binc_util.plot_kwargs(kwargs)
         for k in key:
             ind = self.rowind(k, colname=colname)
             if plt_args['label'] is not None:
