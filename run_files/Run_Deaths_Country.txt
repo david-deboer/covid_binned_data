@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200430
-C19_git_hash:  2666c91045d23636ec66972b1f32a0a7f07d06f2
+runtime:  20200501
+C19_git_hash:  35a425a1da92c3a05c9b33341a9ca154c1e47b07
 
 geo:  Country
 set:  Deaths
