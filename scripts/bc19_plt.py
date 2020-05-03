@@ -19,14 +19,16 @@ ap.add_argument('-p', '--plot-type', dest='plot_type', help="One of logslope/slo
 ap.add_argument('-s', '--states', dest='states', help="If State/County/Congress "
                 "you can choose a csv-list of states to include in 'background', "
                 "average and total.  Use 2-letter abbreviations.", default=None)
-ap.add_argument('--smooth', help="Smooth factor (int)", default=False)
-ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=False)
+ap.add_argument('--smooth', help="Smooth factor (int)", default=5)
+ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
 ap.add_argument('-A', '--include-average', dest='include_average', help="Flag to include "
                 "averaged profile over time", action='store_true')
 ap.add_argument('-T', '--include-total', dest='include_total', help="Flag to include "
                 "totaled profile over time", action='store_true')
-ap.add_argument('-X', '--no-background', dest='include_background', help="Flag to turn off "
-                "the background profiles.", action='store_false')
+ap.add_argument('-B', '--background', dest='include_background', help="Flag to turn on "
+                "the background profiles.", action='store_true')
+ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same figure',
+                action='store_true')
 args = ap.parse_args()
 
 sets = [x.capitalize() for x in args.set.split(',')]
@@ -46,6 +48,7 @@ if args.smooth:
 
 pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
               label_col=args.label_col, plot_type=args.plot_type, states=args.states,
-              smooth=args.smooth, include_average=args.include_average,
-              include_total=args.include_total, include_background=args.include_background)
+              smooth=args.smooth, low_clip=args.low_clip, include_average=args.include_average,
+              include_total=args.include_total, include_background=args.include_background,
+              same_plot=args.same_plot)
 plt.show()

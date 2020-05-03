@@ -36,6 +36,9 @@ def proc_kwargs(kwargs, allowed_dict):
 
 
 def plot_kwargs(kwargs):
+    """
+    Specializes proc_kwargs for plots.
+    """
     plt_args = {'alpha': None,
                 'color': None,
                 'linestyle': None,
@@ -44,15 +47,9 @@ def plot_kwargs(kwargs):
                 'markersize': None,
                 'label': None
                 }
-    for k, v in kwargs.items():
-        if k == 'lw':
-            k = 'linewidth'
-        elif k == 'ls':
-            k = 'linestyle'
-        elif k == 'ms':
-            k = 'markersize'
+    for k, v in plt_args.items():
         try:
-            plt_args[k] = v
+            plt_args[k] = kwargs[k]
         except KeyError:
             continue
     return plt_args

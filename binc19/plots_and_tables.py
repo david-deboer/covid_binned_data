@@ -4,8 +4,11 @@ import matplotlib.pyplot as plt
 from datetime import timedelta
 
 
+same_plot_name = 'binc19'
+
+
 def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'CA-1', 'CA-37'],
-              highlight_col='Key', label_col='County', plot_type='row', states=['CA'], **kwargs):
+              highlight_col='Key', label_col='Key', plot_type='row', states=['CA'], **kwargs):
     """
     Plot time sequences.
 
@@ -18,23 +21,27 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'C
     highlight : list of str
         Rows to overplot
     highlight : str
-        Name of column for above
+        Name of column for above.  If starts with '>' or '<' it will threshold
+        on the following number.
     label_col : str
         Name of column to use as labels
     plot_type : str
         'row', 'slope', 'logslope'
     states : list of str
-        For State, County, or Congress can limit background/stats to states
+        For State, County, or Congress can limit background/stats to states.
+        If None, background is all.
     kwargs:
         include_average : bool
         include_total : bool
         include_background : bool
         smooth : None or int
         low_clip : None or float
+        same_plot : bool
     """
     allowed_dict = {'include_average': True, 'include_total': True, 'include_background': True}
     include_average, include_total, include_background = binc_util.proc_kwargs(kwargs, allowed_dict)
-    smooth, low_clip = binc_util.proc_kwargs(kwargs, {'smooth': False, 'low_clip': False})
+    smooth, low_clip, same_plot = binc_util.proc_kwargs(kwargs, {'smooth': 5, 'low_clip': 1E-4,
+                                                        'same_plot': False})
     dir = None
     if isinstance(highlight, str):
         if highlight[0] in ['<', '>']:
@@ -43,10 +50,15 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'C
             highlight_col = 'Key'
         else:
             highlight = highlight.split(',')
+    figname = None
+    if same_plot:
+        figname = same_plot_name
     for i, set in enumerate(sets):
         if dir is not None:
             highlight = []
         filename = "Bin_{}_{}.csv".format(set, geo)
+        if figname != same_plot_name:
+            figname = filename
         b = viewer.View(filename)
         total = np.zeros(len(b.data[0]))
         counts = np.zeros(len(b.data[0]))
@@ -58,20 +70,22 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'C
                 total += b.row(key, colname='Key')
                 counts += 1
                 if include_background:
-                    b.plot(plot_type, key, colname='Key', figname=filename, color='0.7', label=None)
+                    b.plot(plot_type, key, colname='Key', smooth=smooth, low_clip=low_clip,
+                           figname=figname, color='0.7', label=None)
         _xx, total = stats.stat_dat(b.dates, total, dtype=plot_type, **kwargs)
         if include_total:
-            plt.figure(filename)
+            plt.figure(figname)
             plt.plot(_xx, total, color='k', linewidth=4, label='Total', linestyle='--')
         if include_average:
             plt.plot(_xx, total/counts, color='0.4', linewidth=4, label='Average')
         if highlight is not None:
             for hl in highlight:
-                b.plot(plot_type, hl, colname=highlight_col, figname=filename,
-                       linewidth=3, label=label_col)
+                b.plot(plot_type, hl, colname=highlight_col, smooth=smooth, low_clip=low_clip,
+                       figname=figname, linewidth=3, label=label_col)
         plt.legend()
         plt.title(set)
-        plt.axis(ymin=1.0)
+        if plot_type != 'logslope':
+            plt.axis(ymin=1.0)
         plt.yscale('log')
 
 
