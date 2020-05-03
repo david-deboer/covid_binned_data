@@ -7,8 +7,10 @@ from datetime import timedelta
 same_plot_name = 'binc19'
 
 
-def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'CA-1', 'CA-37'],
-              highlight_col='Key', label_col='Key', plot_type='row', states=['CA'], **kwargs):
+def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
+              highlight=['CA-13', 'CA-1', 'CA-37', 'OH-35', 'OH-55'],
+              highlight_col='Key', label_col='Name', plot_type='row',
+              states=['CA'], **kwargs):
     """
     Plot time sequences.
 
@@ -38,7 +40,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'C
         low_clip : None or float
         same_plot : bool
     """
-    allowed_dict = {'include_average': True, 'include_total': True, 'include_background': True}
+    allowed_dict = {'include_average': False, 'include_total': False, 'include_background': False}
     include_average, include_total, include_background = binc_util.proc_kwargs(kwargs, allowed_dict)
     smooth, low_clip, same_plot = binc_util.proc_kwargs(kwargs, {'smooth': 5, 'low_clip': 1E-4,
                                                         'same_plot': False})
@@ -61,7 +63,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County', highlight=['CA-13', 'C
             figname = filename
         b = viewer.View(filename)
         total = np.zeros(len(b.data[0]))
-        counts = np.zeros(len(b.data[0]))
+        counts = 0
         for i, key in enumerate(b.Key):
             if dir is not None:
                 if dir * b.row(key)[-1] <= dir * thold:

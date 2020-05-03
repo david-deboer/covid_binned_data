@@ -18,7 +18,8 @@ def slope(x, y, smooth=5):
 
 def logslope(x, y, smooth=5, low_clip=1e-4):
     z = np.where(y <= 0.0)
-    y[z] = low_clip
+    y[z] = 1e-4#low_clip
+    print("STATS22:  hard-coded low_clip {}")
     return slope(x, np.log(y), smooth=smooth)
 
 
