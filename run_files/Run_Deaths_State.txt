@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200503
-C19_git_hash:  fae8335e3655cbac286801660229c6bc10576aec
+runtime:  20200504
+C19_git_hash:  3377100d88de45783be0fa2696e787851c8ef27e
 
 geo:  State
 set:  Deaths
@@ -17,5 +17,5 @@ Running update_json
 Writing csv dist from Deaths_State.
 Writing Bin_Deaths_State.csv
 Skipped 1 of 55 for no non-zero data
-Total final at 5/2/20:  66369.0
+Total final at 5/3/20:  67682.0
 

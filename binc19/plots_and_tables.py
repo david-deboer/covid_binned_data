@@ -85,7 +85,14 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                 b.plot(plot_type, hl, colname=highlight_col, smooth=smooth, low_clip=low_clip,
                        figname=figname, linewidth=3, label=label_col)
         plt.legend()
-        plt.title(set)
+        plt.grid()
+        plt.title("{}: {}".format(set, plot_type))
+        if plot_type == 'row':
+            plt.ylabel('Count')
+        elif plot_type == 'slope':
+            plt.ylabel('count/day')
+        elif plot_type == 'logslope':
+            plt.ylabel('1/day')
         if plot_type != 'logslope':
             plt.axis(ymin=1.0)
         plt.yscale('log')
