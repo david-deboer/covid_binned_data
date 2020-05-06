@@ -19,7 +19,7 @@ ap.add_argument('-p', '--plot-type', dest='plot_type', help="One of logslope/slo
 ap.add_argument('-s', '--states', dest='states', help="If State/County/Congress "
                 "you can choose a csv-list of states to include in 'background', "
                 "average and total.  Use 2-letter abbreviations.", default=None)
-ap.add_argument('--smooth', help="Smooth factor (int)", default=5)
+ap.add_argument('--smooth', help="Smooth factor (int)", default=7)
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
 ap.add_argument('-A', '--include-average', dest='include_average', help="Flag to include "
                 "averaged profile over time", action='store_true')
