@@ -8,7 +8,7 @@ same_plot_name = 'binc19'
 
 
 def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
-              highlight=['CA-13', 'CA-1', 'CA-37', 'OH-35', 'OH-55'],
+              highlight=['CA-13', 'CA-1', 'CA-37', 'CA-73', 'OH-35', 'OH-55'],
               highlight_col='Key', label_col='Name', plot_type='row',
               states=['CA'], **kwargs):
     """
@@ -42,7 +42,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     """
     allowed_dict = {'include_average': False, 'include_total': False, 'include_background': False}
     include_average, include_total, include_background = binc_util.proc_kwargs(kwargs, allowed_dict)
-    smooth, low_clip, same_plot = binc_util.proc_kwargs(kwargs, {'smooth': 5, 'low_clip': 1E-4,
+    smooth, low_clip, same_plot = binc_util.proc_kwargs(kwargs, {'smooth': 7, 'low_clip': 1E-4,
                                                         'same_plot': False})
     dir = None
     if isinstance(highlight, str):

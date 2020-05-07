@@ -5,8 +5,11 @@ from binc19 import plots_and_tables as pat
 
 
 ap = argparse.ArgumentParser()
-ap.add_argument('set', help="Confirmed and/or Deaths (csv-list)")
-ap.add_argument('geo', help="One of Country/State/County/Congress/CSA/Urban",
+ap.add_argument('set', nargs='?', default='Confirmed,Deaths',
+                help="Confirmed and/or Deaths (csv-list)",
+                choices=['Confirmed', 'Deaths', 'Confirmed,Deaths'])
+ap.add_argument('geo', nargs='?', default='County',
+                help="One of Country/State/County/Congress/CSA/Urban",
                 choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'])
 ap.add_argument('-l', '--highlight', help="Rows to highlight.  Must be identical to "
                 "value in col.  In not Key col, set --col as well.", default=None)
