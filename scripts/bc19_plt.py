@@ -12,13 +12,14 @@ ap.add_argument('geo', nargs='?', default='County',
                 help="One of Country/State/County/Congress/CSA/Urban",
                 choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'])
 ap.add_argument('-l', '--highlight', help="Rows to highlight.  Must be identical to "
-                "value in col.  In not Key col, set --col as well.", default=None)
+                "value in col.  In not Key col, set --col as well.",
+                default='CA-13,CA-1,CA-37,CA-73,OH-35,OH-55')
 ap.add_argument('--hcol', dest='highlight_col', help="Name of column for highlight.",
                 default='Key')
 ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.  'hcol' "
-                "will use the highlight column name.", default='hcol')
+                "will use the highlight column name.", default='Key')
 ap.add_argument('-p', '--plot-type', dest='plot_type', help="One of logslope/slope/row",
-                choices=['logslope', 'slope', 'row'], default='row')
+                choices=['logslope', 'slope', 'row'], default='slope')
 ap.add_argument('-s', '--states', dest='states', help="If State/County/Congress "
                 "you can choose a csv-list of states to include in 'background', "
                 "average and total.  Use 2-letter abbreviations.", default=None)
