@@ -25,7 +25,8 @@ def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d'], retu
 
 def proc_kwargs(kwargs, allowed_dict):
     return_values = []
-    for k, v in allowed_dict.items():
+    sort_keys = sorted(allowed_dict.keys())
+    for k in sort_keys:
         if k in kwargs.keys():
             return_values.append(kwargs[k])
         else:

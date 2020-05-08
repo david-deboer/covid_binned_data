@@ -9,8 +9,8 @@ same_plot_name = 'binc19'
 
 def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
               highlight=['CA-13', 'CA-1', 'CA-37', 'CA-73', 'OH-35', 'OH-55'],
-              highlight_col='Key', label_col='Name', plot_type='row',
-              states=['CA'], **kwargs):
+              highlight_col='Key', label_col='Name', plot_type='row', bg=['CA'],
+              **kwargs):
     """
     Plot time sequences.
 
@@ -20,70 +20,100 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         'Confirmed' and/or 'Deaths'
     geo : str
         'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
-    highlight : list of str
-        Rows to overplot
-    highlight : str
-        Name of column for above.  If starts with '>' or '<' it will threshold
+    highlight : str, list of str or None
+        Rows to overplot.    If starts with '>' or '<' it will threshold
         on the following number.
+    highlight_col : str
+        Name of column for above.
     label_col : str
-        Name of column to use as labels
+        Name of column to use as labels for highlighted data
     plot_type : str
         'row', 'slope', 'logslope'
-    states : list of str
+    bg : list of str
         For State, County, or Congress can limit background/stats to states.
         If None, background is all.
     kwargs:
-        include_average : bool
-        include_total : bool
-        include_background : bool
+        bg_average : bool
+        bg_total : bool
+        hl_average : bool
+        hl_total : bool
         smooth : None or int
         low_clip : None or float
+        kernel : None or str
         same_plot : bool
     """
-    allowed_dict = {'include_average': False, 'include_total': False, 'include_background': False}
-    include_average, include_total, include_background = binc_util.proc_kwargs(kwargs, allowed_dict)
-    smooth, low_clip, same_plot = binc_util.proc_kwargs(kwargs, {'smooth': 7, 'low_clip': 1E-4,
-                                                        'same_plot': False})
-    dir = None
-    if isinstance(highlight, str):
+    bg_dict = {'bg_average': False, 'bg_include': False, 'bg_total': False}
+    bg_average, bg_include, bg_total = binc_util.proc_kwargs(kwargs, bg_dict)
+    hl_dict = {'hl_average': False, 'hl_total': False}
+    hl_average, hl_total = binc_util.proc_kwargs(kwargs, hl_dict)
+    other_dict = {'same_plot': False}
+    same_plot = binc_util.proc_kwargs(kwargs, other_dict)
+
+    bg_proc = bg_average or bg_total or bg_include
+    hl_proc = highlight is not None
+
+    if not hl_proc and not bg_proc:
+        print("Neither highlight nor background chosen.")
+        return
+
+    hl_tdir = None
+    if hl_proc and isinstance(highlight, str):
         if highlight[0] in ['<', '>']:
-            dir = 1.0 if highlight[0] == '<' else -1.0
+            hl_tdir = 1.0 if highlight[0] == '<' else -1.0
             thold = float(highlight[1:])
             highlight_col = 'Key'
         else:
             highlight = highlight.split(',')
+
     figname = None
     if same_plot:
         figname = same_plot_name
     for i, set in enumerate(sets):
-        if dir is not None:
-            highlight = []
         filename = "Bin_{}_{}.csv".format(set, geo)
         if figname != same_plot_name:
             figname = filename
         b = viewer.View(filename)
-        total = np.zeros(len(b.data[0]))
-        counts = 0
-        for i, key in enumerate(b.Key):
-            if dir is not None:
-                if dir * b.row(key)[-1] <= dir * thold:
-                    highlight.append(key)
-            if states is None or b.State[i] in states:
-                total += b.row(key, colname='Key')
-                counts += 1
-                if include_background:
-                    b.plot(plot_type, key, colname='Key', smooth=smooth, low_clip=low_clip,
-                           figname=figname, color='0.7', label=None)
-        _xx, total = stats.stat_dat(b.dates, total, dtype=plot_type, **kwargs)
-        if include_total:
-            plt.figure(figname)
-            plt.plot(_xx, total, color='k', linewidth=4, label='Total', linestyle='--')
-        if include_average:
-            plt.plot(_xx, total/counts, color='0.4', linewidth=4, label='Average')
-        if highlight is not None:
-            for hl in highlight:
-                b.plot(plot_type, hl, colname=highlight_col, smooth=smooth, low_clip=low_clip,
-                       figname=figname, linewidth=3, label=label_col)
+        if bg_proc:
+            bg_vtot = np.zeros(len(b.data[0]))
+            bg_vcnt = 0
+            bg_keys = []
+            for i, key in enumerate(b.Key):
+                if bg is None or b.State[i] in bg:
+                    bg_vtot += b.row(key, colname='Key')
+                    bg_vcnt += 1
+                    bg_keys.append(key)
+            if bg_include and len(bg_keys):
+                b.plot(plot_type, bg_keys, colname='Key', figname=figname, color='0.7',
+                       label=None, **kwargs)
+            if len(bg_keys) and (bg_total or bg_average):
+                plt.figure(figname)
+                _xx, _yy = stats.stat_dat(b.dates, bg_vtot, dtype=plot_type, **kwargs)
+                if bg_total:
+                    plt.plot(_xx, _yy, color='k', linewidth=4, label='Total', linestyle='--')
+                if bg_average:
+                    plt.plot(_xx, _yy / bg_vcnt, color='0.4', linewidth=4, label='Average')
+        if hl_proc:
+            hl_vtot = np.zeros(len(b.data[0]))
+            hl_vcnt = 0
+            if hl_tdir is not None:
+                highlight = []
+                for i, key in enumerate(b.Key):
+                    if hl_tdir * b.row(key)[-1] <= hl_tdir * thold:
+                        highlight.append(key)
+            if len(highlight):
+                b.plot(plot_type, highlight, colname=highlight_col, figname=figname, linewidth=3,
+                       label=label_col, **kwargs)
+            if len(highlight) and (hl_total or hl_average):
+                plt.figure(figname)
+                for hl in highlight:
+                    hl_vtot += b.row(hl, colname=highlight_col)
+                    hl_vcnt += 1
+                _xx, _yy = stats.stat_dat(b.dates, hl_vtot, dtype=plot_type, **kwargs)
+                if hl_total:
+                    plt.plot(_xx, _yy, color='tab:olive', linewidth=4, label='Total', linestyle='--')  # noqa
+                if hl_average:
+                    plt.plot(_xx, _yy / hl_vcnt, color='tab:olive', linewidth=4, label='Average')
+
         plt.legend()
         plt.grid()
         plt.title("{}: {}".format(set, plot_type))
