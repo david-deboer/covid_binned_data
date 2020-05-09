@@ -83,8 +83,8 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                     bg_vcnt += 1
                     bg_keys.append(key)
             if bg_include and len(bg_keys):
-                b.plot(plot_type, bg_keys, colname='Key', figname=figname, color='0.7',
-                       label=None, **kwargs)
+                b.plot(plot_type, bg_keys, colname='Key', figname=figname, color='0.7', label=None,
+                       **kwargs)
             if len(bg_keys) and (bg_total or bg_average):
                 plt.figure(figname)
                 _xx, _yy = stats.stat_dat(b.dates, bg_vtot, dtype=plot_type, **kwargs)

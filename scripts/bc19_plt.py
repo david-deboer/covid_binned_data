@@ -25,12 +25,16 @@ ap.add_argument('-s', '--states', dest='states', help="If State/County/Congress 
                 "average and total.  Use 2-letter abbreviations.", default=None)
 ap.add_argument('--smooth', help="Smooth factor (int)", default=7)
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
-ap.add_argument('-A', '--include-average', dest='include_average', help="Flag to include "
-                "averaged profile over time", action='store_true')
-ap.add_argument('-T', '--include-total', dest='include_total', help="Flag to include "
-                "totaled profile over time", action='store_true')
-ap.add_argument('-B', '--background', dest='include_background', help="Flag to turn on "
-                "the background profiles.", action='store_true')
+ap.add_argument('--hl-ave', dest='hl_average', help="Flag to include "
+                "averaged highlight profile over time", action='store_true')
+ap.add_argument('--hl-tot', dest='hl_total', help="Flag to include "
+                "totaled highlight profile over time", action='store_true')
+ap.add_argument('--bg-ave', dest='bg_average', help="Flag to include "
+                "averaged background profile over time", action='store_true')
+ap.add_argument('--bg-tot', dest='bg_total', help="Flag to include "
+                "totaled background profile over time", action='store_true')
+ap.add_argument('-B', '--background', dest='bg_include', help="Flag to turn on "
+                "plotting the background profiles.", action='store_true')
 ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same figure',
                 action='store_true')
 args = ap.parse_args()
@@ -51,8 +55,9 @@ if args.smooth:
         args.smooth = False
 
 pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
-              label_col=args.label_col, plot_type=args.plot_type, states=args.states,
-              smooth=args.smooth, low_clip=args.low_clip, include_average=args.include_average,
-              include_total=args.include_total, include_background=args.include_background,
+              label_col=args.label_col, plot_type=args.plot_type, bg=args.states,
+              smooth=args.smooth, low_clip=args.low_clip, hl_average=args.hl_average,
+              hl_total=args.hl_total, bg_average=args.bg_average,
+              bg_total=args.bg_total, bg_include=args.bg_include,
               same_plot=args.same_plot)
 plt.show()

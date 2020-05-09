@@ -24,19 +24,19 @@ def logslope(x, y, **kwargs):
 
 
 def smooth_days(y, **kwargs):
-    stats_dict = {'smooth': 7, 'kernel': 'Box'}
+    stats_dict = {'smooth': 7, 'kernel': 'Trap'}
     kernel, smooth = binc_util.proc_kwargs(kwargs, stats_dict)
     if not smooth:
         return y
     if kernel.upper().startswith('B'):
         from astropy.convolution import convolve, Box1DKernel
-        ysm = convolve(y, Box1DKernel(smooth), boundary='nearest')
+        ysm = convolve(y, Box1DKernel(smooth), boundary='extend')
     elif kernel.upper().startswith('G'):
         from astropy.convolution import convolve, Gaussian1DKernel
-        ysm = convolve(y, Gaussian1DKernel(smooth), boundary='nearest')
+        ysm = convolve(y, Gaussian1DKernel(smooth), boundary='extend')
     elif kernel.upper().startswith('T'):
         from astropy.convolution import convolve, Trapezoid1DKernel
-        ysm = convolve(y, Trapezoid1DKernel(smooth), boundary='nearest')
+        ysm = convolve(y, Trapezoid1DKernel(smooth), boundary='extend')
     else:
         raise ValueError('{} not supported.'.format(kernel))
     redo = int(np.floor(smooth / 2))
