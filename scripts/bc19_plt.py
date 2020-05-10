@@ -29,6 +29,8 @@ ap.add_argument('--hl-ave', dest='hl_average', help="Flag to include "
                 "averaged highlight profile over time", action='store_true')
 ap.add_argument('--hl-tot', dest='hl_total', help="Flag to include "
                 "totaled highlight profile over time", action='store_true')
+ap.add_argument('-X', '--no-hl', dest='hl_include', help="Flag to turn off "
+                "plotting the background profiles.", action='store_false')
 ap.add_argument('--bg-ave', dest='bg_average', help="Flag to include "
                 "averaged background profile over time", action='store_true')
 ap.add_argument('--bg-tot', dest='bg_total', help="Flag to include "
@@ -37,6 +39,7 @@ ap.add_argument('-B', '--background', dest='bg_include', help="Flag to turn on "
                 "plotting the background profiles.", action='store_true')
 ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same figure',
                 action='store_true')
+ap.add_argument('--save-stats', dest='save_stats', help='Save ave/totals', action='store_true')
 args = ap.parse_args()
 
 sets = [x.capitalize() for x in args.set.split(',')]
@@ -56,8 +59,9 @@ if args.smooth:
 
 pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
               label_col=args.label_col, plot_type=args.plot_type, bg=args.states,
-              smooth=args.smooth, low_clip=args.low_clip, hl_average=args.hl_average,
-              hl_total=args.hl_total, bg_average=args.bg_average,
-              bg_total=args.bg_total, bg_include=args.bg_include,
-              same_plot=args.same_plot)
+              smooth=args.smooth, low_clip=args.low_clip,
+              same_plot=args.same_plot, save_stats=args.save_stats,
+              hl_average=args.hl_average, hl_total=args.hl_total, hl_include=args.hl_include,
+              bg_average=args.bg_average, bg_total=args.bg_total, bg_include=args.bg_include
+              )
 plt.show()

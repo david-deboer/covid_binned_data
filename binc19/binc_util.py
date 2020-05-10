@@ -5,7 +5,8 @@ def date_to_string(date, fmt='%m/%d/%Y'):
     return datetime.strftime(date, fmt)
 
 
-def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d'], return_format=False):
+def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d', '%Y-%m-%d'],
+                   return_format=False):
     if isinstance(strings_to_try, str):
         strings_to_try = [strings_to_try]
     if isinstance(date, datetime):
@@ -21,6 +22,25 @@ def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d'], retu
         except TypeError:
             break
     return None
+
+
+def read_statfile(filename):
+    data = {}
+    with open(filename, 'r') as fp:
+        for i, line in enumerate(fp):
+            if not i:
+                header = line.split()
+                print(line)
+                for hdr in header:
+                    data[hdr] = []
+                continue
+            this_data = line.split()
+            for j, d in enumerate(this_data):
+                if not j:
+                    data['Date'].append(datetime.strptime(d, '%Y-%m-%d'))
+                else:
+                    data[header[j]].append(float(d))
+    return data
 
 
 def proc_kwargs(kwargs, allowed_dict):

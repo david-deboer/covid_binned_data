@@ -1,7 +1,7 @@
 from binc19 import viewer, binc_util, stats
 import numpy as np
 import matplotlib.pyplot as plt
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 
 same_plot_name = 'binc19'
@@ -35,19 +35,22 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     kwargs:
         bg_average : bool
         bg_total : bool
+        bg_include : bool
         hl_average : bool
         hl_total : bool
+        hl_include : bool
         smooth : None or int
         low_clip : None or float
         kernel : None or str
         same_plot : bool
+        save_stats : bool
     """
     bg_dict = {'bg_average': False, 'bg_include': False, 'bg_total': False}
     bg_average, bg_include, bg_total = binc_util.proc_kwargs(kwargs, bg_dict)
-    hl_dict = {'hl_average': False, 'hl_total': False}
-    hl_average, hl_total = binc_util.proc_kwargs(kwargs, hl_dict)
-    other_dict = {'same_plot': False}
-    same_plot = binc_util.proc_kwargs(kwargs, other_dict)
+    hl_dict = {'hl_average': False, 'hl_total': False, 'hl_include': True}
+    hl_average, hl_include, hl_total = binc_util.proc_kwargs(kwargs, hl_dict)
+    other_dict = {'same_plot': False, 'save_stats': False}
+    same_plot, save_stats = binc_util.proc_kwargs(kwargs, other_dict)
 
     bg_proc = bg_average or bg_total or bg_include
     hl_proc = highlight is not None
@@ -69,6 +72,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     if same_plot:
         figname = same_plot_name
     for i, set in enumerate(sets):
+        data_out = {'dates': [], 'bg_tot': [], 'bg_ave': [], 'hl_tot': [], 'hl_ave': []}
         filename = "Bin_{}_{}.csv".format(set, geo)
         if figname != same_plot_name:
             figname = filename
@@ -86,12 +90,16 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                 b.plot(plot_type, bg_keys, colname='Key', figname=figname, color='0.7', label=None,
                        **kwargs)
             if len(bg_keys) and (bg_total or bg_average):
-                plt.figure(figname)
-                _xx, _yy = stats.stat_dat(b.dates, bg_vtot, dtype=plot_type, **kwargs)
+                fig = plt.figure(figname)
+                _xx, _yyt = stats.stat_dat(b.dates, bg_vtot, dtype=plot_type, **kwargs)
+                _xx, _yya = stats.stat_dat(b.dates, bg_vtot / bg_vcnt, dtype=plot_type, **kwargs)
+                data_out['dates'] = _xx
                 if bg_total:
-                    plt.plot(_xx, _yy, color='k', linewidth=4, label='Total', linestyle='--')
+                    data_out['bg_tot'] = _yyt
+                    plt.plot(_xx, _yyt, color='k', linewidth=4, label='Total', linestyle='--')
                 if bg_average:
-                    plt.plot(_xx, _yy / bg_vcnt, color='0.4', linewidth=4, label='Average')
+                    data_out['bg_ave'] = _yya
+                    plt.plot(_xx, _yya / bg_vcnt, color='0.4', linewidth=4, label='Average')
         if hl_proc:
             hl_vtot = np.zeros(len(b.data[0]))
             hl_vcnt = 0
@@ -100,20 +108,36 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                 for i, key in enumerate(b.Key):
                     if hl_tdir * b.row(key)[-1] <= hl_tdir * thold:
                         highlight.append(key)
-            if len(highlight):
+            if hl_include and len(highlight):
                 b.plot(plot_type, highlight, colname=highlight_col, figname=figname, linewidth=3,
                        label=label_col, **kwargs)
             if len(highlight) and (hl_total or hl_average):
-                plt.figure(figname)
+                fig = plt.figure(figname)
                 for hl in highlight:
                     hl_vtot += b.row(hl, colname=highlight_col)
                     hl_vcnt += 1
-                _xx, _yy = stats.stat_dat(b.dates, hl_vtot, dtype=plot_type, **kwargs)
+                _xx, _yyt = stats.stat_dat(b.dates, hl_vtot, dtype=plot_type, **kwargs)
+                _xx, _yya = stats.stat_dat(b.dates, hl_vtot / hl_vcnt, dtype=plot_type, **kwargs)
+                data_out['dates'] = _xx
                 if hl_total:
-                    plt.plot(_xx, _yy, color='tab:olive', linewidth=4, label='Total', linestyle='--')  # noqa
+                    data_out['hl_tot'] = _yyt
+                    plt.plot(_xx, _yyt, color='tab:olive', linewidth=4, label='Total', linestyle='--')  # noqa
                 if hl_average:
-                    plt.plot(_xx, _yy / hl_vcnt, color='tab:olive', linewidth=4, label='Average')
-
+                    data_out['hl_ave'] = _yya
+                    plt.plot(_xx, _yya, color='tab:olive', linewidth=4, label='Average')
+        if save_stats:
+            with open('{}_stats.dat'.format(set), 'w') as fp:
+                fp.write("Date\t")
+                for stat in ['hl_tot', 'hl_ave', 'bg_tot', 'bg_ave']:
+                    if len(data_out[stat]):
+                        fp.write("{}\t".format(stat))
+                fp.write('\n')
+                for i, date in enumerate(data_out['dates']):
+                    fp.write("{}\t".format(datetime.strftime(date, '%Y-%m-%d')))
+                    for stat in ['hl_tot', 'hl_ave', 'bg_tot', 'bg_ave']:
+                        if len(data_out[stat]):
+                            fp.write("{}\t".format(data_out[stat][i]))
+                    fp.write('\n')
         plt.legend()
         plt.grid()
         plt.title("{}: {}".format(set, plot_type))
@@ -126,6 +150,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         if plot_type != 'logslope':
             plt.axis(ymin=1.0)
         plt.yscale('log')
+        fig.autofmt_xdate()
 
 
 def time_table(highlight='6-13', date=14, geo='County', highlight_col='Key', label_col='County'):
