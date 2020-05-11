@@ -77,6 +77,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         if figname != same_plot_name:
             figname = filename
         b = viewer.View(filename)
+        fig = plt.figure(figname)
         if bg_proc:
             bg_vtot = np.zeros(len(b.data[0]))
             bg_vcnt = 0
@@ -90,7 +91,6 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                 b.plot(plot_type, bg_keys, colname='Key', figname=figname, color='0.7', label=None,
                        **kwargs)
             if len(bg_keys) and (bg_total or bg_average):
-                fig = plt.figure(figname)
                 _xx, _yyt = stats.stat_dat(b.dates, bg_vtot, dtype=plot_type, **kwargs)
                 _xx, _yya = stats.stat_dat(b.dates, bg_vtot / bg_vcnt, dtype=plot_type, **kwargs)
                 data_out['dates'] = _xx
@@ -112,7 +112,6 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                 b.plot(plot_type, highlight, colname=highlight_col, figname=figname, linewidth=3,
                        label=label_col, **kwargs)
             if len(highlight) and (hl_total or hl_average):
-                fig = plt.figure(figname)
                 for hl in highlight:
                     hl_vtot += b.row(hl, colname=highlight_col)
                     hl_vcnt += 1
