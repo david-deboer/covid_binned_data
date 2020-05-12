@@ -80,18 +80,23 @@ class View:
     def plot(self, plot_type, key, colname='Key', figname='key', **kwargs):
         fig = plt.figure(figname)
         if not isinstance(key, list):
-            key = [key]
+            key = key.split(',')
         if 'label' in kwargs.keys():
-            label_column = kwargs['label']
-            try:
-                x = getattr(self, label_column)[0]
-            except TypeError:
-                raise TypeError("viewer.plot:  label must be a column header name.")
+            label_column = kwargs['label'].split(',')
+            for lc in label_column:
+                try:
+                    x = getattr(self, lc)[0]
+                except TypeError:
+                    raise TypeError("viewer.plot: "
+                                    " label must be a column header name [{}]".format(lc))
         plt_args = binc_util.plot_kwargs(kwargs)
         for k in key:
             ind = self.rowind(k, colname=colname)
-            if isinstance(label_column, str):
-                plt_args['label'] = getattr(self, label_column)[ind]
+            if isinstance(label_column, list):
+                lbl = []
+                for lc in label_column:
+                    lbl.append(getattr(self, lc)[ind])
+                plt_args['label'] = ','.join(lbl)
             x, y = stats.stat_dat(self.dates, self.data[ind], plot_type, **kwargs)
             plt.plot(x, y, **plt_args)
         fig.autofmt_xdate()

@@ -2,14 +2,77 @@ from binc19 import viewer, binc_util, stats
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import timedelta, datetime
+from argparse import Namespace
 
 
-same_plot_name = 'binc19'
+SAME_PLOT_NAME = 'binc19'
+
+
+def process_highlight(set, geo, highlight, highlight_col, data):
+    """
+    If starts with '>' or '<' it will threshold on the following number.
+    If starts with ':rp:N:X', it will use rate of slopes >= X over N days
+    If starts with ':rn:N:X', it will use rate of slopes <= X over N days
+    If starts with ':sp:N:X', it will use slope over N days
+    If starts with ':sn:N:X', it will use slope over N days
+    """
+    hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
+    if not isinstance(highlight, str):
+        return hl
+    if highlight[0] not in ['<', '>', ':']:
+        hl.highlight = highlight.split(',')
+        return hl
+    hl.highlight = []
+    hl.col = 'Key'
+    print("---{}---".format(set))
+    print("Processing {}".format(highlight))
+    if highlight[0] in ['<', '>']:
+        hldir = 1.0 if highlight[0] == '<' else -1.0
+        thold = float(highlight[1:])
+        for key in data.Key:
+            if hldir * data.row(key)[-1] <= hldir * thold:
+                hl.highlight.append(key)
+    elif highlight[0] == ':':
+        S, N, X = highlight[1:].split(':')
+        hltype, hldir = list(S)
+        hldir = 1.0 if hldir == 'p' else -1.0
+        N = -1 * (int(N) + 1)
+        X = hldir * float(X)
+        for key in data.Key:
+            dx = (data.dates[-1] - data.dates[N]).days
+            if hltype == 's':
+                dn = hldir * (data.row(key)[-1] - data.row(key)[N])
+                _u = '/day'
+            elif hltype == 'r':
+                _tmp = key.split("-")
+                if geo in ['County', 'Congress']:
+                    try:
+                        _val = int(_tmp[1])
+                        if geo == 'Congress' and _val == 9999:  # skipping unassigned
+                            print("Skipping {}".format(key))
+                            continue
+                        elif geo == 'County' and _val == 0:  # skipping unassigned
+                            print("Skipping {}".format(key))
+                            continue
+                    except ValueError:
+                        pass
+                A, Y = stats.stat_dat(data.dates, data.row(key), dtype='slope')
+                dn = hldir * (Y[-1] - Y[N])
+                _u = '/day/day'
+            if dn / dx >= X:
+                print("{:20s}  {:.1f} {}".format(key, dn / dx, _u))
+                hl.highlight.append(key)
+
+    if not len(hl.highlight):
+        hl.proc = False
+    else:
+        hl.proc = True
+    return hl
 
 
 def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
               highlight=['CA-13', 'CA-1', 'CA-37', 'CA-73', 'OH-35', 'OH-55'],
-              highlight_col='Key', label_col='Name', plot_type='row', bg=['CA'],
+              highlight_col='Key', label_col='Name,State', plot_type='row', bg=['CA'],
               **kwargs):
     """
     Plot time sequences.
@@ -21,8 +84,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     geo : str
         'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
     highlight : str, list of str or None
-        Rows to overplot.    If starts with '>' or '<' it will threshold
-        on the following number.
+        Rows to overplot.  See 'process_highlight'
     highlight_col : str
         Name of column for above.
     label_col : str
@@ -53,30 +115,20 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     same_plot, save_stats = binc_util.proc_kwargs(kwargs, other_dict)
 
     bg_proc = bg_average or bg_total or bg_include
-    hl_proc = highlight is not None
-
-    if not hl_proc and not bg_proc:
+    if not bg_proc and highlight is None:
         print("Neither highlight nor background chosen.")
         return
 
-    hl_tdir = None
-    if hl_proc and isinstance(highlight, str):
-        if highlight[0] in ['<', '>']:
-            hl_tdir = 1.0 if highlight[0] == '<' else -1.0
-            thold = float(highlight[1:])
-            highlight_col = 'Key'
-        else:
-            highlight = highlight.split(',')
-
     figname = None
     if same_plot:
-        figname = same_plot_name
+        figname = SAME_PLOT_NAME
     for i, set in enumerate(sets):
         data_out = {'dates': [], 'bg_tot': [], 'bg_ave': [], 'hl_tot': [], 'hl_ave': []}
         filename = "Bin_{}_{}.csv".format(set, geo)
-        if figname != same_plot_name:
+        if figname != SAME_PLOT_NAME:
             figname = filename
         b = viewer.View(filename)
+        hl = process_highlight(set, geo, highlight, highlight_col, b)
         fig = plt.figure(figname)
         if bg_proc:
             bg_vtot = np.zeros(len(b.data[0]))
@@ -100,20 +152,15 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                 if bg_average:
                     data_out['bg_ave'] = _yya
                     plt.plot(_xx, _yya / bg_vcnt, color='0.4', linewidth=4, label='Average')
-        if hl_proc:
+        if hl.proc:
             hl_vtot = np.zeros(len(b.data[0]))
             hl_vcnt = 0
-            if hl_tdir is not None:
-                highlight = []
-                for i, key in enumerate(b.Key):
-                    if hl_tdir * b.row(key)[-1] <= hl_tdir * thold:
-                        highlight.append(key)
-            if hl_include and len(highlight):
-                b.plot(plot_type, highlight, colname=highlight_col, figname=figname, linewidth=3,
+            if hl_include:
+                b.plot(plot_type, hl.highlight, colname=hl.col, figname=figname, linewidth=3,
                        label=label_col, **kwargs)
-            if len(highlight) and (hl_total or hl_average):
-                for hl in highlight:
-                    hl_vtot += b.row(hl, colname=highlight_col)
+            if hl_total or hl_average:
+                for this_hl in hl.highlight:
+                    hl_vtot += b.row(this_hl, colname=hl.col)
                     hl_vcnt += 1
                 _xx, _yyt = stats.stat_dat(b.dates, hl_vtot, dtype=plot_type, **kwargs)
                 _xx, _yya = stats.stat_dat(b.dates, hl_vtot / hl_vcnt, dtype=plot_type, **kwargs)
