@@ -11,10 +11,10 @@ SAME_PLOT_NAME = 'binc19'
 def process_highlight(set, geo, highlight, highlight_col, data):
     """
     If starts with '>' or '<' it will threshold on the following number.
-    If starts with ':rp:N:X', it will use rate of slopes >= X over N days
-    If starts with ':rn:N:X', it will use rate of slopes <= X over N days
-    If starts with ':sp:N:X', it will use slope over N days
-    If starts with ':sn:N:X', it will use slope over N days
+    If ':rp:N:X', it will use rate of slopes >= X over N days
+    If ':rn:N:X', it will use rate of slopes <= X over N days
+    If ':sp:N:X', it will use slope over N days
+    If ':sn:N:X', it will use slope over N days
     """
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
     if not isinstance(highlight, str):
