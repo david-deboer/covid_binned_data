@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200512
-C19_git_hash:  c5f09505b0ef634ca09c645e5270131fc6a6f5a5
+runtime:  20200513
+C19_git_hash:  ecb805f42c32aba135f0763da78004f46662d501
 
 geo:  Native
 set:  Confirmed
@@ -18,5 +18,5 @@ Missing key:  9999
 Writing csv dist from Confirmed_Native.
 Writing Bin_Confirmed_Native.csv
 Skipped 791 of 848 for no non-zero data
-Total final at 5/11/20:  14034.0
+Total final at 5/12/20:  14376.0
 
