@@ -106,13 +106,14 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         kernel : None or str
         same_plot : bool
         save_stats : bool
+        log_or_linear : str
     """
     bg_dict = {'bg_average': False, 'bg_include': False, 'bg_total': False}
     bg_average, bg_include, bg_total = binc_util.proc_kwargs(kwargs, bg_dict)
     hl_dict = {'hl_average': False, 'hl_total': False, 'hl_include': True}
     hl_average, hl_include, hl_total = binc_util.proc_kwargs(kwargs, hl_dict)
-    other_dict = {'same_plot': False, 'save_stats': False}
-    same_plot, save_stats = binc_util.proc_kwargs(kwargs, other_dict)
+    other_dict = {'same_plot': False, 'save_stats': False, 'log_or_linear': 'log'}
+    log_or_linear, same_plot, save_stats = binc_util.proc_kwargs(kwargs, other_dict)
 
     bg_proc = bg_average or bg_total or bg_include
     if not bg_proc and highlight is None:
@@ -195,7 +196,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
             plt.ylabel('1/day')
         if plot_type != 'logslope':
             plt.axis(ymin=1.0)
-        plt.yscale('log')
+        plt.yscale(log_or_linear)
         fig.autofmt_xdate()
 
 
