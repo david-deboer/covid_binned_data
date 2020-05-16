@@ -8,7 +8,7 @@ from argparse import Namespace
 SAME_PLOT_NAME = 'binc19'
 
 
-def process_highlight(set, geo, highlight, highlight_col, data):
+def process_highlight(set, geo, highlight, highlight_col, plot_type, data):
     """
     If starts with '>' or '<' it will threshold on the following number.
     If ':rp:N:X', it will use rate of slopes >= X over N days
@@ -30,7 +30,10 @@ def process_highlight(set, geo, highlight, highlight_col, data):
         hldir = 1.0 if highlight[0] == '<' else -1.0
         thold = float(highlight[1:])
         for key in data.Key:
-            if hldir * data.row(key)[-1] <= hldir * thold:
+            A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type)
+            get_an_ave = (Y[-1] + Y[-2] + Y[-3] + Y[-4]) / 4.0
+            if hldir * get_an_ave <= hldir * thold:
+                print("{:20s}  {:.1f}".format(key, get_an_ave))
                 hl.highlight.append(key)
     elif highlight[0] == ':':
         S, N, X = highlight[1:].split(':')
@@ -129,7 +132,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         if figname != SAME_PLOT_NAME:
             figname = filename
         b = viewer.View(filename)
-        hl = process_highlight(set, geo, highlight, highlight_col, b)
+        hl = process_highlight(set, geo, highlight, highlight_col, plot_type, b)
         fig = plt.figure(figname)
         if bg_proc:
             bg_vtot = np.zeros(len(b.data[0]))

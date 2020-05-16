@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200514
-C19_git_hash:  86cd641fc1cb3e7d2f50db234b801057e8d4ee57
+runtime:  20200515
+C19_git_hash:  6b5305845f6131b7c77d00aaba46ef8d7c93b242
 
 geo:  Urban
 set:  Confirmed
@@ -18,5 +18,5 @@ Missing key:  9999
 Writing csv dist from Confirmed_Urban.
 Writing Bin_Confirmed_Urban.csv
 Skipped 3241 of 3601 for no non-zero data
-Total final at 5/13/20:  913656.0
+Total final at 5/14/20:  929763.0
 
