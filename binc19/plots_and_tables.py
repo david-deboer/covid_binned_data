@@ -10,11 +10,12 @@ SAME_PLOT_NAME = 'binc19'
 
 def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwargs):
     """
-    If starts with '>' or '<' it will threshold on the following number.
-    If ':rp:N:X', it will use rate of slopes >= X over N days
-    If ':rn:N:X', it will use rate of slopes <= X over N days
-    If ':sp:N:X', it will use slope over N days
-    If ':sn:N:X', it will use slope over N days
+    If starts with '>' or '<' it will threshold on the following number averaged
+        over N days as per  <X:N
+    If ':rp:X:N', it will use rate of slopes >= X over N days
+    If ':rn:X:N', it will use rate of slopes <= X over N days
+    If ':sp:X:N', it will use slope over N days
+    If ':sn:X:N', it will use slope over N days
     """
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
     if not isinstance(highlight, str):
@@ -28,15 +29,18 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
     print("Processing {}".format(highlight))
     if highlight[0] in ['<', '>']:
         hldir = 1.0 if highlight[0] == '<' else -1.0
-        thold = float(highlight[1:])
+        thold, tave = [float(x) for x in highlight[1:].split(':')]
         for key in data.Key:
             A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
-            get_an_ave = (Y[-1] + Y[-2] + Y[-3] + Y[-4]) / 4.0
+            get_an_ave = 0.0
+            for i in range(int(tave)):
+                get_an_ave = Y[-1-i]
+            get_an_ave /= tave
             if hldir * get_an_ave <= hldir * thold:
                 print("{:20s}  {:.1f}".format(key, get_an_ave))
                 hl.highlight.append(key)
     elif highlight[0] == ':':
-        S, N, X = highlight[1:].split(':')
+        S, X, N = highlight[1:].split(':')
         hltype, hldir = list(S)
         hldir = 1.0 if hldir == 'p' else -1.0
         N = -1 * (int(N) + 1)

@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200517
-C19_git_hash:  cf0da8ef5a88ac4e1556d690104e403b688232ab
+runtime:  20200518
+C19_git_hash:  8390ba65363a187557a1e0da259d775a5da41ed6
 
 geo:  County
 set:  Deaths
@@ -16,6 +16,6 @@ Running update_json
 ---> Writing distribution files.
 Writing csv dist from Deaths_County.
 Writing Bin_Deaths_County.csv
-Skipped 1604 of 3290 for no non-zero data
-Total final at 5/17/20:  89562.0
+Skipped 1593 of 3290 for no non-zero data
+Total final at 5/18/20:  90347.0
 
