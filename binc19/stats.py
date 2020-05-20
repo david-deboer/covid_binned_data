@@ -48,7 +48,7 @@ def smooth_days(y, **kwargs):
             for j in range(i, len(y)):
                 ave += y[j]
                 cnt += 1
-            ysm[i] = ave / cnt
+            ysm[i] = (ave / cnt + ysm[i]) / 2.0
     return ysm
 
 

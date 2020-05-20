@@ -201,7 +201,9 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
             plt.ylabel('count/day')
         elif plot_type == 'logslope':
             plt.ylabel('1/day')
-        if plot_type != 'logslope':
+        elif plot_type == 'accel':
+            plt.ylabel('1/day/day')
+        if log_or_linear == 'log' and plot_type != 'logslope':
             plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)
         fig.autofmt_xdate()
