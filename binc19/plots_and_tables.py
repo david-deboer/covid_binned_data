@@ -8,14 +8,23 @@ from argparse import Namespace
 SAME_PLOT_NAME = 'binc19'
 
 
+def plot_type_unit(plot_type):
+    if plot_type == 'row':
+        return 'count'
+    elif plot_type == 'slope':
+        return 'count/day'
+    elif plot_type == 'logslope':
+        return '1/day'
+    elif plot_type == 'accel':
+        return 'count/day/day'
+
+
 def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwargs):
     """
     If starts with '>' or '<' it will threshold on the following number averaged
         over N days as per  <X:N
-    If ':rp:X:N', it will use rate of slopes >= X over N days
-    If ':rn:X:N', it will use rate of slopes <= X over N days
-    If ':sp:X:N', it will use slope over N days
-    If ':sn:X:N', it will use slope over N days
+    If ':p:X:N', it will use if difference is >= X over N days
+    If ':n:X:N', it will use if difference is <= X over N days
     """
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
     if not isinstance(highlight, str):
@@ -40,32 +49,27 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                 print("{:20s}  {:.1f}".format(key, get_an_ave))
                 hl.highlight.append(key)
     elif highlight[0] == ':':
-        S, X, N = highlight[1:].split(':')
-        hltype, hldir = list(S)
-        hldir = 1.0 if hldir == 'p' else -1.0
+        _u = plot_type_unit(plot_type) + '/day'
+        D, X, N = highlight[1:].split(':')
+        D = 1.0 if D == 'p' else -1.0
         N = -1 * (int(N) + 1)
-        X = hldir * float(X)
+        X = D * float(X)
         for key in data.Key:
             dx = (data.dates[-1] - data.dates[N]).days
-            if hltype == 's':
-                dn = hldir * (data.row(key)[-1] - data.row(key)[N])
-                _u = '/day'
-            elif hltype == 'r':
+            if geo in ['County', 'Congress']:
                 _tmp = key.split("-")
-                if geo in ['County', 'Congress']:
-                    try:
-                        _val = int(_tmp[1])
-                        if geo == 'Congress' and _val == 9999:  # skipping unassigned
-                            print("Skipping {}".format(key))
-                            continue
-                        elif geo == 'County' and _val == 0:  # skipping unassigned
-                            print("Skipping {}".format(key))
-                            continue
-                    except ValueError:
-                        pass
-                A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
-                dn = hldir * (Y[-1] - Y[N])
-                _u = '/day/day'
+                try:
+                    _val = int(_tmp[1])
+                    if geo == 'Congress' and _val == 9999:  # skipping unassigned
+                        print("Skipping {}".format(key))
+                        continue
+                    elif geo == 'County' and _val == 0:  # skipping unassigned
+                        print("Skipping {}".format(key))
+                        continue
+                except ValueError:
+                    pass
+            A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
+            dn = D * (Y[-1] - Y[N])
             if dn / dx >= X:
                 print("{:20s}  {:f} {}".format(key, dn / dx, _u))
                 hl.highlight.append(key)
@@ -195,14 +199,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         plt.legend()
         plt.grid()
         plt.title("{}: {}".format(set, plot_type))
-        if plot_type == 'row':
-            plt.ylabel('Count')
-        elif plot_type == 'slope':
-            plt.ylabel('count/day')
-        elif plot_type == 'logslope':
-            plt.ylabel('1/day')
-        elif plot_type == 'accel':
-            plt.ylabel('1/day/day')
+        plt.ylabel(plot_type_unit(plot_type))
         if log_or_linear == 'log' and plot_type != 'logslope':
             plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)
