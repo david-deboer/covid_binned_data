@@ -41,7 +41,7 @@ class View:
                     self.dtype = [x for x in row[:row.index('Latitude')+1]]
                     for i, _d in enumerate(self.dtype):
                         setattr(self, _d, [])
-                    dataslice = slice(len(self.dtype)+1, len(row))
+                    dataslice = slice(len(self.dtype), len(row))
                     self.dates = [binc_util.string_to_date(x) for x in row[dataslice]]
                 else:
                     this_row = [float(x) for x in row[dataslice]]

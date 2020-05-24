@@ -11,11 +11,12 @@ setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_c
 ---make_map_count---
 ---update_json---
 Running update_json
+Missing key:  9999-9999
 
 ---make_csv_dist---
 ---> Writing distribution files.
 Writing csv dist from Confirmed_County.
 Writing Bin_Confirmed_County.csv
-Skipped 309 of 3287 for no non-zero data
-Total final at 5/23/20:  1622612.0
+Skipped 205 of 3198 for no non-zero data
+Total final at 5/23/20:  1619104.0
 
