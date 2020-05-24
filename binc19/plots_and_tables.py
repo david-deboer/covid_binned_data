@@ -36,17 +36,33 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
     hl.col = 'Key'
     print("---{}---".format(set))
     print("Processing {}".format(highlight))
+    skipping = [0, 0]
     if highlight[0] in ['<', '>']:
+        _u = plot_type_unit(plot_type)
         hldir = 1.0 if highlight[0] == '<' else -1.0
         thold, tave = [float(x) for x in highlight[1:].split(':')]
         for key in data.Key:
+            if geo in ['County', 'Congress']:
+                _tmp = key.split("-")
+                try:
+                    _val = int(_tmp[1])
+                    if geo == 'Congress' and _val == 9999:  # skipping unassigned
+                        skipping[0] += 1
+                        skipping[1] += data.row(key)[-1]
+                        continue
+                    elif geo == 'County' and _val == 0:  # skipping unassigned
+                        skipping[0] += 1
+                        skipping[1] += data.row(key)[-1]
+                        continue
+                except ValueError:
+                    pass
             A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
             get_an_ave = 0.0
             for i in range(int(tave)):
                 get_an_ave = Y[-1-i]
             get_an_ave /= tave
             if hldir * get_an_ave <= hldir * thold:
-                print("{:20s}  {:.1f}".format(key, get_an_ave))
+                print("{:20s}  {:.1f}  {}".format(key, get_an_ave, _u))
                 hl.highlight.append(key)
     elif highlight[0] == ':':
         _u = plot_type_unit(plot_type) + '/day'
@@ -61,10 +77,12 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                 try:
                     _val = int(_tmp[1])
                     if geo == 'Congress' and _val == 9999:  # skipping unassigned
-                        print("Skipping {}".format(key))
+                        skipping[0] += 1
+                        skipping[1] += data.row(key)[-1]
                         continue
                     elif geo == 'County' and _val == 0:  # skipping unassigned
-                        print("Skipping {}".format(key))
+                        skipping[0] += 1
+                        skipping[1] += data.row(key)[-1]
                         continue
                 except ValueError:
                     pass
@@ -74,6 +92,8 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                 print("{:20s}  {:f} {}".format(key, dn / dx, _u))
                 hl.highlight.append(key)
 
+    if skipping[0]:
+        print("Skipping:  {}".format(skipping))
     if not len(hl.highlight):
         hl.proc = False
     else:
@@ -198,7 +218,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                     fp.write('\n')
         plt.legend()
         plt.grid()
-        plt.title("{}: {}".format(set, plot_type))
+        plt.title("{}".format(set))
         plt.ylabel(plot_type_unit(plot_type))
         if log_or_linear == 'log' and plot_type != 'logslope':
             plt.axis(ymin=1.0)

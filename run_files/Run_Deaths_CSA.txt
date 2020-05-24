@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200522
-C19_git_hash:  daa20971c8a6e25f63b3f7d009a95bdc55943dc6
+runtime:  20200523
+C19_git_hash:  307c5f5e617fc9c02c394ac43e52b054bc58d293
 
 geo:  CSA
 set:  Deaths
@@ -18,5 +18,5 @@ Missing key:  9999
 Writing csv dist from Deaths_CSA.
 Writing Bin_Deaths_CSA.csv
 Skipped 11 of 175 for no non-zero data
-Total final at 5/21/20:  86022.0
+Total final at 5/22/20:  87074.0
 
