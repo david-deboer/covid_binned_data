@@ -4,7 +4,7 @@ from binc19 import binc_util
 
 
 def slope(x, y, **kwargs):
-    norm = binc_util.proc_kwargs(kwargs, {'norm': 1.0})
+    extra_smooth, norm = binc_util.proc_kwargs(kwargs, {'norm': 1.0, 'extra_smooth': False})
     if isinstance(x[0], datetime):
         dx = np.asarray([(x[i+1] - x[i]).days for i in range(len(x)-1)])
         xret = [x[i] + timedelta(days=dx[i] / 2.0) for i in range(len(x) - 1)]
@@ -12,7 +12,10 @@ def slope(x, y, **kwargs):
         dx = np.diff(np.asarray(x))
         xret = np.asarray([x[i] + dx[i] / 2.0 for i in range(len(x) - 1)])
     dy = np.diff(np.asarray(y)) / norm
-    m = smooth_days(dy / dx, **kwargs)
+    if extra_smooth:
+        xret, m = smooth_days(xret, dy / dx, **kwargs)
+    else:
+        m = dy / dx
     return xret, m
 
 
@@ -24,9 +27,9 @@ def logslope(x, y, **kwargs):
     return slope(x, np.log(y), **kwargs)
 
 
-def smooth_days(y, **kwargs):
-    stats_dict = {'smooth': 7, 'kernel': 'Trap', 'apply_redo': True}
-    apply_redo, kernel, smooth = binc_util.proc_kwargs(kwargs, stats_dict)
+def smooth_days(x, y, **kwargs):
+    stats_dict = {'smooth': 7, 'kernel': 'Trap', 'smooth_fix': 'redo'}
+    kernel, smooth, smooth_fix = binc_util.proc_kwargs(kwargs, stats_dict)
     if not smooth:
         return y
     if kernel.upper().startswith('B'):
@@ -40,8 +43,13 @@ def smooth_days(y, **kwargs):
         ysm = convolve(y, Trapezoid1DKernel(smooth), boundary='extend')
     else:
         raise ValueError('{} not supported.'.format(kernel))
-    if apply_redo:
-        redo = int(np.floor(smooth / 2))
+    redo = int(np.floor(smooth / 2))
+    xsm = x
+    if smooth_fix == 'cull':
+        _sfs = slice(0, len(ysm) - redo)
+        xsm = x[_sfs]
+        ysm = ysm[_sfs]
+    elif smooth_fix == 'redo':
         for i in range(len(y) - redo, len(y)):
             ave = 0.0
             cnt = 0
@@ -49,16 +57,22 @@ def smooth_days(y, **kwargs):
                 ave += y[j]
                 cnt += 1
             ysm[i] = (ave / cnt + ysm[i]) / 2.0
-    return ysm
+    return xsm, ysm
 
 
 def stat_dat(x, y, dtype, **kwargs):
+    xsm, ysm = smooth_days(x, y, **kwargs)
+    # tmpfile = '{}{}.dat'.format(dtype, str(y[-1] + y[-2]).replace('.', ''))
+    # with open(tmpfile, 'w') as fp:
+    #     for i in range(len(y)):
+    #         print('{},{}'.format(y[i], ysm[i]), file=fp)
     if dtype == 'logslope':
-        x, y = logslope(x, y, **kwargs)
+        x, y = logslope(xsm, ysm, **kwargs)
     elif dtype == 'slope' or dtype == 'accel':
-        x, y = slope(x, y, **kwargs)
+        x, y = slope(xsm, ysm, **kwargs)
         if dtype == 'accel':
-            x, y = slope(x, y, **kwargs)
+            x, y = slope(xsm, ysm, **kwargs)
     else:
-        y = smooth_days(y, **kwargs)
+        x = xsm
+        y = ysm
     return x, y
