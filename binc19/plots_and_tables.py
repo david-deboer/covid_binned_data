@@ -17,6 +17,8 @@ def plot_type_unit(plot_type):
         return '1/day'
     elif plot_type == 'accel':
         return 'count/day/day'
+    elif plot_type == 'frac':
+        return ' '
 
 
 def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwargs):
@@ -220,8 +222,8 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         plt.grid()
         plt.title("{}".format(set))
         plt.ylabel(plot_type_unit(plot_type))
-        if log_or_linear == 'log' and plot_type != 'logslope':
-            plt.axis(ymin=1.0)
+        # if log_or_linear == 'log' and plot_type != 'logslope':
+        #     plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)
         fig.autofmt_xdate()
 

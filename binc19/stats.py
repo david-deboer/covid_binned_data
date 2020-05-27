@@ -67,12 +67,18 @@ def stat_dat(x, y, dtype, **kwargs):
     #     for i in range(len(y)):
     #         print('{},{}'.format(y[i], ysm[i]), file=fp)
     if dtype == 'logslope':
-        x, y = logslope(xsm, ysm, **kwargs)
-    elif dtype == 'slope' or dtype == 'accel':
-        x, y = slope(xsm, ysm, **kwargs)
+        xc, yc = logslope(xsm, ysm, **kwargs)
+    elif dtype in ['slope', 'frac', 'accel']:
+        xc, yc = slope(xsm, ysm, **kwargs)
         if dtype == 'accel':
-            x, y = slope(xsm, ysm, **kwargs)
+            xc, yc = slope(xsm, ysm, **kwargs)
+        elif dtype == 'frac':
+            for i in range(len(yc)):
+                if ysm[i] < 1E-6:
+                    yc[i] = 0.0
+                else:
+                    yc[i] = yc[i] / ysm[i]
     else:
-        x = xsm
-        y = ysm
-    return x, y
+        xc = xsm
+        yc = ysm
+    return xc, yc
