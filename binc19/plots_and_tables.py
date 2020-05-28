@@ -6,6 +6,7 @@ from argparse import Namespace
 
 
 SAME_PLOT_NAME = 'binc19'
+skipping_geo = {'Congress': [9999], 'County': [0, 9999]}
 
 
 def plot_type_unit(plot_type):
@@ -34,25 +35,22 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
     if highlight[0] not in ['<', '>', ':']:
         hl.highlight = highlight.split(',')
         return hl
-    hl.highlight = []
+
     hl.col = 'Key'
     print("---{}---".format(set))
     print("Processing {}".format(highlight))
     skipping = [0, 0]
+    _u = plot_type_unit(plot_type)
+    fnd = {}
     if highlight[0] in ['<', '>']:
-        _u = plot_type_unit(plot_type)
         hldir = 1.0 if highlight[0] == '<' else -1.0
         thold, tave = [float(x) for x in highlight[1:].split(':')]
         for key in data.Key:
-            if geo in ['County', 'Congress']:
+            if geo in skipping_geo.keys():
                 _tmp = key.split("-")
                 try:
                     _val = int(_tmp[1])
-                    if geo == 'Congress' and _val == 9999:  # skipping unassigned
-                        skipping[0] += 1
-                        skipping[1] += data.row(key)[-1]
-                        continue
-                    elif geo == 'County' and _val == 0:  # skipping unassigned
+                    if _val in skipping_geo[geo]:  # skipping unassigned
                         skipping[0] += 1
                         skipping[1] += data.row(key)[-1]
                         continue
@@ -61,28 +59,23 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
             A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
             get_an_ave = 0.0
             for i in range(int(tave)):
-                get_an_ave = Y[-1-i]
+                get_an_ave += Y[-1-i]
             get_an_ave /= tave
             if hldir * get_an_ave <= hldir * thold:
-                print("{:20s}  {:.1f}  {}".format(key, get_an_ave, _u))
-                hl.highlight.append(key)
+                _s = "{:20s}  {:.1f} {} ave over {}".format(key, get_an_ave, _u, int(tave))
+                fnd["{}{}".format(int(1e9 + get_an_ave), key)] = (key, _s)
     elif highlight[0] == ':':
-        _u = plot_type_unit(plot_type) + '/day'
         D, X, N = highlight[1:].split(':')
         D = 1.0 if D == 'p' else -1.0
         N = -1 * (int(N) + 1)
         X = D * float(X)
         for key in data.Key:
             dx = (data.dates[-1] - data.dates[N]).days
-            if geo in ['County', 'Congress']:
+            if geo in skipping_geo.keys():
                 _tmp = key.split("-")
                 try:
                     _val = int(_tmp[1])
-                    if geo == 'Congress' and _val == 9999:  # skipping unassigned
-                        skipping[0] += 1
-                        skipping[1] += data.row(key)[-1]
-                        continue
-                    elif geo == 'County' and _val == 0:  # skipping unassigned
+                    if _val in skipping_geo[geo]:  # skipping unassigned
                         skipping[0] += 1
                         skipping[1] += data.row(key)[-1]
                         continue
@@ -90,10 +83,15 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                     pass
             A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
             dn = D * (Y[-1] - Y[N])
-            if dn / dx >= X:
-                print("{:20s}  {:f} {}".format(key, dn / dx, _u))
-                hl.highlight.append(key)
+            if dn >= X:
+                _s = "{:20s}  {:f} {} over {} days".format(key, dn, _u, dx)
+                fnd["{}{}".format(int(1e9 + dn), key)] = (key, _s)
 
+    hl.highlight = []
+    sfk = sorted(list(fnd.keys()), reverse=True)
+    for this_one in sfk:
+        hl.highlight.append(fnd[this_one][0])
+        print(fnd[this_one][1])
     if skipping[0]:
         print("Skipping:  {}".format(skipping))
     if not len(hl.highlight):

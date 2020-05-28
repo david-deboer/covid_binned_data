@@ -7,6 +7,10 @@ This is a csv viewer for the covid_binned_data files.
 """
 
 
+color_list = ['b', 'g', 'r', 'c', 'm', 'k', 'tab:blue', 'tab:orange', 'tab:brown', 'tab:olive',
+              'tab:pink', 'bisque', 'lightcoral', 'goldenrod', 'lightgrey', 'lime', 'lightseagreen']
+
+
 class View:
     """Class for reading csv files."""
     def __init__(self, filename=None):
@@ -90,7 +94,7 @@ class View:
                     raise TypeError("viewer.plot: "
                                     " label must be a column header name [{}]".format(lc))
         plt_args = binc_util.plot_kwargs(kwargs)
-        for k in key:
+        for ik, k in enumerate(key):
             ind = self.rowind(k, colname=colname)
             if isinstance(label_column, list):
                 lbl = []
@@ -98,6 +102,8 @@ class View:
                     lbl.append(getattr(self, lc)[ind])
                 plt_args['label'] = ','.join(lbl)
             x, y = stats.stat_dat(self.dates, self.data[ind], plot_type, **kwargs)
+            cik = ik % len(color_list)
+            plt_args['color'] = color_list[cik]
             plt.plot(x, y, **plt_args)
         fig.autofmt_xdate()
         plt.title(colname)

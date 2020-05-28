@@ -4,7 +4,7 @@ from binc19 import binc_util
 
 
 def slope(x, y, **kwargs):
-    extra_smooth, norm = binc_util.proc_kwargs(kwargs, {'norm': 1.0, 'extra_smooth': False})
+    norm = binc_util.proc_kwargs(kwargs, {'norm': 1.0})
     if isinstance(x[0], datetime):
         dx = np.asarray([(x[i+1] - x[i]).days for i in range(len(x)-1)])
         xret = [x[i] + timedelta(days=dx[i] / 2.0) for i in range(len(x) - 1)]
@@ -12,10 +12,7 @@ def slope(x, y, **kwargs):
         dx = np.diff(np.asarray(x))
         xret = np.asarray([x[i] + dx[i] / 2.0 for i in range(len(x) - 1)])
     dy = np.diff(np.asarray(y)) / norm
-    if extra_smooth:
-        xret, m = smooth_days(xret, dy / dx, **kwargs)
-    else:
-        m = dy / dx
+    m = dy / dx
     return xret, m
 
 
@@ -61,6 +58,9 @@ def smooth_days(x, y, **kwargs):
 
 
 def stat_dat(x, y, dtype, **kwargs):
+    extra_smooth = binc_util.proc_kwargs(kwargs, {'extra_smooth': False})
+    if extra_smooth:
+        kwargs['smooth_fix'] = 'none'
     xsm, ysm = smooth_days(x, y, **kwargs)
     # tmpfile = '{}{}.dat'.format(dtype, str(y[-1] + y[-2]).replace('.', ''))
     # with open(tmpfile, 'w') as fp:
@@ -74,11 +74,15 @@ def stat_dat(x, y, dtype, **kwargs):
             xc, yc = slope(xsm, ysm, **kwargs)
         elif dtype == 'frac':
             for i in range(len(yc)):
-                if ysm[i] < 1E-6:
+                if ysm[i] < 0.1:
                     yc[i] = 0.0
                 else:
                     yc[i] = yc[i] / ysm[i]
     else:
         xc = xsm
         yc = ysm
+    if extra_smooth:
+        kwargs['smooth_fix'] = 'cull'
+        xc, yc, = smooth_days(xc, yc, **kwargs)
+
     return xc, yc
