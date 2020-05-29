@@ -1,5 +1,5 @@
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime
 from binc19 import binc_util
 
 
@@ -7,10 +7,10 @@ def slope(x, y, **kwargs):
     norm = binc_util.proc_kwargs(kwargs, {'norm': 1.0})
     if isinstance(x[0], datetime):
         dx = np.asarray([(x[i+1] - x[i]).days for i in range(len(x)-1)])
-        xret = [x[i] + timedelta(days=dx[i] / 2.0) for i in range(len(x) - 1)]
+        xret = x[1:]
     else:
         dx = np.diff(np.asarray(x))
-        xret = np.asarray([x[i] + dx[i] / 2.0 for i in range(len(x) - 1)])
+        xret = np.asarray([x[i] + dx[i] for i in range(len(x) - 1)])
     dy = np.diff(np.asarray(y)) / norm
     m = dy / dx
     return xret, m

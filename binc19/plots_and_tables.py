@@ -43,7 +43,7 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
     _u = plot_type_unit(plot_type)
     fnd = {}
     if highlight[0] in ['<', '>']:
-        hldir = 1.0 if highlight[0] == '<' else -1.0
+        hldir = 1.0 if highlight[0] == '>' else -1.0
         thold, tave = [float(x) for x in highlight[1:].split(':')]
         for key in data.Key:
             if geo in skipping_geo.keys():
@@ -61,9 +61,11 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
             for i in range(int(tave)):
                 get_an_ave += Y[-1-i]
             get_an_ave /= tave
-            if hldir * get_an_ave <= hldir * thold:
-                _s = "{:20s}  {:.1f} {} ave over {}".format(key, get_an_ave, _u, int(tave))
-                fnd["{}{}".format(int(1e9 + get_an_ave), key)] = (key, _s)
+            if hldir * get_an_ave >= hldir * thold:
+                _s = ("{:20s}  {:.1f} {} ave over {} days ({} {:.1f})"
+                      .format(key, get_an_ave, _u, int(tave),
+                              binc_util.date_to_string(A[-1]), Y[-1]))
+                fnd["{}{}".format(int(1e9 + 100*get_an_ave), key)] = (key, _s)
     elif highlight[0] == ':':
         D, X, N = highlight[1:].split(':')
         D = 1.0 if D == 'p' else -1.0
@@ -84,14 +86,16 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
             A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
             dn = D * (Y[-1] - Y[N])
             if dn >= X:
-                _s = "{:20s}  {:f} {} over {} days".format(key, dn, _u, dx)
-                fnd["{}{}".format(int(1e9 + dn), key)] = (key, _s)
+                _s = ("{:20s}  {:f} {} over {} days ({}: {:.1f} -> {}: {:.1f})"
+                      .format(key, dn, _u, dx, binc_util.date_to_string(A[N]), Y[N],
+                              binc_util.date_to_string(A[-1]), Y[-1]))
+                fnd["{}{}".format(int(1e9 + 100*dn), key)] = (key, _s)
 
     hl.highlight = []
     sfk = sorted(list(fnd.keys()), reverse=True)
-    for this_one in sfk:
+    for i, this_one in enumerate(sfk):
         hl.highlight.append(fnd[this_one][0])
-        print(fnd[this_one][1])
+        print("{:02d}  {}".format(i+1, fnd[this_one][1]))
     if skipping[0]:
         print("Skipping:  {}".format(skipping))
     if not len(hl.highlight):
