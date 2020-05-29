@@ -77,8 +77,7 @@ if args.loglin == 'auto':
                   'slope': 'linear',
                   'accel': 'linear',
                   'frac': 'log'}
-    plt_type = args.plot_type.split('|')[-1]
-    args.loglin = loglinauto[plt_type]
+    args.loglin = loglinauto[args.plot_type]
 
 
 pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
