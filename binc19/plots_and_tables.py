@@ -28,6 +28,7 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
         over N days as per  <X:N
     If ':p:X:N', it will use if difference is >= X over N days
     If ':n:X:N', it will use if difference is <= X over N days
+    These can be piped as <X:N|:p:X:N
     """
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
     if not isinstance(highlight, str):
@@ -40,11 +41,15 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
     print("---{}---".format(set))
     print("Processing {}".format(highlight))
     skipping = [0, 0]
-    _u = plot_type_unit(plot_type)
+    plot_type = plot_type.split('|')
+    if len(plot_type) == 1:
+        plot_type = [plot_type[0]] * 2
     fnd = {}
-    if highlight[0] in ['<', '>']:
-        hldir = 1.0 if highlight[0] == '>' else -1.0
-        thold, tave = [float(x) for x in highlight[1:].split(':')]
+    this_pass = highlight.split('|')[0]
+    if this_pass[0] in ['<', '>']:
+        _u = plot_type_unit(plot_type[0])
+        hldir = 1.0 if this_pass[0] == '>' else -1.0
+        thold, tave = [float(x) for x in this_pass[1:].split(':')]
         for key in data.Key:
             if geo in skipping_geo.keys():
                 _tmp = key.split("-")
@@ -56,7 +61,7 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                         continue
                 except ValueError:
                     pass
-            A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
+            A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type[0], **kwargs)
             get_an_ave = 0.0
             for i in range(int(tave)):
                 get_an_ave += Y[-1-i]
@@ -66,12 +71,22 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                       .format(key, get_an_ave, _u, int(tave),
                               binc_util.date_to_string(A[-1]), Y[-1]))
                 fnd["{}{}".format(int(1e9 + 100*get_an_ave), key)] = (key, _s)
-    elif highlight[0] == ':':
+    pass2loop = data.Key
+    if '|' in highlight:
+        hpassdat = highlight.split('|')
+        highlight = hpassdat[1]
+        print("Filtered on {}".format(hpassdat[0]))
+        pass2loop = []
+        for _x in fnd.values():
+            pass2loop.append(_x[0])
+        fnd = {}
+    if highlight[0] == ':':
+        _u = plot_type_unit(plot_type[1])
         D, X, N = highlight[1:].split(':')
         D = 1.0 if D == 'p' else -1.0
         N = -1 * (int(N) + 1)
         X = D * float(X)
-        for key in data.Key:
+        for key in pass2loop:
             dx = (data.dates[-1] - data.dates[N]).days
             if geo in skipping_geo.keys():
                 _tmp = key.split("-")
@@ -83,10 +98,10 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                         continue
                 except ValueError:
                     pass
-            A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type, **kwargs)
+            A, Y = stats.stat_dat(data.dates, data.row(key), dtype=plot_type[1], **kwargs)
             dn = D * (Y[-1] - Y[N])
             if dn >= X:
-                _s = ("{:20s}  {:f} {} over {} days ({}: {:.1f} -> {}: {:.1f})"
+                _s = ("{:20s}  {:f} {} over {} days ({}: {:.1f} -> {}: {:.3f})"
                       .format(key, dn, _u, dx, binc_util.date_to_string(A[N]), Y[N],
                               binc_util.date_to_string(A[-1]), Y[-1]))
                 fnd["{}{}".format(int(1e9 + 100*dn), key)] = (key, _s)
@@ -125,7 +140,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     label_col : str
         Name of column to use as labels for highlighted data
     plot_type : str
-        'row', 'slope', 'logslope'
+        'row', 'slope', 'logslope', 'accel', 'frac' (use :two for piped highlight)
     bg : list of str
         For State, County, or Congress can limit background/stats to states.
         If None, background is all.
@@ -158,6 +173,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     figname = None
     if same_plot:
         figname = SAME_PLOT_NAME
+    this_plot_type = plot_type.split('|')[-1]
     for i, set in enumerate(sets):
         data_out = {'dates': [], 'bg_tot': [], 'bg_ave': [], 'hl_tot': [], 'hl_ave': []}
         filename = "Bin_{}_{}.csv".format(set, geo)
@@ -176,11 +192,13 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                     bg_vcnt += 1
                     bg_keys.append(key)
             if bg_include and len(bg_keys):
-                b.plot(plot_type, bg_keys, colname='Key', figname=figname, color='0.7', label=None,
-                       **kwargs)
+                b.plot(this_plot_type, bg_keys, colname='Key', figname=figname, color='0.7',
+                       label=None, **kwargs)
             if len(bg_keys) and (bg_total or bg_average):
-                _xx, _yyt = stats.stat_dat(b.dates, bg_vtot, dtype=plot_type, **kwargs)
-                _xx, _yya = stats.stat_dat(b.dates, bg_vtot / bg_vcnt, dtype=plot_type, **kwargs)
+                _xx, _yyt = stats.stat_dat(b.dates, bg_vtot,
+                                           dtype=this_plot_type, **kwargs)
+                _xx, _yya = stats.stat_dat(b.dates, bg_vtot / bg_vcnt,
+                                           dtype=this_plot_type, **kwargs)
                 data_out['dates'] = _xx
                 if bg_total:
                     data_out['bg_tot'] = _yyt
@@ -192,14 +210,16 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
             hl_vtot = np.zeros(len(b.data[0]))
             hl_vcnt = 0
             if hl_include:
-                b.plot(plot_type, hl.highlight, colname=hl.col, figname=figname, linewidth=3,
+                b.plot(this_plot_type, hl.highlight, colname=hl.col, figname=figname, linewidth=3,
                        label=label_col, **kwargs)
             if hl_total or hl_average:
                 for this_hl in hl.highlight:
                     hl_vtot += b.row(this_hl, colname=hl.col)
                     hl_vcnt += 1
-                _xx, _yyt = stats.stat_dat(b.dates, hl_vtot, dtype=plot_type, **kwargs)
-                _xx, _yya = stats.stat_dat(b.dates, hl_vtot / hl_vcnt, dtype=plot_type, **kwargs)
+                _xx, _yyt = stats.stat_dat(b.dates, hl_vtot,
+                                           dtype=this_plot_type, **kwargs)
+                _xx, _yya = stats.stat_dat(b.dates, hl_vtot / hl_vcnt,
+                                           dtype=this_plot_type, **kwargs)
                 data_out['dates'] = _xx
                 if hl_total:
                     data_out['hl_tot'] = _yyt
@@ -223,8 +243,8 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         plt.legend()
         plt.grid()
         plt.title("{}".format(set))
-        plt.ylabel(plot_type_unit(plot_type))
-        # if log_or_linear == 'log' and plot_type != 'logslope':
+        plt.ylabel(plot_type_unit(this_plot_type))
+        # if log_or_linear == 'log' and this_plot_type != 'logslope':
         #     plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)
         fig.autofmt_xdate()
