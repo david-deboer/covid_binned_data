@@ -1,6 +1,6 @@
 ---run_parameters---
 runtime:  20200529
-C19_git_hash:  66c71f58060776ecdd50aa1477cabaf96f9bde28
+C19_git_hash:  077f03a85006790528e694e0aa0de219102694b2
 
 geo:  Congress
 set:  Confirmed
@@ -17,5 +17,5 @@ Running update_json
 Writing csv dist from Confirmed_Congress.
 Writing Bin_Confirmed_Congress.csv
 Skipped 91 of 487 for no non-zero data
-Total final at 5/28/20:  1721753.0
+Total final at 5/29/20:  1746019.0
 

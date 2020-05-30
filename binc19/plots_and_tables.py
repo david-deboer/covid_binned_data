@@ -50,12 +50,12 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
 
     hl.col = 'Key'
     print("---{}---".format(set))
-    print("Processing {}".format(highlight))
+    print("Pipeline {}".format(highlight.split('|')))
     skipping = [0, 0]
 
     keys_this_loop = data.Key
     for this_pass, this_stat in zip(proc, tstat):
-        print("Processing {} for {}".format(this_pass, this_stat))
+        print("\tProcessing {} for {}".format(this_pass, this_stat))
         _u = plot_type_unit(this_stat)
         fnd = {}
         if this_pass[0] in ['<', '>']:
@@ -78,13 +78,13 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                     get_an_ave += Y[-1-i]
                 get_an_ave /= tave
                 if hldir * get_an_ave >= hldir * thold:
-                    _s = ("{:20s}  {:.1f} {} ave over {} days ({} {:.1f})"
+                    _s = ("{:20s}  {:.3f} {} ave over {} days ({} {:.3f})"
                           .format(key, get_an_ave, _u, int(tave),
                                   binc_util.date_to_string(A[-1]), Y[-1]))
-                    fnd["{}{}".format(int(1e9 + 100*get_an_ave), key)] = (key, _s)
+                    fnd["{}{}".format(int(1e9 + 10000*get_an_ave), key)] = (key, _s)
         elif this_pass[0] == ':':
             D, X, N = this_pass[1:].split(':')
-            D = 1.0 if D == 'p' else -1.0
+            D = 1.0 if D == '>' else -1.0
             N = -1 * (int(N) + 1)
             X = D * float(X)
             for key in keys_this_loop:
@@ -102,10 +102,10 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                 A, Y = stats.stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
                 dn = D * (Y[-1] - Y[N])
                 if dn >= X:
-                    _s = ("{:20s}  {:f} {} over {} days ({}: {:.1f} -> {}: {:.3f})"
+                    _s = ("{:20s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
                           .format(key, dn, _u, dx, binc_util.date_to_string(A[N]), Y[N],
                                   binc_util.date_to_string(A[-1]), Y[-1]))
-                    fnd["{}{}".format(int(1e9 + 100*dn), key)] = (key, _s)
+                    fnd["{}{}".format(int(1e9 + 10000*dn), key)] = (key, _s)
         keys_this_loop = []
         for expkey, val in fnd.items():
             keys_this_loop.append(val[0])
@@ -184,7 +184,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
             figname = filename
         b = viewer.View(filename)
         hl = process_highlight(set, geo, highlight, highlight_col, plot_type, b, **kwargs)
-        fig = plt.figure(figname)
+        fig = plt.figure(figname, figsize=[6, 8])
         if bg_proc:
             bg_vtot = np.zeros(len(b.data[0]))
             bg_vcnt = 0
@@ -243,7 +243,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                         if len(data_out[stat]):
                             fp.write("{}\t".format(data_out[stat][i]))
                     fp.write('\n')
-        plt.legend()
+        plt.legend(loc='upper left')
         plt.grid()
         plt.title("{}".format(set))
         plt.ylabel(plot_type_unit(plot_type))
@@ -251,6 +251,9 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         #     plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)
         fig.autofmt_xdate()
+        figfileName = "{}{}{}.png".format(set, geo, datetime.strftime(datetime.now(), "%Y%m%d"))
+        figfileName = "{}{}.png".format(set, geo)
+        plt.savefig(figfileName)
 
 
 def time_table(highlight='6-13', date=14, geo='County', highlight_col='Key', label_col='County'):
