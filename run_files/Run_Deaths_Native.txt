@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200605
-C19_git_hash:  9c3275def89b547101c439ceee00d50fc76140d9
+runtime:  20200606
+C19_git_hash:  9776b2c17ef91891ae96efd9b96bda814aad9420
 
 geo:  Native
 set:  Deaths
@@ -17,6 +17,6 @@ Missing key:  9999
 ---> Writing distribution files.
 Writing csv dist from Deaths_Native.
 Writing Bin_Deaths_Native.csv
-Skipped 811 of 848 for no non-zero data
-Total final at 6/4/20:  1117.0
+Skipped 810 of 848 for no non-zero data
+Total final at 6/5/20:  1126.0
 
