@@ -77,7 +77,7 @@ def stat_dat(x, y, dtype, **kwargs):
                 if ysm[i] < 0.1:
                     yc[i] = 0.0
                 else:
-                    yc[i] = yc[i] / ysm[i]
+                    yc[i] = 100.0 * yc[i] / ysm[i]
     else:
         xc = xsm
         yc = ysm

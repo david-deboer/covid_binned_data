@@ -24,16 +24,18 @@ def plot_type_unit(plot_type):
 
 def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwargs):
     """
-    If starts with '>' or '<' it will threshold on the following number averaged
-        over N days as per  <X:N/type
-    If ':>:X:N/type', it will use if difference is >= X over N days
-    If ':<:X:N/type', it will use if difference is <= X over N days
-    These can be piped as <X:N|:p:X:N
+    Highlight command structure: RDX:N/S
+        [#%][><][X][N]/S|...
+    If highlight startswith:
+    '#'
+        >/< Threshold on X averaged over N using stat S
+    '%'
+        >/< Difference X over N days using stat S
     """
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
     if not isinstance(highlight, str):
         return hl
-    if highlight[0] not in ['<', '>', ':']:
+    if highlight[0] not in ['#', '%']:
         hl.highlight = highlight.split(',')
         return hl
 
@@ -58,9 +60,10 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
         print("\tProcessing {} for {}".format(this_pass, this_stat))
         _u = plot_type_unit(this_stat)
         fnd = {}
-        if this_pass[0] in ['<', '>']:
-            hldir = 1.0 if this_pass[0] == '>' else -1.0
-            thold, tave = [float(x) for x in this_pass[1:].split(':')]
+        R = this_pass[0]
+        D = 1.0 if this_pass[1] == '>' else -1.0
+        X, N = [float(x) for x in this_pass[2:].split(':')]
+        if R == '#':
             for key in keys_this_loop:
                 if geo in skipping_geo.keys():
                     _tmp = key.split("-")
@@ -74,19 +77,16 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                         pass
                 A, Y = stats.stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
                 get_an_ave = 0.0
-                for i in range(int(tave)):
+                for i in range(int(N)):
                     get_an_ave += Y[-1-i]
-                get_an_ave /= tave
-                if hldir * get_an_ave >= hldir * thold:
+                get_an_ave /= N
+                if D * get_an_ave >= D * X:
                     _s = ("{:20s}  {:.3f} {} ave over {} days ({} {:.3f})"
-                          .format(key, get_an_ave, _u, int(tave),
+                          .format(key, get_an_ave, _u, int(N),
                                   binc_util.date_to_string(A[-1]), Y[-1]))
                     fnd["{}{}".format(int(1e9 + 10000*get_an_ave), key)] = (key, _s)
-        elif this_pass[0] == ':':
-            D, X, N = this_pass[1:].split(':')
-            D = 1.0 if D == '>' else -1.0
+        elif R == '%':
             N = -1 * (int(N) + 1)
-            X = D * float(X)
             for key in keys_this_loop:
                 dx = (data.dates[-1] - data.dates[N]).days
                 if geo in skipping_geo.keys():
@@ -100,8 +100,8 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                     except ValueError:
                         pass
                 A, Y = stats.stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
-                dn = D * (Y[-1] - Y[N])
-                if dn >= X:
+                dn = (Y[-1] - Y[N])
+                if D * dn >= D * X:
                     _s = ("{:20s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
                           .format(key, dn, _u, dx, binc_util.date_to_string(A[N]), Y[N],
                                   binc_util.date_to_string(A[-1]), Y[-1]))
