@@ -63,49 +63,37 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
         R = this_pass[0]
         D = 1.0 if this_pass[1] == '>' else -1.0
         X, N = [float(x) for x in this_pass[2:].split(':')]
-        if R == '#':
-            for key in keys_this_loop:
-                if geo in skipping_geo.keys():
-                    _tmp = key.split("-")
-                    try:
-                        _val = int(_tmp[1])
-                        if _val in skipping_geo[geo]:  # skipping unassigned
-                            skipping[0] += 1
-                            skipping[1] += data.row(key)[-1]
-                            continue
-                    except ValueError:
-                        pass
-                A, Y = stats.stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
+        Nind = -1 * (int(N) + 1)
+        for key in keys_this_loop:
+            if geo in skipping_geo.keys():
+                _tmp = key.split("-")
+                try:
+                    _val = int(_tmp[1])
+                    if _val in skipping_geo[geo]:  # skipping unassigned
+                        skipping[0] += 1
+                        skipping[1] += data.row(key)[-1]
+                        continue
+                except ValueError:
+                    pass
+            A, Y = stats.stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
+            if R == '#':
                 get_an_ave = 0.0
                 for i in range(int(N)):
                     get_an_ave += Y[-1-i]
                 get_an_ave /= N
-                if D * get_an_ave >= D * X:
-                    _s = ("{:20s}  {:.3f} {} ave over {} days ({} {:.3f})"
-                          .format(key, get_an_ave, _u, int(N),
-                                  binc_util.date_to_string(A[-1]), Y[-1]))
-                    fnd["{}{}".format(int(1e9 + 10000*get_an_ave), key)] = (key, _s)
-        elif R == '%':
-            N = -1 * (int(N) + 1)
-            for key in keys_this_loop:
-                dx = (data.dates[-1] - data.dates[N]).days
-                if geo in skipping_geo.keys():
-                    _tmp = key.split("-")
-                    try:
-                        _val = int(_tmp[1])
-                        if _val in skipping_geo[geo]:  # skipping unassigned
-                            skipping[0] += 1
-                            skipping[1] += data.row(key)[-1]
-                            continue
-                    except ValueError:
-                        pass
-                A, Y = stats.stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
-                dn = (Y[-1] - Y[N])
-                if D * dn >= D * X:
-                    _s = ("{:20s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
-                          .format(key, dn, _u, dx, binc_util.date_to_string(A[N]), Y[N],
-                                  binc_util.date_to_string(A[-1]), Y[-1]))
-                    fnd["{}{}".format(int(1e9 + 10000*dn), key)] = (key, _s)
+                V2chk = get_an_ave
+                _s = ("{:20s}  {:.3f} {} ave over {} days ({} {:.3f})"
+                      .format(key, get_an_ave, _u, int(N),
+                              binc_util.date_to_string(A[-1]), Y[-1]))
+            elif R == '%':
+                dx = (data.dates[-1] - data.dates[Nind]).days
+                dn = (Y[-1] - Y[Nind])
+                V2chk = dn
+                _s = ("{:20s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
+                      .format(key, dn, _u, dx, binc_util.date_to_string(A[Nind]), Y[Nind],
+                              binc_util.date_to_string(A[-1]), Y[-1]))
+            if D * V2chk >= D * X:
+                fnd["{}{}".format(int(1e9 + 10000*V2chk), key)] = (key, _s)
         keys_this_loop = []
         for expkey, val in fnd.items():
             keys_this_loop.append(val[0])
