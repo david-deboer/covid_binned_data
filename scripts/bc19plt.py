@@ -10,12 +10,13 @@ ap.add_argument('--set', default='Confirmed,Deaths',
                 choices=['Confirmed', 'Deaths', 'Confirmed,Deaths'])
 ap.add_argument('-g', '--geo', default='County',
                 help="One of Country/State/County/Congress/CSA/Urban/Native",
-                choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'])
+                choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native',
+                         'country', 'state', 'county', 'congress', 'csa', 'urban', 'native'])
 ap.add_argument('-l', '--highlight', help="Rows to highlight.  Functions with <, >, : (see module)",
                 default='CA-13,CA-1,CA-37,CA-73,OH-35,OH-55')
 ap.add_argument('-p', '--plot-type', dest='plot_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
-ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=7)
+ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=5)
 ap.add_argument('--hcol', dest='highlight_col', help="Name of column for highlight.",
                 default='Key')
 ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.",
@@ -47,6 +48,10 @@ ap.add_argument('--smoothfix', help="Type of smooth-ending fix", choices=['none'
 args = ap.parse_args()
 
 sets = [x.capitalize() for x in args.set.split(',')]
+if args.geo.lower() == 'csa':
+    args.geo = 'CSA'
+else:
+    args.geo = args.geo.capitalize()
 if args.label_col == 'default':
     if args.geo == 'County':
         args.label_col = 'Name,State'

@@ -19,40 +19,50 @@ def plot_type_unit(plot_type):
     elif plot_type == 'accel':
         return 'count/day/day'
     elif plot_type == 'frac':
-        return ' '
+        return '%'
+
+
+def parse_highlight(highlight, plot_type):
+    full_pipe = []
+    for this_step in highlight.split('|'):
+        if this_step[0] == '@':
+            with open(this_step[1:], 'r') as fp:
+                for line in fp:
+                    for entry in line.split('|'):
+                        full_pipe.append(entry.strip())
+        else:
+            full_pipe.append(this_step.strip())
+    tstat = [plot_type] * len(full_pipe)
+    for i, _p in enumerate(full_pipe):
+        if '/' in _p:
+            tstat[i] = _p.split('/')[-1]
+    proc = [_xx.split('/')[0] for _xx in full_pipe]
+    return proc, tstat
 
 
 def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwargs):
     """
     Highlight command structure: RDX:N/S
-        [#%][><][X][N]/S|...
+        [#%@][><][X][N]/S|...
     If highlight startswith:
     '#'
         >/< Threshold on X averaged over N using stat S
     '%'
         >/< Difference X over N days using stat S
+    '@'
+        use the filename
     """
+    prepended = ['#', '%', '@']
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
     if not isinstance(highlight, str):
         return hl
-    if highlight[0] not in ['#', '%']:
+    if highlight[0] not in prepended:
         hl.highlight = highlight.split(',')
         return hl
 
-    if '/' not in highlight:
-        tstat = [plot_type] * len(highlight.split('|'))
-    else:
-        tstat = []
-        for _p in highlight.split('|'):
-            if '/' in _p:
-                tstat.append(_p.split('/')[-1])
-            else:
-                tstat.append(plot_type)
-    proc = [_xx.split('/')[0] for _xx in highlight.split('|')]
-
+    proc, tstat = parse_highlight(highlight, plot_type)
     hl.col = 'Key'
-    print("---{}---".format(set))
-    print("Pipeline {}".format(highlight.split('|')))
+    print("---{}---{}---{}---".format(set, geo, plot_type))
     skipping = [0, 0]
 
     keys_this_loop = data.Key

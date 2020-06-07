@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200605
-C19_git_hash:  9776b2c17ef91891ae96efd9b96bda814aad9420
+runtime:  20200606
+C19_git_hash:  d2b54366f6c92227fc3071045bc1b2d1331d14ff
 
 geo:  State
 set:  Confirmed
