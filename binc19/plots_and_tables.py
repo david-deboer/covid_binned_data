@@ -22,14 +22,18 @@ def plot_type_unit(plot_type):
         return '%'
 
 
-def parse_highlight(highlight, plot_type):
+def _parse_highlight(highlight, plot_type, set):
     full_pipe = []
     for this_step in highlight.split('|'):
         if this_step[0] == '@':
             with open(this_step[1:], 'r') as fp:
                 for line in fp:
                     for entry in line.split('|'):
-                        full_pipe.append(entry.strip())
+                        if entry[0] == ':':
+                            if entry[1].lower() == set[0].lower():
+                                full_pipe.append(entry.split()[1])
+                        else:
+                            full_pipe.append(entry.strip())
         else:
             full_pipe.append(this_step.strip())
     tstat = [plot_type] * len(full_pipe)
@@ -43,16 +47,18 @@ def parse_highlight(highlight, plot_type):
 def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwargs):
     """
     Highlight command structure: RDX:N/S
-        [#%@][><][X][N]/S|...
+        [^#%@][><][X][N]/S|...
     If highlight startswith:
+    '^'
+        use the list (has to be first - can be first in a file, if @ is first)
     '#'
         >/< Threshold on X averaged over N using stat S
     '%'
         >/< Difference X over N days using stat S
     '@'
-        use the filename
+        use the filename - in file can use ':c ' or ':d ' for set
     """
-    prepended = ['#', '%', '@']
+    prepended = ['#', '%', '@', '^']
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
     if not isinstance(highlight, str):
         return hl
@@ -60,12 +66,20 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
         hl.highlight = highlight.split(',')
         return hl
 
-    proc, tstat = parse_highlight(highlight, plot_type)
+    proc, tstat = _parse_highlight(highlight, plot_type, set)
     hl.col = 'Key'
     print("---{}---{}---{}---".format(set, geo, plot_type))
     skipping = [0, 0]
 
-    keys_this_loop = data.Key
+    if proc[0][0] == '^':  # Use this as "seed", copy to 'fnd' in case this is all.
+        keys_this_loop = proc[0][1:].split(',')
+        fnd = {}
+        for i, key in enumerate(keys_this_loop):
+            this_key = '{:09d}{}'.format(int(1e9 + 1e6 * i), key)
+            fnd[this_key] = (key, 'seed')
+        del proc[0], tstat[0]
+    else:
+        keys_this_loop = data.Key
     for this_pass, this_stat in zip(proc, tstat):
         print("\tProcessing {} for {}".format(this_pass, this_stat))
         _u = plot_type_unit(this_stat)
@@ -74,6 +88,9 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
         D = 1.0 if this_pass[1] == '>' else -1.0
         X, N = [float(x) for x in this_pass[2:].split(':')]
         Nind = -1 * (int(N) + 1)
+        if R == '^':
+            print("^ must be 1st in 'proc' and can only be 1st.  Skipping {}".format(this_pass))
+            continue
         for key in keys_this_loop:
             if geo in skipping_geo.keys():
                 _tmp = key.split("-")
