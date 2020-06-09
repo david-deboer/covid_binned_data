@@ -28,7 +28,7 @@ def smooth_days(x, y, **kwargs):
     stats_dict = {'smooth': 7, 'kernel': 'Trap', 'smooth_fix': 'redo'}
     kernel, smooth, smooth_fix = binc_util.proc_kwargs(kwargs, stats_dict)
     if not smooth:
-        return y
+        return x, y
     if kernel.upper().startswith('B'):
         from astropy.convolution import convolve, Box1DKernel
         ysm = convolve(y, Box1DKernel(smooth), boundary='extend')
