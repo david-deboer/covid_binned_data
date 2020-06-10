@@ -62,6 +62,9 @@ if args.label_col == 'default':
     elif args.geo == 'Native':
         args.label_col = 'Name'
 
+if args.highlight == '@':
+    args.highlight = '@P{}.txt'.format(args.geo.lower())
+
 if args.bg_states is not None:
     if args.geo not in ['State', 'County', 'Congress']:
         print("Can't filter on states for {}".format(args.geo))
