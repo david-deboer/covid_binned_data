@@ -86,7 +86,9 @@ class View:
         if not isinstance(key, list):
             key = key.split(',')
         if 'label' in kwargs.keys():
-            label_column = kwargs['label'].split(',')
+            label_column = kwargs['label']
+            if not isinstance(label_column, list):
+                label_column = label_column.split(',')
             for lc in label_column:
                 try:
                     x = getattr(self, lc)[0]

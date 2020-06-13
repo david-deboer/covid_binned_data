@@ -44,7 +44,8 @@ def _parse_highlight(highlight, plot_type, set):
     return proc, tstat
 
 
-def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwargs):
+def process_highlight(set, geo, highlight, highlight_col, label_col,
+                      plot_type, data, **kwargs):
     """
     Highlight command structure: RDX:N/S
         [^#%@][><][X][N]/S|...
@@ -103,21 +104,26 @@ def process_highlight(set, geo, highlight, highlight_col, plot_type, data, **kwa
                 except ValueError:
                     pass
             A, Y = stats.stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
+            lbl = []
+            this_ind = data.rowind(key, colname='Key')
+            for lc in label_col:
+                lbl.append(getattr(data, lc)[this_ind])
+            lbl = ",".join(lbl)
             if R == '#':
                 get_an_ave = 0.0
                 for i in range(int(N)):
                     get_an_ave += Y[-1-i]
                 get_an_ave /= N
                 V2chk = get_an_ave
-                _s = ("{:20s}  {:.3f} {} ave over {} days ({} {:.3f})"
-                      .format(key, get_an_ave, _u, int(N),
+                _s = ("{:30s}  {:.3f} {} ave over {} days ({} {:.3f})"
+                      .format(lbl, get_an_ave, _u, int(N),
                               binc_util.date_to_string(A[-1]), Y[-1]))
             elif R == '%':
                 dx = (data.dates[-1] - data.dates[Nind]).days
                 dn = (Y[-1] - Y[Nind])
                 V2chk = dn
-                _s = ("{:20s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
-                      .format(key, dn, _u, dx, binc_util.date_to_string(A[Nind]), Y[Nind],
+                _s = ("{:30s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
+                      .format(lbl, dn, _u, dx, binc_util.date_to_string(A[Nind]), Y[Nind],
                               binc_util.date_to_string(A[-1]), Y[-1]))
             if D * V2chk >= D * X:
                 fnd["{}{}".format(int(1e9 + 10000*V2chk), key)] = (key, _s)
@@ -183,6 +189,8 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     hl_average, hl_include, hl_total = binc_util.proc_kwargs(kwargs, hl_dict)
     other_dict = {'same_plot': False, 'save_stats': False, 'log_or_linear': 'log'}
     log_or_linear, same_plot, save_stats = binc_util.proc_kwargs(kwargs, other_dict)
+    if not isinstance(label_col, list):
+        label_col = label_col.split(',')
 
     bg_proc = bg_average or bg_total or bg_include
     if not bg_proc and highlight is None:
@@ -198,7 +206,8 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         if figname != SAME_PLOT_NAME:
             figname = filename
         b = viewer.View(filename)
-        hl = process_highlight(set, geo, highlight, highlight_col, plot_type, b, **kwargs)
+        hl = process_highlight(set, geo, highlight, highlight_col, label_col,
+                               plot_type, b, **kwargs)
         fig = plt.figure(figname, figsize=[6, 8])
         if bg_proc:
             bg_vtot = np.zeros(len(b.data[0]))
