@@ -48,7 +48,7 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
                       plot_type, data, **kwargs):
     """
     Highlight command structure: RDX:N/S
-        [^#%@][><][X][N]/S|...
+        [^#%@$][><][X]:[N]/S|...
     If highlight startswith:
     '^'
         use the list (has to be first - can be first in a file, if @ is first)
@@ -58,8 +58,10 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
         >/< Difference X over N days using stat S
     '@'
         use the filename - in file can use ':c ' or ':d ' for set
+    '$'
+        the top(>) or bottom(<) X ranked entries for N/S
     """
-    prepended = ['#', '%', '@', '^']
+    prepended = ['#', '%', '@', '^', '$']
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
     if not isinstance(highlight, str):
         return hl
@@ -76,7 +78,7 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
         keys_this_loop = proc[0][1:].split(',')
         fnd = {}
         for i, key in enumerate(keys_this_loop):
-            this_key = '{:09d}{}'.format(int(1e9 + 1e6 * i), key)
+            this_key = '{:0>14d}{}'.format(i, key)
             fnd[this_key] = (key, 'seed')
         del proc[0], tstat[0]
     else:
@@ -109,7 +111,7 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
             for lc in label_col:
                 lbl.append(getattr(data, lc)[this_ind])
             lbl = ",".join(lbl)
-            if R == '#':
+            if R == '#' or R == '$':
                 get_an_ave = 0.0
                 for i in range(int(N)):
                     get_an_ave += Y[-1-i]
@@ -125,11 +127,23 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
                 _s = ("{:30s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
                       .format(lbl, dn, _u, dx, binc_util.date_to_string(A[Nind]), Y[Nind],
                               binc_util.date_to_string(A[-1]), Y[-1]))
-            if D * V2chk >= D * X:
-                fnd["{}{}".format(int(1e9 + 10000*V2chk), key)] = (key, _s)
+            if D * V2chk >= D * X or R == '$':
+                fnd["{:0>14d}{}".format(int(10000*V2chk), key)] = (key, _s)
         keys_this_loop = []
-        for expkey, val in fnd.items():
-            keys_this_loop.append(val[0])
+        if R == '$':
+            if D > 0.0:
+                sortrev = True
+            else:
+                sortrev = False
+            sorted_keys = sorted(list(fnd.keys()), reverse=sortrev)
+            threshhold_fnd = {}
+            for soke in sorted_keys[:int(X)]:
+                keys_this_loop.append(fnd[soke][0])
+                threshhold_fnd[soke] = fnd[soke]
+            fnd = threshhold_fnd
+        else:
+            for expkey, val in fnd.items():
+                keys_this_loop.append(val[0])
 
     hl.highlight = []
     sfk = sorted(list(fnd.keys()), reverse=True)
