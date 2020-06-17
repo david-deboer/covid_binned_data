@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200615
-C19_git_hash:  aa89ad0c6d7dd6ae95277dcb4cb99bd9446282d9
+runtime:  20200617
+C19_git_hash:  e2feec895383e9d350d830df0294e5404f1791e1
 
 geo:  Urban
 set:  Deaths
@@ -18,5 +18,5 @@ Missing key:  9999
 Writing csv dist from Deaths_Urban.
 Writing Bin_Deaths_Urban.csv
 Skipped 3292 of 3601 for no non-zero data
-Total final at 6/15/20:  80976.0
+Total final at 6/16/20:  81410.0
 
