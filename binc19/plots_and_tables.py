@@ -28,6 +28,8 @@ def _parse_highlight(highlight, plot_type, set):
         if this_step[0] == '@':
             with open(this_step[1:], 'r') as fp:
                 for line in fp:
+                    if line[0] == '*':
+                        continue
                     for entry in line.split('|'):
                         if entry[0] == ':':
                             if entry[1].lower() == set[0].lower():
@@ -59,7 +61,7 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
     '@'
         use the filename - in file can use ':c ' or ':d ' for set
     '$'
-        the top(>) or bottom(<) X ranked entries for N/S
+        the top(>) or bottom(<) X (e.g. top 10) ranked entries for N/S
     """
     prepended = ['#', '%', '@', '^', '$']
     hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
