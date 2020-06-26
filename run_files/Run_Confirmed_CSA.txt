@@ -1,6 +1,6 @@
 ---run_parameters---
 runtime:  20200625
-C19_git_hash:  e39b5c870168d307bc58f581ff8eacc6bb7c02a2
+C19_git_hash:  8e0e3f70381258eb10f0e008d4c714617108e965
 
 geo:  CSA
 set:  Confirmed
@@ -18,5 +18,5 @@ Missing key:  9999
 Writing csv dist from Confirmed_CSA.
 Writing Bin_Confirmed_CSA.csv
 Skipped 3 of 175 for no non-zero data
-Total final at 6/24/20:  2028070.0
+Total final at 6/24/20:  2028950.0
 
