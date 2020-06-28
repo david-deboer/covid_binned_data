@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200625
-C19_git_hash:  8e0e3f70381258eb10f0e008d4c714617108e965
+runtime:  20200627
+C19_git_hash:  0eeacbaee290f32f96be3bbc1bbbb9d1959644aa
 
 geo:  County
 set:  Confirmed
@@ -17,6 +17,6 @@ Missing key:  9999-9999
 ---> Writing distribution files.
 Writing csv dist from Confirmed_County.
 Writing Bin_Confirmed_County.csv
-Skipped 123 of 3198 for no non-zero data
-Total final at 6/24/20:  2375023.0
+Skipped 111 of 3198 for no non-zero data
+Total final at 6/26/20:  2460122.0
 
