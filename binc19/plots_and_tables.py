@@ -257,7 +257,10 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                        label=label_col, **kwargs)
             if hl_total or hl_average:
                 for this_hl in hl.highlight:
-                    hl_vtot += b.row(this_hl, colname=hl.col)
+                    try:
+                        hl_vtot += b.row(this_hl, colname=hl.col)
+                    except TypeError:
+                        continue
                     hl_vcnt += 1
                 _xx, _yyt = stats.stat_dat(b.dates, hl_vtot,
                                            dtype=plot_type, **kwargs)

@@ -75,11 +75,19 @@ class View:
 
     def row(self, key, colname='Key'):
         col4ind = getattr(self, colname)
-        return self.data[col4ind.index(key)]
+        try:
+            col = self.data[col4ind.index(key)]
+        except ValueError:
+            col = None
+        return col
 
     def rowind(self, key, colname='Key'):
         col4ind = getattr(self, colname)
-        return col4ind.index(key)
+        try:
+            col = col4ind.index(key)
+        except ValueError:
+            col = None
+        return col
 
     def plot(self, plot_type, key, colname='Key', figname='key', **kwargs):
         fig = plt.figure(figname)
@@ -98,10 +106,13 @@ class View:
         plt_args = binc_util.plot_kwargs(kwargs)
         for ik, k in enumerate(key):
             ind = self.rowind(k, colname=colname)
+            if ind is None:
+                continue
             if isinstance(label_column, list):
                 lbl = []
                 for lc in label_column:
-                    lbl.append(getattr(self, lc)[ind])
+                    if lc is not None:
+                        lbl.append(getattr(self, lc)[ind])
                 plt_args['label'] = ','.join(lbl)
             x, y = stats.stat_dat(self.dates, self.data[ind], plot_type, **kwargs)
             cik = ik % len(color_list)
