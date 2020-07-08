@@ -229,8 +229,8 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
             bg_vtot = np.zeros(len(b.data[0]))
             bg_vcnt = 0
             bg_keys = []
-            for i, key in enumerate(b.Key):
-                if bg is None or b.State[i] in bg:
+            for ibk, key in enumerate(b.Key):
+                if bg is None or b.State[ibk] in bg:
                     bg_vtot += b.row(key, colname='Key')
                     bg_vcnt += 1
                     bg_keys.append(key)
