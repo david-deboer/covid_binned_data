@@ -20,7 +20,7 @@ def logslope(x, y, **kwargs):
     low_clip = binc_util.proc_kwargs(kwargs, {'low_clip': 1E-4})
     if low_clip:
         z = np.where(y <= 0.0)
-        y[z] = kwargs['low_clip']
+        y[z] = low_clip
     return slope(x, np.log(y), **kwargs)
 
 
