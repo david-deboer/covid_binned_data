@@ -87,7 +87,6 @@ if args.loglin == 'auto':
                   'frac': 'log'}
     args.loglin = loglinauto[args.plot_type]
 
-
 pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
               label_col=args.label_col, plot_type=args.plot_type, bg=args.bg_states,
               smooth=args.smooth, low_clip=args.low_clip, log_or_linear=args.loglin,
@@ -96,4 +95,8 @@ pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=a
               bg_average=args.bg_ave, bg_total=args.bg_tot, bg_include=args.bg_incl,
               extra_smooth=args.extrasmooth, smooth_fix=args.smoothfix
               )
+
+# import datetime
+# event = datetime.datetime(year=2020, month=6, day=20)
+# plt.plot(event, 100, 'o')
 plt.show()

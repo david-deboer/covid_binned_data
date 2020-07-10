@@ -1,5 +1,6 @@
 from . import viewer, stats, binc_util
 from mymaps import us_map, get_fip, mm_util
+import json
 import math
 
 
@@ -48,6 +49,16 @@ def setmap(set='Confirmed', geo='County', plot_type='slope', ind=-1, **kwargs):
     filename = "Bin_{}_{}.csv".format(set, geo)
     b = viewer.View(filename)
     data = {}
+    if iso_state and geo in state_based:
+        with open(get_fip.sfp_file, 'r') as fp:
+            states = json.load(fp)
+        for sv in states.values():
+            if sv[1] == iso_state or int(sv[0]) > 59:
+                continue
+            sctys = get_fip.get_all_county_fip(sv[0])
+            for scty in sctys:
+                key = '{}-{}'.format(sv[0], scty)
+                data[key] = '0.6'
     for key in b.Key:
         norm = 1.0
         if geo in state_based:
@@ -66,20 +77,17 @@ def setmap(set='Confirmed', geo='County', plot_type='slope', ind=-1, **kwargs):
 
         else:
             this_key = key
-        calcit = True
         if iso_state and geo in state_based and sfp.abbr != iso_state:
-            calcit = False
-            data[this_key] = '0.6'
-        if calcit:
-            this_data = b.row(key, colname='Key')
-            _xx, _yyt = stats.stat_dat(b.dates, this_data, dtype=plot_type, **kwargs)
-            this_data = _yyt[ind] / norm
-            if log_or_linear == 'log':
-                if this_data > 0.0:
-                    data[this_key] = math.log10(this_data)
-                else:
-                    data[this_key] = 0.0
+            continue
+        this_data = b.row(key, colname='Key')
+        _xx, _yyt = stats.stat_dat(b.dates, this_data, dtype=plot_type, **kwargs)
+        this_data = _yyt[ind] / norm
+        if log_or_linear == 'log':
+            if this_data > 0.0:
+                data[this_key] = math.log10(this_data)
             else:
-                data[this_key] = this_data
+                data[this_key] = 0.0
+        else:
+            data[this_key] = this_data
     geocl, info = us_map.prep_map_data(geo, data, datamin, datamax, clip, range)
     us_map.map_area(geocl, info, not_included_color=not_included_color, title=this_title)
