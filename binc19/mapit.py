@@ -55,9 +55,17 @@ def setmap(set='Confirmed', geo='County', plot_type='slope', ind=-1, **kwargs):
         for sv in states.values():
             if sv[1] == iso_state or int(sv[0]) > 59:
                 continue
-            sctys = get_fip.get_all_county_fip(sv[0])
-            for scty in sctys:
-                key = '{}-{}'.format(sv[0], scty)
+            if geo == 'County':
+                scs = get_fip.get_all_county_fip(sv[0])
+            elif geo == 'Congress':
+                scs = get_fip.get_all_congress_fip(sv[0])
+            else:
+                scs = [-1]
+            for sc in scs:
+                if scs == -1:
+                    key = sv[0]
+                else:
+                    key = '{}-{}'.format(sv[0], sc)
                 data[key] = '0.6'
     for key in b.Key:
         norm = 1.0
