@@ -262,7 +262,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         plt.legend(loc='upper left')
         plt.grid()
         plt.title("{}".format(set))
-        plt.ylabel(stat.stat_type_unit(plot_type))
+        plt.ylabel(stats.stat_type_unit(plot_type))
         # if log_or_linear == 'log' and this_plot_type != 'logslope':
         #     plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)
