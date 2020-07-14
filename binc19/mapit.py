@@ -1,4 +1,4 @@
-from . import viewer, stats, binc_util
+from . import binc, stats, binc_util
 from mymaps import us_map, get_fip, mm_util
 import json
 import math
@@ -47,7 +47,7 @@ def setmap(set='Confirmed', geo='County', plot_type='slope', ind=-1, **kwargs):
             print("Currently only per capita for state.")
             per_capita = False
     filename = "Bin_{}_{}.csv".format(set, geo)
-    b = viewer.View(filename)
+    b = binc.Binc(filename)
     data = {}
     if iso_state and geo in state_based:
         with open(get_fip.sfp_file, 'r') as fp:
