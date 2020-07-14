@@ -9,19 +9,6 @@ SAME_PLOT_NAME = 'binc19'
 skipping_geo = {'Congress': [9999], 'County': [0, 9999]}
 
 
-def plot_type_unit(plot_type):
-    if plot_type == 'row':
-        return 'count'
-    elif plot_type == 'slope':
-        return 'count/day'
-    elif plot_type == 'logslope':
-        return '1/day'
-    elif plot_type == 'accel':
-        return 'count/day/day'
-    elif plot_type == 'frac':
-        return '%'
-
-
 def _parse_highlight(highlight, plot_type, set):
     full_pipe = []
     for this_step in highlight.split('|'):
@@ -87,14 +74,21 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
         keys_this_loop = data.Key
     for this_pass, this_stat in zip(proc, tstat):
         print("\tProcessing {} for {}".format(this_pass, this_stat))
-        _u = plot_type_unit(this_stat)
         fnd = {}
         R = this_pass[0]
         D = 1.0 if this_pass[1] == '>' else -1.0
         X, N = [float(x) for x in this_pass[2:].split(':')]
         Nind = -1 * (int(N) + 1)
+        _N = [Nind, -1]
         if R == '^':
             print("^ must be 1st in 'proc' and can only be 1st.  Skipping {}".format(this_pass))
+            continue
+        elif R in ['#', '$']:
+            _R = 'average'
+        elif R == '%':
+            _R = 'difference'
+        else:
+            print("{} not allowed.".format(R))
             continue
         for key in keys_this_loop:
             if geo in skipping_geo.keys():
@@ -107,37 +101,16 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
                         continue
                 except ValueError:
                     pass
-            A, Y = stats.stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
-            lbl = []
-            this_ind = data.rowind(key, colname='Key')
-            for lc in label_col:
-                lbl.append(getattr(data, lc)[this_ind])
-            lbl = ",".join(lbl)
-            if R == '#' or R == '$':
-                get_an_ave = 0.0
-                for i in range(int(N)):
-                    get_an_ave += Y[-1-i]
-                get_an_ave /= N
-                V2chk = get_an_ave
-                _s = ("{:30s}  {:.3f} {} ave over {} days ({} {:.3f})"
-                      .format(lbl, get_an_ave, _u, int(N),
-                              binc_util.date_to_string(A[-1]), Y[-1]))
-            elif R == '%':
-                dx = (data.dates[-1] - data.dates[Nind]).days
-                dn = (Y[-1] - Y[Nind])
-                V2chk = dn
-                _s = ("{:30s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
-                      .format(lbl, dn, _u, dx, binc_util.date_to_string(A[Nind]), Y[Nind],
-                              binc_util.date_to_string(A[-1]), Y[-1]))
+            V2chk, _s = stats.get_derived_value(_R, _N, key, data, this_stat, label_col, **kwargs)
             if D * V2chk >= D * X or R == '$':
                 fnd["{:0>14d}{}".format(int(10000*V2chk), key)] = (key, _s)
         keys_this_loop = []
         if R == '$':
             if D > 0.0:
-                sortrev = True
+                sort_reverse = True
             else:
-                sortrev = False
-            sorted_keys = sorted(list(fnd.keys()), reverse=sortrev)
+                sort_reverse = False
+            sorted_keys = sorted(list(fnd.keys()), reverse=sort_reverse)
             threshhold_fnd = {}
             for soke in sorted_keys[:int(X)]:
                 keys_this_loop.append(fnd[soke][0])
@@ -289,7 +262,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         plt.legend(loc='upper left')
         plt.grid()
         plt.title("{}".format(set))
-        plt.ylabel(plot_type_unit(plot_type))
+        plt.ylabel(stat.stat_type_unit(plot_type))
         # if log_or_linear == 'log' and this_plot_type != 'logslope':
         #     plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)

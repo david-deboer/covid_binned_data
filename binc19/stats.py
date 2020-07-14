@@ -3,6 +3,47 @@ from datetime import datetime
 from binc19 import binc_util
 
 
+def stat_type_unit(stat_type):
+    if stat_type == 'row':
+        return 'count'
+    elif stat_type == 'slope':
+        return 'count/day'
+    elif stat_type == 'logslope':
+        return '1/day'
+    elif stat_type == 'accel':
+        return 'count/day/day'
+    elif stat_type == 'frac':
+        return '%'
+
+
+def get_derived_value(R, N, key, data, this_stat, label_col, **kwargs):
+    _u = stat_type_unit(this_stat)
+    A, Y = stat_dat(data.dates, data.row(key), dtype=this_stat, **kwargs)
+    lbl = []
+    this_ind = data.rowind(key, colname='Key')
+    for lc in label_col:
+        lbl.append(getattr(data, lc)[this_ind])
+    lbl = ",".join(lbl)
+    if R == 'average':
+        get_an_ave = 0.0
+        for i in range(N[0], N[1]):
+            get_an_ave += Y[i]
+        get_an_ave /= N
+        _X = get_an_ave
+        _S = ("{:30s}  {:.3f} {} ave over {} days ({} {:.3f})"
+              .format(lbl, get_an_ave, _u, int(N),
+                      binc_util.date_to_string(A[N[1]]), Y[N[1]]))
+        return get_an_ave
+    elif R == 'difference':
+        dx = (A[N[1]] - A[N[0]]).days
+        dn = (Y[N[1]] - Y[N[0]])
+        _X = dn
+        _S = ("{:30s}  {:f} {} over {} days ({}: {:.3f} -> {}: {:.3f})"
+              .format(lbl, dn, _u, dx, binc_util.date_to_string(A[N[0]]), Y[N[0]],
+                      binc_util.date_to_string(A[N[1]]), Y[N[1]]))
+    return _X, _S
+
+
 def slope(x, y, **kwargs):
     norm = binc_util.proc_kwargs(kwargs, {'norm': 1.0})
     if isinstance(x[0], datetime):
