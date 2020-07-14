@@ -14,7 +14,7 @@ ap.add_argument('-g', '--geo', default='County',
                          'country', 'state', 'county', 'congress', 'csa', 'urban', 'native'])
 ap.add_argument('-l', '--highlight', help="Rows to highlight.  Functions with <, >, : (see module)",
                 default='CA-13,CA-1,CA-37,CA-73,OH-35,OH-55')
-ap.add_argument('-p', '--plot-type', dest='plot_type', help="One of logslope/slope/row/accel/frac",
+ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
 ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=5)
 ap.add_argument('--hcol', dest='highlight_col', help="Name of column for highlight.",
@@ -85,10 +85,10 @@ if args.loglin == 'auto':
                   'slope': 'linear',
                   'accel': 'linear',
                   'frac': 'log'}
-    args.loglin = loglinauto[args.plot_type]
+    args.loglin = loglinauto[args.stat_type]
 
 pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
-              label_col=args.label_col, plot_type=args.plot_type, bg=args.bg_states,
+              label_col=args.label_col, stat_type=args.stat_type, bg=args.bg_states,
               smooth=args.smooth, low_clip=args.low_clip, log_or_linear=args.loglin,
               same_plot=args.same_plot, save_stats=args.save_stats,
               hl_average=args.hl_ave, hl_total=args.hl_tot, hl_include=args.hl_incl,

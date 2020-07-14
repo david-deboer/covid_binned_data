@@ -20,7 +20,7 @@ class Binc:
         self.header = []
         self.dates = []
         self.data = []
-        self.plot_log = False
+        self.stat_type = None
         if filename is not None:
             self.load()
 
@@ -84,7 +84,18 @@ class Binc:
             col = None
         return col
 
-    def plot(self, plot_type, key, colname='Key', figname='key', **kwargs):
+    def stat(self, stat_type, **kwargs):
+        if stat_type not in stats.allowed_stats:
+            print("{} not allowed".format(stat_type))
+            return
+        self.stat_type = stat_type
+        self.stat_data = {}
+        for i in range(self.Ndata):
+            key = self.Key[i]
+            self.stat_date, self.stat_data[key] = stats.stat_dat(self.dates, self.data[i],
+                                                                 stat_type, **kwargs)
+
+    def plot(self, stat_type, key, colname='Key', figname='key', **kwargs):
         fig = plt.figure(figname)
         if not isinstance(key, list):
             key = key.split(',')
@@ -109,7 +120,7 @@ class Binc:
                     if lc is not None:
                         lbl.append(getattr(self, lc)[ind])
                 plt_args['label'] = ','.join(lbl)
-            x, y = stats.stat_dat(self.dates, self.data[ind], plot_type, **kwargs)
+            x, y = stats.stat_dat(self.dates, self.data[ind], stat_type, **kwargs)
             cik = ik % len(color_list)
             plt_args['color'] = color_list[cik]
             plt.plot(x, y, **plt_args)

@@ -3,6 +3,9 @@ from datetime import datetime
 from binc19 import binc_util
 
 
+allowed_stats = ['row', 'slope', 'logslope', 'accel', 'frac']
+
+
 def stat_type_unit(stat_type):
     if stat_type == 'row':
         return 'count'

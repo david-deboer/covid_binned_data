@@ -4,7 +4,7 @@ import json
 import math
 
 
-def setmap(set='Confirmed', geo='County', plot_type='slope', ind=-1, **kwargs):
+def setmap(set='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     """
     Plot time sequences.
 
@@ -14,7 +14,7 @@ def setmap(set='Confirmed', geo='County', plot_type='slope', ind=-1, **kwargs):
         'Confirmed', 'Deaths'
     geo : str
         'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
-    plot_type : str
+    stat_type : str
         'row', 'slope', 'logslope', 'accel', 'frac'
     ind : int (add str/datetime options)
     kwargs:
@@ -37,7 +37,7 @@ def setmap(set='Confirmed', geo='County', plot_type='slope', ind=-1, **kwargs):
     other_d = {'log_or_linear': 'linear', 'not_included_color': 'w',
                'per_capita': False, 'iso_state': None}
     iso_state, log_or_linear, not_included_color, per_capita = binc_util.proc_kwargs(kwargs, other_d)  # noqa
-    this_title = '{} {} {}'.format(set, geo, plot_type)
+    this_title = '{} {} {}'.format(set, geo, stat_type)
 
     state_based = ['State', 'County', 'Congress']
     if per_capita:
@@ -88,7 +88,7 @@ def setmap(set='Confirmed', geo='County', plot_type='slope', ind=-1, **kwargs):
         if iso_state and geo in state_based and sfp.abbr != iso_state:
             continue
         this_data = b.row(key, colname='Key')
-        _xx, _yyt = stats.stat_dat(b.dates, this_data, dtype=plot_type, **kwargs)
+        _xx, _yyt = stats.stat_dat(b.dates, this_data, dtype=stat_type, **kwargs)
         this_data = _yyt[ind] / norm
         if log_or_linear == 'log':
             if this_data > 0.0:
