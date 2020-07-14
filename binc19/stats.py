@@ -28,12 +28,11 @@ def get_derived_value(R, N, key, data, this_stat, label_col, **kwargs):
         get_an_ave = 0.0
         for i in range(N[0], N[1]):
             get_an_ave += Y[i]
-        get_an_ave /= N
+        get_an_ave /= (N[1] - N[0])
         _X = get_an_ave
         _S = ("{:30s}  {:.3f} {} ave over {} days ({} {:.3f})"
-              .format(lbl, get_an_ave, _u, int(N),
+              .format(lbl, get_an_ave, _u, int(N[0]),
                       binc_util.date_to_string(A[N[1]]), Y[N[1]]))
-        return get_an_ave
     elif R == 'difference':
         dx = (A[N[1]] - A[N[0]]).days
         dn = (Y[N[1]] - Y[N[0]])
