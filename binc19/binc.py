@@ -12,7 +12,7 @@ color_list = ['b', 'g', 'r', 'c', 'm', 'k', 'tab:blue', 'tab:orange', 'tab:brown
               'tab:pink', 'bisque', 'lightcoral', 'goldenrod', 'lightgrey', 'lime', 'lightseagreen']
 
 
-class View:
+class Binc:
     """Class for reading csv files."""
     def __init__(self, filename=None):
         self.data_path = os.path.dirname(__file__)
@@ -64,16 +64,6 @@ class View:
         self.Latitude = [float(x) for x in self.Latitude]
         self.Ndata = len(self.data)
 
-    def scatter_loc(self, axis=[-160, -60, 18, 65]):
-        """Scatter plot of longitude/latitude of cases."""
-        plt.figure('USA')
-        plt.plot(self.Longitude, self.Latitude, '.')
-        if axis is not None:
-            plt.axis(axis)
-        plt.title(self.filename)
-        plt.xlabel('Longitude')
-        plt.ylabel('Latitude')
-
     def meta(self, val, key, colname):
         ind = self.rowind(key, colname)
         return getattr(self, val)[ind]
@@ -107,7 +97,7 @@ class View:
                     x = getattr(self, lc)[0]
                 except TypeError:
                     raise TypeError("viewer.plot: "
-                                    " label must be a column header name [{}]".format(lc))
+                                    "label must be a column header name [{}]".format(lc))
         plt_args = binc_util.plot_kwargs(kwargs)
         for ik, k in enumerate(key):
             ind = self.rowind(k, colname=colname)
@@ -125,19 +115,3 @@ class View:
             plt.plot(x, y, **plt_args)
         fig.autofmt_xdate()
         plt.title(colname)
-
-    def plot_col(self, date):
-        """
-        Column plot of date data.
-
-        Parameter
-        ---------
-        date : str or list of str
-            Dates to plot in e.g. 3/22/20 format
-        """
-        plt.figure('Date')
-        for _d in date:
-            dati = binc_util.string_to_date(_d)
-            ind = self.dates.index(dati)
-            plt.semilogy(self.data[:, ind], '.', label=_d)
-        plt.title('Date')

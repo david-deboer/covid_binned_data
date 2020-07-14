@@ -1,4 +1,7 @@
 # covid_binned_data
+7/14/20
+Since much better options exist, I am deprecating parts of this repo.  Primary Urban and Native Title areas, since the geolocation of the data is not sufficient to adequately represent the data.  I am also removing quickcsv.py and some functions within the installed code.  This is in an effort to make it simpler to maintain.
+
 David DeBoer (ddeboer@berkeley.edu)
 
 This derived database is intended to provide up-to-date easily accessible geo-binned data for research purposes from the Johns Hopkins maintained database
@@ -10,8 +13,6 @@ Uses Basemap from Matplotlib to locate longitude and latitude into Census Bureau
 * Counties
 * Congressional districts
 * Combined statistical areas
-* National urban areas
-* Native American areas
 
 Additionally, US data files are binned by state and the global data files are binned into Country.
 If the country data are listed in provinces, the provinces supplied are listed.
@@ -30,10 +31,6 @@ Bin_Confirmed_Congress.csv | Confirmed cases binned into Congressional Districts
 Bin_Deaths_Congress.csv    | Deaths binned into Congressional Districts
 Bin_Confirmed_CSA.csv      | Confirmed cases binned into Combined Statistical Areas
 Bin_Deaths_CSA.csv         | Deaths binned into Combined Statistical Areas
-Bin_Confirmed_Urban.csv    | Confirmed cases binned into National Urban Areas
-Bin_Deaths_Urban.csv       | Deaths binned into National Urban areas
-Bin_Confirmed_Native.csv   | Confirmed cases binned into Native American areas
-Bin_Deaths_Native.csv      | Deaths binned into Native American areas
 Bin_Confirmed_Country.csv  | Confirmed cases binned into Countries
 Bin_Deaths_Country.csv     | Deaths binned into Countries
 
@@ -45,8 +42,6 @@ County   | Key      | Name      | STate      | STate-COUNTYFP
 Congress | Key      | STate     | District   | STate-District
 State    | Key      | State     | STate      | STate
 CSA      | Key      | Name      | STates     | CSAFP
-Urban    | Key      | Name      | STates     | UACE10
-Native   | Key      | NAME      | NAMELSAD   | GEOID
 Country  | Key      | Provinces | STate      | Country
 
 The following columns contain data:
@@ -60,38 +55,3 @@ Col | All
 
 
 Run*.txt files have run meta-information
-
-## Viewing software
-A very simple reader is provided called 'quickcsv' to provide an initial glimpse.
-
-E.g. at your command prompt (in the directory where you installed) type './quickcsv.py'
-
-More sophisticated plots may be made by installing binc19 and using the methods there.  These files
-are in-process research-grade modules to view time series of data.  The figure below if from the
-script bc19_time.py
-
-![CA counties in time](https://astro.berkeley.edu/~ddeboer/CA_County_200427.png)
-CAPTION CA counties in time
-
-## Generating software
-![US States with centroid of cases over time](https://astro.berkeley.edu/~ddeboer/Confirmed_States_200426_time_centroid.png)
-CAPTION State totals of deaths, with the centroid of where deaths occurred over time.
-
-As mentioned above, the generating mapping software use matplotlib Basemap and shapefiles from the US Census Bureau.
-The two packages written and used are:  mymaps and bgbcovid (Berkeley Geo-Binned Covid).  These aren't currently
-distributed as they are even rougher.  In addition to geo-binning, the code draws maps, calculates and displays overlays and contains slightly more data than in this repo (currently only the centroid over time).
-
-Please contact ddeboer@berkeley.edu if interested.
-
-In addition to states shown above, the areas used are:
-
-![US Counties](https://astro.berkeley.edu/~ddeboer/Confirmed_County_042320.png)
-CAPTION Confirmed cases by County.
-![US Combined Statistical Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_CSA_042320.png)
-CAPTION Confirmed cases by Combined Statistical Areas
-![US Native American Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Native_200425.png)
-CAPTION Confirmed cases by Native American Areas
-![US National Urban Areas](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_042320.png)
-CAPTION Confirmed cases by National Urban Areas
-![US National Urban Areas - zoom](https://astro.berkeley.edu/~ddeboer/Confirmed_Urban_close_042320.png)
-CAPTION Zoom in on confirmed cases by National Urban Areas

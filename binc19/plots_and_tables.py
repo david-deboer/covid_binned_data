@@ -1,4 +1,4 @@
-from binc19 import viewer, binc_util, stats
+from binc19 import binc, binc_util, stats
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import timedelta, datetime
@@ -194,7 +194,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         filename = "Bin_{}_{}.csv".format(set, geo)
         if figname != SAME_PLOT_NAME:
             figname = filename
-        b = viewer.View(filename)
+        b = binc.Binc(filename)
         hl = process_highlight(set, geo, highlight, highlight_col, label_col,
                                plot_type, b, **kwargs)
         fig = plt.figure(figname, figsize=[6, 8])
@@ -290,9 +290,9 @@ def time_table(highlight='6-13', date=14, geo='County', highlight_col='Key', lab
     """
     from tabulate import tabulate
     filename = "Bin_Confirmed_{}.csv".format(geo)
-    confirmed = viewer.View(filename)
+    confirmed = binc.Binc(filename)
     filename = "Bin_Deaths_{}.csv".format(geo)
-    deaths = viewer.View(filename)
+    deaths = binc.Binc(filename)
 
     if isinstance(date, list):
         start = binc_util.string_to_date(date[0])
