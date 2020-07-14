@@ -1,4 +1,5 @@
 import csv
+import os.path
 import numpy as np
 import matplotlib.pyplot as plt
 from . import stats, binc_util
@@ -14,6 +15,7 @@ color_list = ['b', 'g', 'r', 'c', 'm', 'k', 'tab:blue', 'tab:orange', 'tab:brown
 class View:
     """Class for reading csv files."""
     def __init__(self, filename=None):
+        self.data_path = os.path.dirname(__file__)
         self.filename = filename
         self.header = []
         self.dates = []
@@ -22,7 +24,8 @@ class View:
         if filename is not None:
             self.load()
 
-    def load(self, filename=None):
+    def load(self, filename=None,
+             dir='/Users/ddeboer/Documents/ubase/Projects/COVID_analysis/covid_binned_data'):
         """
         Load csv files.
 
@@ -37,6 +40,8 @@ class View:
             filename = '{}.csv'.format(filename)
         if not filename.startswith('Bin_'):
             filename = 'Bin_{}'.format(filename)
+        if dir is not None:
+            filename = os.path.join(dir, filename)
         with open(filename, 'r') as fp:
             reader = csv.reader(fp)
             for i, row in enumerate(reader):
