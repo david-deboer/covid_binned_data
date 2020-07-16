@@ -12,22 +12,22 @@ ap.add_argument('-g', '--geo', default='County',
                 help="One of Country/State/County/Congress/CSA/Urban/Native",
                 choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native',
                          'country', 'state', 'county', 'congress', 'csa', 'urban', 'native'])
-ap.add_argument('-l', '--highlight', help="Rows to highlight.  Functions with <, >, : (see module)",
+ap.add_argument('-f', '--foreground', help="Foreground rows.  Functions with <, >, : (see module)",
                 default='CA-13,CA-1,CA-37,CA-73,OH-35,OH-55')
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
 ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=5)
-ap.add_argument('--hcol', dest='highlight_col', help="Name of column for highlight.",
+ap.add_argument('--fcol', dest='fg_col', help="Name of column for foreground.",
                 default='Key')
 ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.",
                 default='default')
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
-ap.add_argument('-A', '--have', dest='hl_ave', help="Flag to include "
-                "averaged highlight profile over time", action='store_true')
-ap.add_argument('-T', '--htot', dest='hl_tot', help="Flag to include "
-                "totaled highlight profile over time", action='store_true')
-ap.add_argument('-X', '--no-hl', dest='hl_incl', help="Flag to turn off "
-                "plotting the highlight profiles.", action='store_false')
+ap.add_argument('-A', '--have', dest='fg_ave', help="Flag to include "
+                "averaged foreground profile over time", action='store_true')
+ap.add_argument('-T', '--htot', dest='fg_tot', help="Flag to include "
+                "totaled foreground profile over time", action='store_true')
+ap.add_argument('-X', '--no-fg', dest='fg_incl', help="Flag to turn off "
+                "plotting the foreground profiles.", action='store_false')
 ap.add_argument('--bstates', dest='bg_states', help="If State/County/Congress "
                 "you can choose a csv-list of states to include in 'background', "
                 "average and total.  Use 2-letter abbreviations.", default=None)
@@ -62,8 +62,8 @@ if args.label_col == 'default':
     elif args.geo == 'Native':
         args.label_col = 'Name'
 
-if args.highlight == '@':
-    args.highlight = '@P{}.txt'.format(args.geo.lower())
+if args.foreground == '@':
+    args.foreground = '@P{}.txt'.format(args.geo.lower())
 
 if args.bg_states is not None:
     if args.geo not in ['State', 'County', 'Congress']:
@@ -87,11 +87,12 @@ if args.loglin == 'auto':
                   'frac': 'log'}
     args.loglin = loglinauto[args.stat_type]
 
-pat.time_plot(sets=sets, geo=args.geo, highlight=args.highlight, highlight_col=args.highlight_col,
+pat.time_plot(sets=sets, geo=args.geo,
+              foreground=args.foreground, foreground_col=args.fg_col,
               label_col=args.label_col, stat_type=args.stat_type, bg=args.bg_states,
               smooth=args.smooth, low_clip=args.low_clip, log_or_linear=args.loglin,
               same_plot=args.same_plot, save_stats=args.save_stats,
-              hl_average=args.hl_ave, hl_total=args.hl_tot, hl_include=args.hl_incl,
+              fg_average=args.fg_ave, fg_total=args.fg_tot, fg_include=args.fg_incl,
               bg_average=args.bg_ave, bg_total=args.bg_tot, bg_include=args.bg_incl,
               extra_smooth=args.extrasmooth, smooth_fix=args.smoothfix
               )

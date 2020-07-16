@@ -7,11 +7,22 @@ from argparse import Namespace
 
 SAME_PLOT_NAME = 'binc19'
 skipping_geo = {'Congress': [9999], 'County': [0, 9999]}
+prepended = ['#', '%', '@', '^', '$']
 
 
-def _parse_highlight(highlight, stat_type, set):
+def parse_foreground(foreground, foreground_col, cset):
+    fg = Namespace(proc=True, tstat=[], done=True,
+                   foreground=foreground, col=foreground_col, cset=cset)
+    if not isinstance(foreground, str):
+        return fg
+    if foreground[0] not in prepended:
+        fg.foreground = foreground.split(',')
+        return fg
+    fg.done = False
+    fg.col = 'Key'
+
     full_pipe = []
-    for this_step in highlight.split('|'):
+    for this_step in foreground.split('|'):
         if this_step[0] == '@':
             with open(this_step[1:], 'r') as fp:
                 for line in fp:
@@ -19,60 +30,50 @@ def _parse_highlight(highlight, stat_type, set):
                         continue
                     for entry in line.split('|'):
                         if entry[0] == ':':
-                            if entry[1].lower() == set[0].lower():
+                            if entry[1].lower() == cset[0].lower():
                                 full_pipe.append(entry.split()[1])
                         else:
                             full_pipe.append(entry.strip())
         else:
             full_pipe.append(this_step.strip())
-    tstat = [stat_type] * len(full_pipe)
+    fg.tstat = [''] * len(full_pipe)
     for i, _p in enumerate(full_pipe):
         if '/' in _p:
-            tstat[i] = _p.split('/')[-1]
-    proc = [_xx.split('/')[0] for _xx in full_pipe]
-    return proc, tstat
+            fg.tstat[i] = _p.split('/')[-1]
+    fg.proc = [_xx.split('/')[0] for _xx in full_pipe]
+    return fg
 
 
-def process_highlight(set, geo, highlight, highlight_col, label_col,
-                      stat_type, data, **kwargs):
+def process_foreground(cset, geo, fg, label_col, data, **kwargs):
     """
-    Highlight command structure: RDX:N/S
+    Foreground command structure: RDX:N/S
         [^#%@$][><][X]:[N]/S|...
-    If highlight startswith:
+    If foreground startswith:
     '^'
-        use the list (has to be first - can be first in a file, if @ is first)
+        use the list (has to be first - can be first in a file, if @ is first here)
     '#'
         >/< Threshold on X averaged over N using stat S
     '%'
         >/< Difference X over N days using stat S
     '@'
-        use the filename - in file can use ':c ' or ':d ' for set
+        use the filename - in file can use ':c ' or ':d ' for cset
     '$'
         the top(>) or bottom(<) X (e.g. top 10) ranked entries for N/S
     """
-    prepended = ['#', '%', '@', '^', '$']
-    hl = Namespace(proc=True, highlight=highlight, col=highlight_col)
-    if not isinstance(highlight, str):
-        return hl
-    if highlight[0] not in prepended:
-        hl.highlight = highlight.split(',')
-        return hl
 
-    proc, tstat = _parse_highlight(highlight, stat_type, set)
-    hl.col = 'Key'
-    print("---{}---{}---{}---".format(set, geo, stat_type))
+    print("---{}---{}---".format(cset, geo))
     skipping = [0, 0]
 
-    if proc[0][0] == '^':  # Use this as "seed", copy to 'fnd' in case this is all.
-        keys_this_loop = proc[0][1:].split(',')
+    if fg.proc[0][0] == '^':  # Use this as "seed", copy to 'fnd' in case this is all.
+        keys_this_loop = fg.proc[0][1:].split(',')
         fnd = {}
         for i, key in enumerate(keys_this_loop):
             this_key = '{:0>14d}{}'.format(i, key)
             fnd[this_key] = (key, 'seed')
-        del proc[0], tstat[0]
+        del fg.proc[0], fg.tstat[0]
     else:
         keys_this_loop = data.Key
-    for this_pass, this_stat in zip(proc, tstat):
+    for this_pass, this_stat in zip(fg.proc, fg.tstat):
         print("\tProcessing {} for {}".format(this_pass, this_stat))
         fnd = {}
         R = this_pass[0]
@@ -80,6 +81,7 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
         X, N = [float(x) for x in this_pass[2:].split(':')]
         Nind = -1 * (int(N) + 1)
         _N = [Nind, -1]
+        dN = _N[1] - _N[0]
         if R == '^':
             print("^ must be 1st in 'proc' and can only be 1st.  Skipping {}".format(this_pass))
             continue
@@ -101,7 +103,14 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
                         continue
                 except ValueError:
                     pass
-            V2chk, _s = stats.get_derived_value(_R, _N, key, data, this_stat, label_col, **kwargs)
+            lbl = []
+            this_ind = data.rowind(key, colname='Key')
+            for lc in label_col:
+                lbl.append(getattr(data, lc)[this_ind])
+            lbl = ",".join(lbl)
+            V2chk = stats.get_derived_value(_R, _N,
+                                            data.st_date[this_stat], data.st_data[this_stat][key])
+            _s = "{:30s} {:f} {} {} over {} days".format(lbl, V2chk, data.stats.unit, _R, dN)
             if D * V2chk >= D * X or R == '$':
                 fnd["{:0>14d}{}".format(int(10000*V2chk), key)] = (key, _s)
         keys_this_loop = []
@@ -120,41 +129,41 @@ def process_highlight(set, geo, highlight, highlight_col, label_col,
             for expkey, val in fnd.items():
                 keys_this_loop.append(val[0])
 
-    hl.highlight = []
+    fg.foreground = []
     sfk = sorted(list(fnd.keys()), reverse=True)
     for i, this_one in enumerate(sfk):
-        hl.highlight.append(fnd[this_one][0])
+        fg.foreground.append(fnd[this_one][0])
         print("{:02d}  {}".format(i+1, fnd[this_one][1]))
     if skipping[0]:
         print("Skipping:  {}".format(skipping))
-    if not len(hl.highlight):
-        hl.proc = False
+    if not len(fg.foreground):
+        fg.proc = False
     else:
-        hl.proc = True
-    return hl
+        fg.proc = True
+    return fg
 
 
-def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
-              highlight=['CA-13', 'CA-1', 'CA-37', 'CA-73', 'OH-35', 'OH-55'],
-              highlight_col='Key', label_col='Name,State', stat_type='row', bg=['CA'],
+def time_plot(csets=['Confirmed', 'Deaths'], geo='County',
+              foreground=['CA-13', 'CA-1', 'CA-37', 'CA-73', 'OH-35', 'OH-55'],
+              foreground_col='Key', label_col='Name,State', stat_type='row', bg=['CA'],
               **kwargs):
     """
     Plot time sequences.
 
     Parameters
     ----------
-    sets : list of str
+    csets : list of str
         'Confirmed' and/or 'Deaths'
     geo : str
         'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
-    highlight : str, list of str or None
-        Rows to overplot.  See 'process_highlight'
-    highlight_col : str
+    foreground : str, list of str or None
+        Rows to overplot.  See 'process_foreground'
+    foreground_col : str
         Name of column for above.
     label_col : str
-        Name of column to use as labels for highlighted data
+        Name of column to use as labels for foregrounded data
     stat_type : str
-        'row', 'slope', 'logslope', 'accel', 'frac' (use :two for piped highlight)
+        'row', 'slope', 'logslope', 'accel', 'frac' (use :two for piped foreground)
     bg : list of str
         For State, County, or Congress can limit background/stats to states.
         If None, background is all.
@@ -162,9 +171,9 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         bg_average : bool
         bg_total : bool
         bg_include : bool
-        hl_average : bool
-        hl_total : bool
-        hl_include : bool
+        fg_average : bool
+        fg_total : bool
+        fg_include : bool
         smooth : None or int
         low_clip : None or float
         kernel : None or str
@@ -174,29 +183,32 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     """
     bg_dict = {'bg_average': False, 'bg_include': False, 'bg_total': False}
     bg_average, bg_include, bg_total = binc_util.proc_kwargs(kwargs, bg_dict)
-    hl_dict = {'hl_average': False, 'hl_total': False, 'hl_include': True}
-    hl_average, hl_include, hl_total = binc_util.proc_kwargs(kwargs, hl_dict)
+    fg_dict = {'fg_average': False, 'fg_total': False, 'fg_include': True}
+    fg_average, fg_include, fg_total = binc_util.proc_kwargs(kwargs, fg_dict)
     other_dict = {'same_plot': False, 'save_stats': False, 'log_or_linear': 'log'}
     log_or_linear, same_plot, save_stats = binc_util.proc_kwargs(kwargs, other_dict)
     if not isinstance(label_col, list):
         label_col = label_col.split(',')
 
     bg_proc = bg_average or bg_total or bg_include
-    if not bg_proc and highlight is None:
-        print("Neither highlight nor background chosen.")
+    if not bg_proc and foreground is None:
+        print("Neither foreground nor background chosen.")
         return
 
     figname = None
     if same_plot:
         figname = SAME_PLOT_NAME
-    for i, set in enumerate(sets):
-        data_out = {'dates': [], 'bg_tot': [], 'bg_ave': [], 'hl_tot': [], 'hl_ave': []}
-        filename = "Bin_{}_{}.csv".format(set, geo)
+    for i, cset in enumerate(csets):
+        data_out = {'dates': [], 'bg_tot': [], 'bg_ave': [], 'fg_tot': [], 'fg_ave': []}
+        filename = "Bin_{}_{}.csv".format(cset, geo)
         if figname != SAME_PLOT_NAME:
             figname = filename
         b = binc.Binc(filename)
-        hl = process_highlight(set, geo, highlight, highlight_col, label_col,
-                               stat_type, b, **kwargs)
+        fg = parse_foreground(foreground, foreground_col, cset)
+        for sts in set(fg.tstat + [stat_type]):
+            b.calc(sts, **kwargs)
+        if not fg.done:
+            fg = process_foreground(cset, geo, fg, label_col, b, **kwargs)
         fig = plt.figure(figname, figsize=[6, 8])
         if bg_proc:
             bg_vtot = np.zeros(len(b.data[0]))
@@ -208,7 +220,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                     bg_vcnt += 1
                     bg_keys.append(key)
             if bg_include and len(bg_keys):
-                b.plot(stat_type, bg_keys, colname='Key', figname=figname, color='0.7',
+                b.plot('current', bg_keys, colname='Key', figname=figname, color='0.7',
                        label=None, **kwargs)
             if len(bg_keys) and (bg_total or bg_average):
                 _xx, _yyt = stats.stat_dat(b.dates, bg_vtot,
@@ -222,68 +234,68 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
                 if bg_average:
                     data_out['bg_ave'] = _yya
                     plt.plot(_xx, _yya / bg_vcnt, color='0.4', linewidth=4, label='Average')
-        if hl.proc:
-            hl_vtot = np.zeros(len(b.data[0]))
-            hl_vcnt = 0
-            if hl_include:
-                b.plot(stat_type, hl.highlight, colname=hl.col, figname=figname, linewidth=3,
+        if fg.proc:
+            fg_vtot = np.zeros(len(b.data[0]))
+            fg_vcnt = 0
+            if fg_include:
+                b.plot(stat_type, fg.foreground, colname=fg.col, figname=figname, linewidth=3,
                        label=label_col, **kwargs)
-            if hl_total or hl_average:
-                for this_hl in hl.highlight:
+            if fg_total or fg_average:
+                for this_fg in fg.foreground:
                     try:
-                        hl_vtot += b.row(this_hl, colname=hl.col)
+                        fg_vtot += b.row(this_fg, colname=fg.col)
                     except TypeError:
                         continue
-                    hl_vcnt += 1
-                _xx, _yyt = stats.stat_dat(b.dates, hl_vtot,
+                    fg_vcnt += 1
+                _xx, _yyt = stats.stat_dat(b.dates, fg_vtot,
                                            dtype=stat_type, **kwargs)
-                _xx, _yya = stats.stat_dat(b.dates, hl_vtot / hl_vcnt,
+                _xx, _yya = stats.stat_dat(b.dates, fg_vtot / fg_vcnt,
                                            dtype=stat_type, **kwargs)
                 data_out['dates'] = _xx
-                if hl_total:
-                    data_out['hl_tot'] = _yyt
+                if fg_total:
+                    data_out['fg_tot'] = _yyt
                     plt.plot(_xx, _yyt, color='tab:olive', linewidth=4, label='Total', linestyle='--')  # noqa
-                if hl_average:
-                    data_out['hl_ave'] = _yya
+                if fg_average:
+                    data_out['fg_ave'] = _yya
                     plt.plot(_xx, _yya, color='tab:olive', linewidth=4, label='Average')
         if save_stats:
-            with open('{}_stats.dat'.format(set), 'w') as fp:
+            with open('{}_stats.dat'.format(cset), 'w') as fp:
                 fp.write("Date\t")
-                for stat in ['hl_tot', 'hl_ave', 'bg_tot', 'bg_ave']:
+                for stat in ['fg_tot', 'fg_ave', 'bg_tot', 'bg_ave']:
                     if len(data_out[stat]):
                         fp.write("{}\t".format(stat))
                 fp.write('\n')
                 for i, date in enumerate(data_out['dates']):
                     fp.write("{}\t".format(datetime.strftime(date, '%Y-%m-%d')))
-                    for stat in ['hl_tot', 'hl_ave', 'bg_tot', 'bg_ave']:
+                    for stat in ['fg_tot', 'fg_ave', 'bg_tot', 'bg_ave']:
                         if len(data_out[stat]):
                             fp.write("{}\t".format(data_out[stat][i]))
                     fp.write('\n')
         plt.legend(loc='upper left')
         plt.grid()
-        plt.title("{}".format(set))
-        plt.ylabel(stats.stat_type_unit(stat_type))
+        plt.title("{}".format(cset))
+        plt.ylabel(b.stats.unit)
         # if log_or_linear == 'log' and this_stat_type != 'logslope':
         #     plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)
         fig.autofmt_xdate()
-        figfileName = "{}{}{}.png".format(set, geo, datetime.strftime(datetime.now(), "%Y%m%d"))
-        figfileName = "{}{}.png".format(set, geo)
+        figfileName = "{}{}{}.png".format(cset, geo, datetime.strftime(datetime.now(), "%Y%m%d"))
+        figfileName = "{}{}.png".format(cset, geo)
         plt.savefig(figfileName)
 
 
-def time_table(highlight='6-13', date=14, geo='County', highlight_col='Key', label_col='County'):
+def time_table(foreground='6-13', date=14, geo='County', foreground_col='Key', label_col='County'):
     """
-    Table for 'highlight'.
+    Table for 'foreground'.
 
     Parameters
     ----------
     date : int, list-pair of str/datetime
         If int, uses the last 'date' days.
         If pair, start and stop dates
-    highlight : list of str
+    foreground : list of str
         Rows to overplot
-    highlight : str
+    foreground : str
         Name of column for above
     label_col : str
         Name of column to use as labels
@@ -307,9 +319,9 @@ def time_table(highlight='6-13', date=14, geo='County', highlight_col='Key', lab
             num_days = (stop - start).days
 
     headers = ['Date', 'Confirmed', 'Deaths']
-    row_confirmed = confirmed.row(highlight, colname=highlight_col)
-    row_deaths = deaths.row(highlight, colname=highlight_col)
-    title = confirmed.meta(label_col, highlight, highlight_col)
+    row_confirmed = confirmed.row(foreground, colname=foreground_col)
+    row_deaths = deaths.row(foreground, colname=foreground_col)
+    title = confirmed.meta(label_col, foreground, foreground_col)
     table_data = []
     for i in range(num_days):
         this_date = start + timedelta(days=i)

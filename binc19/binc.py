@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from . import stats, binc_util
 """
-This is a csv viewer for the covid_binned_data files.
+This handles covid_binned_data files.
 """
 
 
@@ -15,12 +15,13 @@ color_list = ['b', 'g', 'r', 'c', 'm', 'k', 'tab:blue', 'tab:orange', 'tab:brown
 class Binc:
     """Class for reading csv files."""
     def __init__(self, filename=None):
-        self.data_path = os.path.dirname(__file__)
         self.filename = filename
         self.header = []
         self.dates = []
         self.data = []
-        self.stat_type = None
+        self.stats = stats.Stat(stat_type=None)
+        self.st_date = {}
+        self.st_data = {}
         if filename is not None:
             self.load()
 
@@ -84,18 +85,16 @@ class Binc:
             col = None
         return col
 
-    def stat(self, stat_type, **kwargs):
-        if stat_type not in stats.allowed_stats:
-            print("{} not allowed".format(stat_type))
-            return
-        self.stat_type = stat_type
-        self.stat_data = {}
+    def calc(self, stat_type, **kwargs):
+        self.stats.set_stat(stat_type, **kwargs)
+        self.st_data[stat_type] = {}
         for i in range(self.Ndata):
             key = self.Key[i]
-            self.stat_date, self.stat_data[key] = stats.stat_dat(self.dates, self.data[i],
-                                                                 stat_type, **kwargs)
+            self.st_date[stat_type], self.st_data[stat_type][key] = self.stats.calc(self.dates,
+                                                                                    self.data[i])
 
     def plot(self, stat_type, key, colname='Key', figname='key', **kwargs):
+        self.stats.set_stat(stat_type, **kwargs)
         fig = plt.figure(figname)
         if not isinstance(key, list):
             key = key.split(',')
@@ -114,13 +113,13 @@ class Binc:
             ind = self.rowind(k, colname=colname)
             if ind is None:
                 continue
+            x, y = self.stats.calc(self.dates, self.data[ind])
             if isinstance(label_column, list):
                 lbl = []
                 for lc in label_column:
                     if lc is not None:
                         lbl.append(getattr(self, lc)[ind])
                 plt_args['label'] = ','.join(lbl)
-            x, y = stats.stat_dat(self.dates, self.data[ind], stat_type, **kwargs)
             cik = ik % len(color_list)
             plt_args['color'] = color_list[cik]
             plt.plot(x, y, **plt_args)
