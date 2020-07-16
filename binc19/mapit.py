@@ -1,16 +1,16 @@
-from . import binc, stats, binc_util
+from . import binc, binc_util
 from mymaps import us_map, get_fip, mm_util
 import json
 import math
 
 
-def setmap(set='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
+def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     """
-    Plot time sequences.
+    Plot maps.
 
     Parameters
     ----------
-    set : str
+    cset : str
         'Confirmed', 'Deaths'
     geo : str
         'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
@@ -27,17 +27,17 @@ def setmap(set='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
         clip : None/float
         datamax : None/float
         datamin : None/float
-        range : float
+        drange : float
         not_included_color : None/str
         per_capita : True/False
         iso_state : None/str
     """
-    data_d = {'clip': None, 'datamax': None, 'datamin': 0.0, 'range': 0.0}
-    clip, datamax, datamin, range = binc_util.proc_kwargs(kwargs, data_d)
+    data_d = {'clip': None, 'datamax': None, 'datamin': 0.0, 'drange': 0.0}
+    clip, datamax, datamin, drange = binc_util.proc_kwargs(kwargs, data_d)
     other_d = {'log_or_linear': 'linear', 'not_included_color': 'w',
                'per_capita': False, 'iso_state': None}
     iso_state, log_or_linear, not_included_color, per_capita = binc_util.proc_kwargs(kwargs, other_d)  # noqa
-    this_title = '{} {} {}'.format(set, geo, stat_type)
+    this_title = '{} {} {}'.format(cset, geo, stat_type)
 
     state_based = ['State', 'County', 'Congress']
     if per_capita:
@@ -46,8 +46,9 @@ def setmap(set='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
         else:
             print("Currently only per capita for state.")
             per_capita = False
-    filename = "Bin_{}_{}.csv".format(set, geo)
+    filename = "Bin_{}_{}.csv".format(cset, geo)
     b = binc.Binc(filename)
+    b.calc(stat_type, **kwargs)
     data = {}
     if iso_state and geo in state_based:
         with open(get_fip.sfp_file, 'r') as fp:
@@ -67,7 +68,8 @@ def setmap(set='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                 else:
                     key = '{}-{}'.format(sv[0], sc)
                 data[key] = '0.6'
-    for key in b.Key:
+    for i in range(b.Ndata):
+        key = b.Key[i]
         norm = 1.0
         if geo in state_based:
             if geo == 'State':
@@ -87,9 +89,7 @@ def setmap(set='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
             this_key = key
         if iso_state and geo in state_based and sfp.abbr != iso_state:
             continue
-        this_data = b.row(key, colname='Key')
-        _xx, _yyt = stats.stat_dat(b.dates, this_data, dtype=stat_type, **kwargs)
-        this_data = _yyt[ind] / norm
+        this_data = b.st_data[stat_type][key][ind] / norm
         if log_or_linear == 'log':
             if this_data > 0.0:
                 data[this_key] = math.log10(this_data)
@@ -97,5 +97,5 @@ def setmap(set='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                 data[this_key] = 0.0
         else:
             data[this_key] = this_data
-    geocl, info = us_map.prep_map_data(geo, data, datamin, datamax, clip, range)
+    geocl, info = us_map.prep_map_data(geo, data, datamin, datamax, clip, drange)
     us_map.map_area(geocl, info, not_included_color=not_included_color, title=this_title)
