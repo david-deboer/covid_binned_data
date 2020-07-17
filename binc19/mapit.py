@@ -1,5 +1,5 @@
-from . import binc, binc_util
-from mymaps import us_map, get_fip, mm_util
+from . import binc, binc_util, stats
+from mymaps import us_map, get_fip, mm_util, map_overlay
 import json
 import math
 
@@ -68,6 +68,10 @@ def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                 else:
                     key = '{}-{}'.format(sv[0], sc)
                 data[key] = '0.6'
+    ave_lat = 0.0
+    ave_lon = 0.0
+    tot = 0.0
+    ranked = {}
     for i in range(b.Ndata):
         key = b.Key[i]
         norm = 1.0
@@ -89,7 +93,23 @@ def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
             this_key = key
         if iso_state and geo in state_based and sfp.abbr != iso_state:
             continue
-        this_data = b.st_data[stat_type][key][ind] / norm
+        if b.Name[i] == 'Unassigned':
+            continue
+        # this_data = b.st_data[stat_type][key][ind]
+        wk0 = stats.get_derived_value('average', [-15, -8],
+                                      b.st_date[stat_type], b.st_data[stat_type][key])
+        wk1 = stats.get_derived_value('average', [-8, -1],
+                                      b.st_date[stat_type], b.st_data[stat_type][key])
+        if abs(wk0) < 0.1:
+            wk0 = 1.0
+        this_data = wk1 - wk0
+        # this_data = 100.0 * (wk1 - wk0) / wk0
+        rkey = '{:09d}{}'.format(int(this_data), b.Name[i])
+        ranked[rkey] = [this_data, b.Name[i], b.State[i]]
+        ave_lat += b.Latitude[i] * this_data
+        ave_lon += b.Longitude[i] * this_data
+        tot += this_data
+        this_data /= norm
         if log_or_linear == 'log':
             if this_data > 0.0:
                 data[this_key] = math.log10(this_data)
@@ -97,5 +117,13 @@ def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                 data[this_key] = 0.0
         else:
             data[this_key] = this_data
+    ave_lon /= tot
+    ave_lat /= tot
+    print("Total: {}".format(tot))
     geocl, info = us_map.prep_map_data(geo, data, datamin, datamax, clip, drange)
-    us_map.map_area(geocl, info, not_included_color=not_included_color, title=this_title)
+    this_m = us_map.map_area(geocl, info, not_included_color=not_included_color, title=this_title)
+    map_overlay.overlay(this_m.lo48, this_m.ax, [ave_lon], [ave_lat], label=None, color='b',
+                        size=tot, alpha=None, max_marker_size=None)
+
+    for rk, rv in sorted(ranked.items()):
+        print(rv)
