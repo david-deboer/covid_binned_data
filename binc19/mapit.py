@@ -31,12 +31,13 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     stat_type : str
         'row', 'slope', 'logslope', 'accel', 'frac'
     ind : int (add str/datetime options) - if not int, hard-coded week-diff-average
-    kwargs : see above
+    kwargs : see above and under stats
     """
 
     par = state_variable.StateVar(label='Map state variables', verbose=False)
     par.sv_load(map_args, use_to_init=True, var_type=None)
     par.state(**kwargs)
+    kwargs['smooth'] = 0
 
     this_title = '{} {} {}'.format(cset, geo, stat_type)
 
