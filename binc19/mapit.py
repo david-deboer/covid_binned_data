@@ -95,17 +95,22 @@ def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
             continue
         if b.Name[i] == 'Unassigned':
             continue
-        # this_data = b.st_data[stat_type][key][ind]
-        wk0 = stats.get_derived_value('average', [-15, -8],
-                                      b.st_date[stat_type], b.st_data[stat_type][key])
-        wk1 = stats.get_derived_value('average', [-8, -1],
-                                      b.st_date[stat_type], b.st_data[stat_type][key])
-        if abs(wk0) < 0.1:
-            wk0 = 1.0
-        this_data = wk1 - wk0
-        # this_data = 100.0 * (wk1 - wk0) / wk0
+        if isinstance(ind, int):
+            this_data = b.st_data[stat_type][key][ind]
+        else:
+            wk0 = stats.get_derived_value('average', [-15, -8],
+                                          b.st_date[stat_type], b.st_data[stat_type][key])
+            wk1 = stats.get_derived_value('average', [-8, -1],
+                                          b.st_date[stat_type], b.st_data[stat_type][key])
+            if abs(wk0) < 0.1:
+                wk0 = 1.0
+            this_data = wk1 - wk0
+            # this_data = 100.0 * (wk1 - wk0) / wk0
         rkey = '{:09d}{}'.format(int(this_data), b.Name[i])
-        ranked[rkey] = [this_data, b.Name[i], b.State[i]]
+        try:
+            ranked[rkey] = [this_data, b.Name[i], b.State[i]]
+        except AttributeError:
+            ranked[rkey] = [this_data, b.Name[i]]
         ave_lat += b.Latitude[i] * this_data
         ave_lon += b.Longitude[i] * this_data
         tot += this_data
