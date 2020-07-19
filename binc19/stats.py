@@ -1,6 +1,6 @@
 import numpy as np
 from datetime import datetime
-from binc19 import binc_util
+from ddb_util import state_variable
 
 
 class Stat:
@@ -8,9 +8,16 @@ class Stat:
     Class to compute stuff on the covid time-series data.
     """
     allowed = ['row', 'slope', 'logslope', 'accel', 'frac']
-    params = ['extra_smooth', 'kernel', 'smooth', 'smooth_fix', 'norm', 'low_clip']
 
     def __init__(self, stat_type=None, **kwargs):
+        params = {'extra_smooth': False,
+                  'kernel': 'Trap',
+                  'smooth': 3,
+                  'smooth_fix': 'none',
+                  'norm': 1.0,
+                  'low_clip': 1.0E-4}
+        self.par = state_variable.StateVar(label="Stat variables", verbose=False)
+        self.par.sv_load(params, use_to_init=True, var_type=None)
         self.set_stat(stat_type, **kwargs)
 
     def set_stat(self, stat_type, **kwargs):
@@ -25,11 +32,7 @@ class Stat:
             print("\t{}:  {}".format(p, getattr(self, p)))
 
     def _what_unit_and_kwargs(self, **kwargs):
-        self.extra_smooth = binc_util.proc_kwargs(kwargs, {'extra_smooth': False})
-        stats_dict = {'smooth': 7, 'kernel': 'Trap', 'smooth_fix': 'redo'}
-        self.kernel, self.smooth, self.smooth_fix = binc_util.proc_kwargs(kwargs, stats_dict)
-        self.norm = binc_util.proc_kwargs(kwargs, {'norm': 1.0})
-        self.low_clip = binc_util.proc_kwargs(kwargs, {'low_clip': 1E-4})
+        self.par.state(**kwargs)
 
         if self.type is None:
             self.unit = None
@@ -51,37 +54,37 @@ class Stat:
         else:
             dx = np.diff(np.asarray(x))
             xret = np.asarray([x[i] + dx[i] for i in range(len(x) - 1)])
-        dy = np.diff(np.asarray(y)) / self.norm
+        dy = np.diff(np.asarray(y)) / self.par.norm
         m = dy / dx
         return xret, m
 
     def _logslope(self, x, y):
-        if self.low_clip:
+        if self.par.low_clip:
             z = np.where(y <= 0.0)
-            y[z] = self.low_clip
+            y[z] = self.par.low_clip
         return self._slope(x, np.log(y))
 
     def _smooth_days(self, x, y):
-        if not self.smooth:
+        if not self.par.smooth:
             return x, y
-        if self.kernel.upper().startswith('B'):
+        if self.par.kernel.upper().startswith('B'):
             from astropy.convolution import convolve, Box1DKernel
-            ysm = convolve(y, Box1DKernel(self.smooth), boundary='extend')
-        elif self.kernel.upper().startswith('G'):
+            ysm = convolve(y, Box1DKernel(self.par.smooth), boundary='extend')
+        elif self.par.kernel.upper().startswith('G'):
             from astropy.convolution import convolve, Gaussian1DKernel
-            ysm = convolve(y, Gaussian1DKernel(self.smooth), boundary='extend')
-        elif self.kernel.upper().startswith('T'):
+            ysm = convolve(y, Gaussian1DKernel(self.par.smooth), boundary='extend')
+        elif self.par.kernel.upper().startswith('T'):
             from astropy.convolution import convolve, Trapezoid1DKernel
-            ysm = convolve(y, Trapezoid1DKernel(self.smooth), boundary='extend')
+            ysm = convolve(y, Trapezoid1DKernel(self.par.smooth), boundary='extend')
         else:
-            raise ValueError('{} not supported.'.format(self.kernel))
-        redo = int(np.floor(self.smooth / 2))
+            raise ValueError('{} not supported.'.format(self.par.kernel))
+        redo = int(np.floor(self.par.smooth / 2))
         xsm = x
-        if self.smooth_fix == 'cull':
+        if self.par.smooth_fix == 'cull':
             _sfs = slice(0, len(ysm) - redo)
             xsm = x[_sfs]
             ysm = ysm[_sfs]
-        elif self.smooth_fix == 'redo':
+        elif self.par.smooth_fix == 'redo':
             for i in range(len(y) - redo, len(y)):
                 ave = 0.0
                 cnt = 0
@@ -92,9 +95,9 @@ class Stat:
         return xsm, ysm
 
     def calc(self, x, y):
-        if self.extra_smooth:
-            self.extra_smooth = self.smooth_fix
-            self.smooth_fix = 'none'
+        if self.par.extra_smooth:
+            self.par.extra_smooth = self.par.smooth_fix
+            self.par.smooth_fix = 'none'
         xsm, ysm = self._smooth_days(x, y)
         if self.type == 'logslope':
             xc, yc = self._logslope(xsm, ysm)
@@ -111,8 +114,8 @@ class Stat:
         else:
             xc = xsm
             yc = ysm
-        if self.extra_smooth:
-            self.smooth_fix = self.extra_smooth
+        if self.par.extra_smooth:
+            self.par.smooth_fix = self.par.extra_smooth
             xc, yc, = self._smooth_days(xc, yc)
         self.x = xc
         self.y = yc
