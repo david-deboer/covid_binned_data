@@ -4,7 +4,7 @@ import json
 import math
 
 
-def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
+def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     """
     Plot maps.
 
@@ -13,10 +13,10 @@ def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     cset : str
         'Confirmed', 'Deaths'
     geo : str
-        'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
+        'Country', 'State', 'County', 'Congress', 'CSA'
     stat_type : str
         'row', 'slope', 'logslope', 'accel', 'frac'
-    ind : int (add str/datetime options)
+    ind : int (add str/datetime options) - if not int, hard-coded week-diff-average
     kwargs:
         smooth : None or int
         low_clip : None or float
@@ -31,12 +31,14 @@ def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
         not_included_color : None/str
         per_capita : True/False
         iso_state : None/str
+        show_overlay : None/str
     """
     data_d = {'clip': None, 'datamax': None, 'datamin': 0.0, 'drange': 0.0}
     clip, datamax, datamin, drange = binc_util.proc_kwargs(kwargs, data_d)
     other_d = {'log_or_linear': 'linear', 'not_included_color': 'w',
                'per_capita': False, 'iso_state': None}
     iso_state, log_or_linear, not_included_color, per_capita = binc_util.proc_kwargs(kwargs, other_d)  # noqa
+    show_overlay = binc_util.proc_kwargs(kwargs, {'show_overlay': True})
     this_title = '{} {} {}'.format(cset, geo, stat_type)
 
     state_based = ['State', 'County', 'Congress']
@@ -104,8 +106,10 @@ def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                                           b.st_date[stat_type], b.st_data[stat_type][key])
             if abs(wk0) < 0.1:
                 wk0 = 1.0
-            this_data = wk1 - wk0
-            # this_data = 100.0 * (wk1 - wk0) / wk0
+            if ind == 'diff':
+                this_data = wk1 - wk0
+            else:
+                this_data = 100.0 * (wk1 - wk0) / wk0
         rkey = '{:09d}{}'.format(int(this_data), b.Name[i])
         try:
             ranked[rkey] = [this_data, b.Name[i], b.State[i]]
@@ -127,8 +131,9 @@ def setmap(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     print("Total: {}".format(tot))
     geocl, info = us_map.prep_map_data(geo, data, datamin, datamax, clip, drange)
     this_m = us_map.map_area(geocl, info, not_included_color=not_included_color, title=this_title)
-    map_overlay.overlay(this_m.lo48, this_m.ax, [ave_lon], [ave_lat], label=None, color='b',
-                        size=tot, alpha=None, max_marker_size=None)
+    if show_overlay:
+        map_overlay.overlay(this_m.lo48, this_m.ax, [ave_lon], [ave_lat], label=None, color='b',
+                            size=tot, alpha=None, max_marker_size=None)
 
     for rk, rv in sorted(ranked.items()):
         print(rv)
