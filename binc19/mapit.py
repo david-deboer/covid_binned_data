@@ -46,7 +46,7 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
             electoral = mm_util.get_electoral()['states']
         else:
             print("Currently only per capita for state.")
-            per_capita = False
+            par.per_capita = False
     filename = "Bin_{}_{}.csv".format(cset, geo)
     b = binc.Binc(filename)
     b.calc(stat_type, **kwargs)
@@ -80,7 +80,7 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
             if geo == 'State':
                 sfp = get_fip.state(key)
                 this_key = sfp.fip
-                if per_capita:
+                if par.per_capita:
                     try:
                         norm = electoral[sfp.name][0] / 100000.0
                     except KeyError:

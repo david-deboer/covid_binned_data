@@ -120,7 +120,7 @@ class Binc(state_variable.StateVar):
                 try:
                     x = getattr(self, lc)[0]
                 except TypeError:
-                    raise TypeError("viewer.plot: "
+                    raise TypeError("binc.plot: "
                                     "label must be a column header name [{}]".format(lc))
         for ik, k in enumerate(key):
             ind = self.rowind(k, colname=colname)
