@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200719
-C19_git_hash:  c85a3b95a056a633eac8c1f3102643e397fd9f27
+runtime:  20200722
+C19_git_hash:  217aa2cbb57d8f267f066a01d2a259f395fdf584
 
 geo:  Country
 set:  Deaths
@@ -16,6 +16,6 @@ Running update_json
 ---> Writing distribution files.
 Writing csv dist from Deaths_Country.
 Writing Bin_Deaths_Country.csv
-Skipped 17 of 188 for no non-zero data
-Total final at 7/19/20:  606173.0
+Skipped 16 of 188 for no non-zero data
+Total final at 7/22/20:  623385.0
 

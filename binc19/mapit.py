@@ -137,4 +137,7 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                             size=tot, alpha=None, max_marker_size=None)
 
     for rk, rv in sorted(ranked.items()):
-        print(rv)
+        v = rv[0]
+        loc1 = rv[1]
+        loc2 = rv[2]
+        print("{:>10.2f}   {}, {}".format(v, loc1, loc2))
