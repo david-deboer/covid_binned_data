@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200723
-C19_git_hash:  da38e7b5ca6127b2e385aeeefbdf496f8d72bc61
+runtime:  20200725
+C19_git_hash:  1f0992516d8b0776397b131447c31e4f486036c6
 
 geo:  Congress
 set:  Deaths
@@ -17,5 +17,5 @@ Running update_json
 Writing csv dist from Deaths_Congress.
 Writing Bin_Deaths_Congress.csv
 Skipped 93 of 488 for no non-zero data
-Total final at 7/22/20:  143190.0
+Total final at 7/24/20:  145546.0
 
