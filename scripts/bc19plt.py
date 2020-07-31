@@ -16,7 +16,7 @@ ap.add_argument('-f', '--foreground', help="Foreground rows.  Functions with <, 
                 default='CA-13,CA-1,CA-37,CA-73,OH-35,OH-55')
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
-ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=5)
+ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=3)
 ap.add_argument('--fcol', dest='fg_col', help="Name of column for foreground.",
                 default='Key')
 ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.",
@@ -24,7 +24,7 @@ ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
 ap.add_argument('-A', '--have', dest='fg_ave', help="Flag to include "
                 "averaged foreground profile over time", action='store_true')
-ap.add_argument('-T', '--htot', dest='fg_tot', help="Flag to include "
+ap.add_argument('-T', '--ftot', dest='fg_tot', help="Flag to include "
                 "totaled foreground profile over time", action='store_true')
 ap.add_argument('-X', '--no-fg', dest='fg_incl', help="Flag to turn off "
                 "plotting the foreground profiles.", action='store_false')
@@ -39,12 +39,12 @@ ap.add_argument('-B', '--background', dest='bg_incl', help="Flag to turn on "
                 "plotting the background profiles.", action='store_true')
 ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same figure',
                 action='store_true')
-ap.add_argument('--save-stats', dest='save_stats', help='Save ave/totals', action='store_true')
+ap.add_argument('--save-stats', dest='save_stats', help='Save ave & totals', action='store_true')
 ap.add_argument('--loglin', help="log or linear", choices=['log', 'linear', 'auto'], default='auto')
 ap.add_argument('--no-extrasmooth', dest='extrasmooth', help="Remove second smoothing on slope",
                 action='store_false')
 ap.add_argument('--smoothfix', help="Type of smooth-ending fix", choices=['none', 'cull', 'redo'],
-                default='cull')
+                default='none')
 args = ap.parse_args()
 
 sets = [x.capitalize() for x in args.set.split(',')]
