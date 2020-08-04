@@ -1,6 +1,6 @@
 ---run_parameters---
 runtime:  20200803
-C19_git_hash:  b3fda712d02366f6abfccb7a36362a6748851055
+C19_git_hash:  142654149f25e257ef70b456661cb325179d8679
 
 geo:  CSA
 set:  Deaths
