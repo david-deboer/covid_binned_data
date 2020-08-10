@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200805
-C19_git_hash:  143a436dfddced44b3c19d694d1643f94d867abb
+runtime:  20200810
+C19_git_hash:  e677c665dded0b58d1583c13281eca3ec9d553ae
 
 geo:  State
 set:  Confirmed
@@ -17,5 +17,5 @@ Running update_json
 Writing csv dist from Confirmed_State.
 Writing Bin_Confirmed_State.csv
 Skipped 1 of 55 for no non-zero data
-Total final at 8/5/20:  4823890.0
+Total final at 8/9/20:  5044864.0
 
