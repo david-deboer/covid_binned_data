@@ -1,6 +1,6 @@
 ---run_parameters---
-runtime:  20200811
-C19_git_hash:  aeef3326454050fe6eb5f35189502a7ea0e7dcaf
+runtime:  20200812
+C19_git_hash:  b24e3d57fcb6b0c4e3d9f1ff2313889cf5f66e32
 
 geo:  Congress
 set:  Confirmed
