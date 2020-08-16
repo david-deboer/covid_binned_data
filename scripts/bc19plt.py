@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import argparse
 from binc19 import plots_and_tables as pat
+from binc19 import binc_util
 
 
 ap = argparse.ArgumentParser()
@@ -16,7 +17,8 @@ ap.add_argument('-f', '--foreground', help="Foreground rows.  Functions with <, 
                 default='CA-13,CA-1,CA-37,CA-73,OH-35,OH-55')
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
-ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=3)
+ap.add_argument('-s', '--smooth', help="Smoothing factor for each stage (if single, use for both)",
+                default='7,3')
 ap.add_argument('--fcol', dest='fg_col', help="Name of column for foreground.",
                 default='Key')
 ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.",
@@ -41,10 +43,11 @@ ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same fig
                 action='store_true')
 ap.add_argument('--save-stats', dest='save_stats', help='Save ave & totals', action='store_true')
 ap.add_argument('--loglin', help="log or linear", choices=['log', 'linear', 'auto'], default='auto')
-ap.add_argument('--no-extrasmooth', dest='extrasmooth', help="Remove second smoothing on slope",
-                action='store_false')
-ap.add_argument('--smoothfix', help="Type of smooth-ending fix", choices=['none', 'cull', 'redo'],
-                default='none')
+ap.add_argument('--smooth-schedule', dest='smooth_schedule', help="Smoothing for the two stages.  "
+                "Options are Triangle, Box, Gaussian, Trapezoid (basically Box for now)",
+                default='Box,Triangle')
+ap.add_argument('--smooth-fix', dest='smooth_fix', help="Type of smooth-ending fix for both stages",
+                default='none,cull', choices=['none', 'cull', 'redo'])
 args = ap.parse_args()
 
 sets = [x.capitalize() for x in args.set.split(',')]
@@ -71,14 +74,13 @@ if args.bg_states is not None:
         args.bg_states = None
     else:
         args.bg_states = args.states.split(',')
-if args.smooth:
-    try:
-        args.smooth = float(args.smooth)
-    except ValueError:
-        args.smooth = False
-    if args.smooth:
-        print("Smoothing at {:.0f}".format(args.smooth))
 
+args.smooth = binc_util.fix_lists(args.smooth, 2, float)
+args.smooth_fix = binc_util.fix_lists(args.smooth_fix, 2, str)
+args.smooth_schedule = binc_util.fix_lists(args.smooth_schedule, 2, str)
+for i in range(2):
+    print("Smoothing at: {}, {}, {}".format(args.smooth[i],
+          args.smooth_schedule[i], args.smooth_fix[i]))
 if args.loglin == 'auto':
     loglinauto = {'row': 'log',
                   'logslope': 'log',
@@ -94,7 +96,7 @@ pat.time_plot(sets=sets, geo=args.geo,
               same_plot=args.same_plot, save_stats=args.save_stats,
               fg_average=args.fg_ave, fg_total=args.fg_tot, fg_include=args.fg_incl,
               bg_average=args.bg_ave, bg_total=args.bg_tot, bg_include=args.bg_incl,
-              extra_smooth=args.extrasmooth, smooth_fix=args.smoothfix
+              smooth_schedule=args.smooth_schedule, smooth_fix=args.smooth_fix
               )
 
 # import datetime

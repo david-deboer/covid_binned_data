@@ -174,7 +174,7 @@ def time_plot(csets=['Confirmed', 'Deaths'], geo='County',
         fg_average : bool
         fg_total : bool
         fg_include : bool
-        smooth : None or int
+        smooth : list
         low_clip : None or float
         kernel : None or str
         same_plot : bool
@@ -223,10 +223,8 @@ def time_plot(csets=['Confirmed', 'Deaths'], geo='County',
                 b.plot('current', bg_keys, colname='Key', figname=figname, color='0.7',
                        label=None, **kwargs)
             if len(bg_keys) and (bg_total or bg_average):
-                _xx, _yyt = stats.stat_dat(b.dates, bg_vtot,
-                                           dtype=stat_type, **kwargs)
-                _xx, _yya = stats.stat_dat(b.dates, bg_vtot / bg_vcnt,
-                                           dtype=stat_type, **kwargs)
+                _xx, _yyt = b.stats.calc(b.dates, bg_vtot)
+                _xx, _yya = b.stats.calc(b.dates, bg_vtot / bg_vcnt)
                 data_out['dates'] = _xx
                 if bg_total:
                     data_out['bg_tot'] = _yyt
@@ -247,10 +245,8 @@ def time_plot(csets=['Confirmed', 'Deaths'], geo='County',
                     except TypeError:
                         continue
                     fg_vcnt += 1
-                _xx, _yyt = stats.stat_dat(b.dates, fg_vtot,
-                                           dtype=stat_type, **kwargs)
-                _xx, _yya = stats.stat_dat(b.dates, fg_vtot / fg_vcnt,
-                                           dtype=stat_type, **kwargs)
+                _xx, _yyt = b.stats.calc(b.dates, fg_vtot)
+                _xx, _yya = b.stats.calc(b.dates, fg_vtot / fg_vcnt)
                 data_out['dates'] = _xx
                 if fg_total:
                     data_out['fg_tot'] = _yyt
