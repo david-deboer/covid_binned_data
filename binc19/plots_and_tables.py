@@ -48,17 +48,22 @@ def process_foreground(cset, geo, fg, label_col, data, **kwargs):
     """
     Foreground command structure: RDX:N/S
         [^#%@$][><][X]:[N]/S|...
-    If foreground startswith:
-    '^'
-        use the list (has to be first - can be first in a file, if @ is first here)
-    '#'
-        >/< Threshold on X averaged over N using stat S
-    '%'
-        >/< Difference X over N days using stat S
-    '@'
-        use the filename - in file can use ':c ' or ':d ' for cset
-    '$'
-        the top(>) or bottom(<) X (e.g. top 10) ranked entries for N/S
+
+    R:
+        '^'
+            use the list (has to be first - can be first in a file, if @ is first here)
+        '#'
+            >/< Threshold on X averaged over N using stat S
+        '%'
+            >/< Difference X over N days using stat S
+        '@'
+            use the filename - in file can use ':c ' or ':d ' for cset
+        '$'
+            the top(>) or bottom(<) X (e.g. top 10) ranked entries for N/S
+    D:  ><
+    X:  either threshold or number of entries
+    N:  number of days
+    S:  "statistic" (slope, logslope, ...)
     """
 
     print("---{}---{}---".format(cset, geo))
