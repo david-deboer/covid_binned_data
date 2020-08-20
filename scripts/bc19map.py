@@ -14,7 +14,9 @@ ap.add_argument('-g', '--geo', default='County',
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
 ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=0)
-ap.add_argument('-i', '--ind', help='index type to plot', default=-1)
+ap.add_argument('-i', '--ind', help='index type to plot (-1)', default=-1)
+ap.add_argument('--datamax', help='Max data for clip.', default=None)
+ap.add_argument('--iso_state', help='Isolate on state', default=None)
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
 ap.add_argument('--loglin', help="log or linear", choices=['log', 'linear', 'auto'], default='auto')
 ap.add_argument('--no-extrasmooth', dest='extrasmooth', help="Remove second smoothing on slope",
@@ -28,6 +30,9 @@ if args.geo.lower() == 'csa':
     args.geo = 'CSA'
 else:
     args.geo = args.geo.capitalize()
+
+if args.datamax is not None:
+    args.datamax = int(args.datamax)
 
 if args.smooth:
     try:
@@ -45,7 +50,8 @@ except ValueError:
 mapit.map(cset=args.set, geo=args.geo,
           stat_type=args.stat_type, ind=args.ind,
           smooth=args.smooth, low_clip=args.low_clip, log_or_linear=args.loglin,
-          extra_smooth=args.extrasmooth, smooth_fix=args.smoothfix
+          extra_smooth=args.extrasmooth, smooth_fix=args.smoothfix,
+          datamax=args.datamax, iso_state=args.iso_state
           )
 
 # import datetime
