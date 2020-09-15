@@ -280,9 +280,12 @@ def time_plot(csets=['Confirmed', 'Deaths'], geo='County',
         #     plt.axis(ymin=1.0)
         plt.yscale(log_or_linear)
         fig.autofmt_xdate()
-        figfileName = "{}{}{}.png".format(cset, geo, datetime.strftime(datetime.now(), "%Y%m%d"))
-        figfileName = "{}{}.png".format(cset, geo)
-        plt.savefig(figfileName)
+        save_the_figure = False
+        if save_the_figure:
+            figfileName = ("{}{}{}.png"
+                           .format(cset, geo, datetime.strftime(datetime.now(), "%Y%m%d")))
+            figfileName = "{}{}.png".format(cset, geo)
+            plt.savefig(figfileName)
 
 
 def time_table(foreground='6-13', date=14, geo='County', foreground_col='Key', label_col='County'):
