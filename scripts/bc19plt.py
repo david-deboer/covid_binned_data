@@ -11,10 +11,10 @@ ap.add_argument('--set', default='Confirmed,Deaths',
                 choices=['Confirmed', 'Deaths', 'Confirmed,Deaths'])
 ap.add_argument('-g', '--geo', default='County',
                 help="One of Country/State/County/Congress/CSA/Urban/Native",
-                choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native',
-                         'country', 'state', 'county', 'congress', 'csa', 'urban', 'native'])
+                choices=['Country', 'State', 'County', 'Congress', 'CSA',
+                         'country', 'state', 'county', 'congress', 'csa'])
 ap.add_argument('-f', '--foreground', help="Foreground rows.  Functions with <, >, : (see module)",
-                default='CA-13,CA-1,CA-37,CA-73,OH-35,OH-55')
+                default='CA-1,CA-13,CA-41,CA-55,CA-75,CA-81,CA-85,CA-95,CA-97')
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
 ap.add_argument('-s', '--smooth', help="Smoothing factor for each stage (if single, use for both)",
@@ -24,7 +24,7 @@ ap.add_argument('--fcol', dest='fg_col', help="Name of column for foreground.",
 ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.",
                 default='default')
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
-ap.add_argument('-A', '--have', dest='fg_ave', help="Flag to include "
+ap.add_argument('-A', '--fave', dest='fg_ave', help="Flag to include "
                 "averaged foreground profile over time", action='store_true')
 ap.add_argument('-T', '--ftot', dest='fg_tot', help="Flag to include "
                 "totaled foreground profile over time", action='store_true')
