@@ -14,7 +14,7 @@ ap.add_argument('-g', '--geo', default='County',
                 choices=['Country', 'State', 'County', 'Congress', 'CSA',
                          'country', 'state', 'county', 'congress', 'csa'])
 ap.add_argument('-f', '--foreground', help="Foreground rows.  Functions with <, >, : (see module)",
-                default='CA-1,CA-13,CA-41,CA-55,CA-75,CA-81,CA-85,CA-95,CA-97')
+                default='06-001,06-013,06-041,06-055,06-075,06-081,06-085,06-095,06-097')
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
 ap.add_argument('-s', '--smooth', help="Smoothing factor for each stage (if single, use for both)",

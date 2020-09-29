@@ -1,10 +1,10 @@
 ---run_parameters---
-runtime:  20200927
-C19_git_hash:  4bfdcc3220956c9b16042caef09826f61db48382
+runtime:  20200929
+C19_git_hash:  212a0d34a7e389037f7a51d60216c20f148f224a
 
 geo:  CSA
 set:  Confirmed
-geo_info:  {'name': 'CSA', 'sfield': ['CSAFP'], 'file': 'tl_2019_us_csa'}
+geo_info:  {'name': 'CSA', 'sfield': ['CSAFP'], 'file': 'tl_2019_us_csa', 'state': 'N/A'}
 scope:  US
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv
 
@@ -18,5 +18,5 @@ Missing key:  9999
 Writing csv dist from Confirmed_CSA.
 Writing Bin_Confirmed_CSA.csv
 Skipped 0 of 175 for no non-zero data
-Total final at 9/26/20:  5642023.0
+Total final at 9/28/20:  5694406.0
 

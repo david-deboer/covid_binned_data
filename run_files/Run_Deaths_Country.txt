@@ -1,21 +1,22 @@
 ---run_parameters---
-runtime:  20200927
-C19_git_hash:  4bfdcc3220956c9b16042caef09826f61db48382
+runtime:  20200929
+C19_git_hash:  212a0d34a7e389037f7a51d60216c20f148f224a
 
 geo:  Country
 set:  Deaths
-geo_info:  {'name': 'Country', 'sfield': ['Name'], 'file': 'N/A'}
+geo_info:  {'name': 'Country', 'sfield': ['Name'], 'file': 'N/A', 'state': 'N/A'}
 scope:  global
 setfile:  /Users/ddeboer/Documents/ubase/Projects/COVID_analysis/COVID-19/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv
 
 ---make_map_count---
 ---update_json---
 Running update_json
+Missing key:  9999
 
 ---make_csv_dist---
 ---> Writing distribution files.
 Writing csv dist from Deaths_Country.
 Writing Bin_Deaths_Country.csv
-Skipped 13 of 188 for no non-zero data
-Total final at 9/26/20:  994143.0
+Skipped 15 of 188 for no non-zero data
+Total final at 9/28/20:  1001630.0
 
