@@ -30,7 +30,7 @@ ap.add_argument('--tot', help="Flag to include totaled profile over time",
 ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same figure',
                 action='store_true')
 ap.add_argument('--save-stats', dest='save_stats', help='Save ave & totals', action='store_true')
-ap.add_argument('--loglin', help="log or linear", choices=['log', 'linear', 'auto'], default='auto')
+ap.add_argument('--loglin', help="log or linear", choices=['log', 'linear', None], default=None)
 ap.add_argument('--smooth-schedule', dest='smooth_schedule', help="Smoothing for the two stages.  "
                 "Options are Triangle, Box, Gaussian, Trapezoid (basically Box for now)",
                 default='Box,Triangle')
@@ -43,6 +43,7 @@ if args.geo.lower() == 'csa':
     args.geo = 'CSA'
 else:
     args.geo = args.geo.capitalize()
+
 # Set defaults
 if args.col is None:
     if args.geo == 'County':
@@ -58,26 +59,18 @@ if args.col is None:
 
 if args.lcol is None:
     if args.geo == 'County':
-        args.label_col = 'Name,State'
+        args.lcol = 'Name,State'
     elif args.geo == 'Country':
-        args.label_col = 'Name'
+        args.lcol = 'Name'
     elif args.geo == 'State':
-        args.label_col = 'Name'
+        args.lcol = 'Name'
     elif args.geo == 'Congress':
-        args.label_col = 'District'
+        args.lcol = 'District'
     elif args.geo == 'CSA':
-        args.label_col = 'Name,States'
+        args.lcol = 'Name,States'
 
-
-if args.row_to_plot == '@':
-    args.row_to_plot = '@P{}.txt'.format(args.geo.lower())
-
-if args.bg_states is not None:
-    if args.geo not in ['State', 'County', 'Congress']:
-        print("Can't filter on states for {}".format(args.geo))
-        args.bg_states = None
-    else:
-        args.bg_states = args.states.split(',')
+if args.rows_to_plot == '@':
+    args.rows_to_plot = '@P{}.txt'.format(args.geo.lower())
 
 args.smooth = binc_util.fix_lists(args.smooth, 2, float)
 args.smooth_fix = binc_util.fix_lists(args.smooth_fix, 2, str)
@@ -85,7 +78,7 @@ args.smooth_schedule = binc_util.fix_lists(args.smooth_schedule, 2, str)
 for i in range(2):
     print("Smoothing at: {}, {}, {}".format(args.smooth[i],
           args.smooth_schedule[i], args.smooth_fix[i]))
-if args.loglin == 'auto':
+if args.loglin is None:
     loglinauto = {'row': 'log',
                   'logslope': 'log',
                   'slope': 'linear',
@@ -94,8 +87,8 @@ if args.loglin == 'auto':
     args.loglin = loglinauto[args.stat_type]
 
 pat.time_plot(sets=sets, geo=args.geo,
-              rows=args.row_to_plot, rows_col=args.fg_col,
-              label_col=args.label_col, stat_type=args.stat_type,
+              rows=args.rows_to_plot, rows_col=args.col,
+              label_col=args.lcol, stat_type=args.stat_type,
               smooth=args.smooth, low_clip=args.low_clip, log_or_linear=args.loglin,
               same_plot=args.same_plot, save_stats=args.save_stats,
               average=args.ave, total=args.tot,

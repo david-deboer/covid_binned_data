@@ -111,7 +111,7 @@ def process_rows(cset, geo, fg, label_col, data, **kwargs):
             this_ind = data.rowind(key, colname='Key')
             for lc in label_col:
                 lbl.append(getattr(data, lc)[this_ind])
-            lbl = ",".join(lbl)
+            lbl = ", ".join(lbl)
             V2chk = stats.get_derived_value(_R, _N,
                                             data.st_date[this_stat], data.st_data[this_stat][key])
             _s = "{:30s} {:f} {} {} over {} days".format(lbl, V2chk, data.stats.unit, _R, dN)
@@ -188,7 +188,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     figname = None
     if same_plot:
         figname = SAME_PLOT_NAME
-    for i, cset in enumerate(csets):
+    for i, cset in enumerate(sets):
         data_out = {'dates': [], 'tot': [], 'ave': []}
         filename = "Bin_{}_{}.csv".format(cset, geo)
         if figname != SAME_PLOT_NAME:
