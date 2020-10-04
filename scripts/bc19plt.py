@@ -10,7 +10,7 @@ ap.add_argument('--set', default='Confirmed,Deaths',
                 help="Confirmed and/or Deaths (csv-list)",
                 choices=['Confirmed', 'Deaths', 'Confirmed,Deaths'])
 ap.add_argument('-g', '--geo', default='County',
-                help="One of Country/State/County/Congress/CSA/Urban/Native",
+                help="One of Country/State/County/Congress/CSA",
                 choices=['Country', 'State', 'County', 'Congress', 'CSA',
                          'country', 'state', 'county', 'congress', 'csa'])
 ap.add_argument('-r', '--rows-to-plot', dest='rows_to_plot',

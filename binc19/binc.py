@@ -56,6 +56,7 @@ class Binc(state_variable.StateVar):
             filename = 'Bin_{}'.format(filename)
         if dir is not None:
             filename = os.path.join(dir, filename)
+        self.filename = filename
         with open(filename, 'r') as fp:
             reader = csv.reader(fp)
             for i, row in enumerate(reader):
@@ -64,6 +65,7 @@ class Binc(state_variable.StateVar):
                     self.dtype = [x for x in row[:row.index('Latitude')+1]]
                     for i, _d in enumerate(self.dtype):
                         setattr(self, _d, [])
+                    self.ID = []  # This is set to the first col, which should be a unique ID
                     dataslice = slice(len(self.dtype), len(row))
                     self.dates = [binc_util.string_to_date(x) for x in row[dataslice]]
                 else:
@@ -73,6 +75,7 @@ class Binc(state_variable.StateVar):
                     self.data.append(this_row)
                     for i, _d in enumerate(self.dtype):
                         getattr(self, _d).append(row[i])
+                    self.ID.append(row[0])
         self.data = np.asarray(self.data)
         self.Longitude = [float(x) for x in self.Longitude]
         self.Latitude = [float(x) for x in self.Latitude]
@@ -82,7 +85,7 @@ class Binc(state_variable.StateVar):
         ind = self.rowind(key, colname)
         return getattr(self, val)[ind]
 
-    def row(self, key, colname='Key'):
+    def row(self, key, colname='ID'):
         col4ind = getattr(self, colname)
         try:
             col = self.data[col4ind.index(key)]
@@ -90,7 +93,7 @@ class Binc(state_variable.StateVar):
             col = None
         return col
 
-    def rowind(self, key, colname='Key'):
+    def rowind(self, key, colname='ID'):
         col4ind = getattr(self, colname)
         try:
             col = col4ind.index(key)
@@ -102,11 +105,11 @@ class Binc(state_variable.StateVar):
         self.stats.set_stat(stat_type, **kwargs)
         self.st_data[stat_type] = {}
         for i in range(self.Ndata):
-            key = self.Key[i]
+            key = self.ID[i]
             self.st_date[stat_type], self.st_data[stat_type][key] = self.stats.calc(self.dates,
                                                                                     self.data[i])
 
-    def plot(self, stat_type, key, colname='Key', figname='key', **kwargs):
+    def plot(self, stat_type, key, colname='ID', figname='ID', **kwargs):
         self.pltpar.state(**kwargs)
         self.state(**kwargs)
         self.stats.set_stat(stat_type, **kwargs)

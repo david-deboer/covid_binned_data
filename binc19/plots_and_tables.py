@@ -7,7 +7,7 @@ from argparse import Namespace
 
 SAME_PLOT_NAME = 'binc19'
 skipping_geo = {'Congress': [9999], 'County': [0, 9999]}
-prepended = ['#', '%', '@', '^', '$']
+prepended = ['#', '%', '@', '^', '$', '*']
 
 
 def parse_rows(rows, rows_col, cset):
@@ -18,8 +18,12 @@ def parse_rows(rows, rows_col, cset):
         fg.rows = rows.split(',')
         return fg
     fg.done = False
-    fg.col = 'Key'
+    if rows[0] == '*':  # Look for "startswith"
+        fg.proc = '*'
+        fg.rows = rows.strip('*')
+        return fg
 
+    fg.col = 'ID'
     full_pipe = []
     for this_step in rows.split('|'):
         if this_step[0] == '@':
@@ -43,7 +47,7 @@ def parse_rows(rows, rows_col, cset):
     return fg
 
 
-def process_rows(cset, geo, fg, label_col, data, **kwargs):
+def process_rows(cset, geo, fg, label_col, data):
     """
     Plot command structure: RDX:N/S
         [^#%@$][><][X]:[N]/S|...
@@ -66,8 +70,15 @@ def process_rows(cset, geo, fg, label_col, data, **kwargs):
     """
 
     print("---{}---{}---".format(cset, geo))
-    skipping = [0, 0]
+    if fg.proc[0] == '*':
+        rows_to_use = []
+        for row in getattr(data, fg.col):
+            if row.startswith(fg.rows):
+                rows_to_use.append(row)
+        fg.rows = rows_to_use
+        return fg
 
+    skipping = [0, 0]
     if fg.proc[0][0] == '^':  # Use this as "seed", copy to 'fnd' in case this is all.
         keys_this_loop = fg.proc[0][1:].split(',')
         fnd = {}
@@ -161,7 +172,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
     geo : str
         'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
     rows : str, list of str or None
-        Rows to overplot.  See 'process_rows'
+        Rows to plot.  See 'process_rows'
     rows_col : str
         Name of column for above.
     label_col : str
@@ -178,8 +189,8 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         save_stats : bool
         log_or_linear : str
     """
-    fg_dict = {'average': False, 'total': False, 'include': True}
-    average, include, total = binc_util.proc_kwargs(kwargs, fg_dict)
+    fg_dict = {'average': False, 'total': False}
+    average, total = binc_util.proc_kwargs(kwargs, fg_dict)
     other_dict = {'same_plot': False, 'save_stats': False, 'log_or_linear': 'log'}
     log_or_linear, same_plot, save_stats = binc_util.proc_kwargs(kwargs, other_dict)
     if not isinstance(label_col, list):
@@ -198,13 +209,12 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         for sts in set(fg.tstat + [stat_type]):
             b.calc(sts, **kwargs)
         if not fg.done:
-            fg = process_rows(cset, geo, fg, label_col, b, **kwargs)
+            fg = process_rows(cset, geo, fg, label_col, b)
         fig = plt.figure(figname, figsize=[6, 8])
         vtot = np.zeros(len(b.data[0]))
         vcnt = 0
-        if include:
-            b.plot(stat_type, fg.rows, colname=fg.col, figname=figname, linewidth=3,
-                   label=label_col, **kwargs)
+        b.plot(stat_type, fg.rows, colname=fg.col, figname=figname, linewidth=3,
+               label=label_col, **kwargs)
         if total or average:
             for this_fg in fg.rows:
                 try:
@@ -216,21 +226,21 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
             _xx, _yya = b.stats.calc(b.dates, vtot / vcnt)
             data_out['dates'] = _xx
             if total:
-                data_out['fg_tot'] = _yyt
+                data_out['tot'] = _yyt
                 plt.plot(_xx, _yyt, color='tab:olive', linewidth=4, label='Total', linestyle='--')  # noqa
             if average:
-                data_out['fg_ave'] = _yya
+                data_out['ave'] = _yya
                 plt.plot(_xx, _yya, color='tab:olive', linewidth=4, label='Average')
         if save_stats:
             with open('{}_stats.dat'.format(cset), 'w') as fp:
                 fp.write("Date\t")
-                for stat in ['fg_tot', 'fg_ave', 'bg_tot', 'bg_ave']:
+                for stat in ['tot', 'ave']:
                     if len(data_out[stat]):
                         fp.write("{}\t".format(stat))
                 fp.write('\n')
                 for i, date in enumerate(data_out['dates']):
                     fp.write("{}\t".format(datetime.strftime(date, '%Y-%m-%d')))
-                    for stat in ['fg_tot', 'fg_ave', 'bg_tot', 'bg_ave']:
+                    for stat in ['tot', 'ave']:
                         if len(data_out[stat]):
                             fp.write("{}\t".format(data_out[stat][i]))
                     fp.write('\n')
