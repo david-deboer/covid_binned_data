@@ -10,19 +10,18 @@ skipping_geo = {'Congress': [9999], 'County': [0, 9999]}
 prepended = ['#', '%', '@', '^', '$']
 
 
-def parse_foreground(foreground, foreground_col, cset):
-    fg = Namespace(proc=True, tstat=[], done=True,
-                   foreground=foreground, col=foreground_col, cset=cset)
-    if not isinstance(foreground, str):
+def parse_rows(rows, rows_col, cset):
+    fg = Namespace(proc=True, tstat=[], done=True, rows=rows, col=rows_col, cset=cset)
+    if not isinstance(rows, str):
         return fg
-    if foreground[0] not in prepended:
-        fg.foreground = foreground.split(',')
+    if rows[0] not in prepended:
+        fg.rows = rows.split(',')
         return fg
     fg.done = False
     fg.col = 'Key'
 
     full_pipe = []
-    for this_step in foreground.split('|'):
+    for this_step in rows.split('|'):
         if this_step[0] == '@':
             with open(this_step[1:], 'r') as fp:
                 for line in fp:
@@ -44,9 +43,9 @@ def parse_foreground(foreground, foreground_col, cset):
     return fg
 
 
-def process_foreground(cset, geo, fg, label_col, data, **kwargs):
+def process_rows(cset, geo, fg, label_col, data, **kwargs):
     """
-    Foreground command structure: RDX:N/S
+    Plot command structure: RDX:N/S
         [^#%@$][><][X]:[N]/S|...
 
     R:
@@ -134,51 +133,44 @@ def process_foreground(cset, geo, fg, label_col, data, **kwargs):
             for expkey, val in fnd.items():
                 keys_this_loop.append(val[0])
 
-    fg.foreground = []
+    fg.rows = []
     sfk = sorted(list(fnd.keys()), reverse=True)
     for i, this_one in enumerate(sfk):
-        fg.foreground.append(fnd[this_one][0])
+        fg.rows.append(fnd[this_one][0])
         print("{:02d}  {}".format(i+1, fnd[this_one][1]))
     if skipping[0]:
         print("Skipping:  {}".format(skipping))
-    if not len(fg.foreground):
+    if not len(fg.rows):
         fg.proc = False
     else:
         fg.proc = True
     return fg
 
 
-def time_plot(csets=['Confirmed', 'Deaths'], geo='County',
-              foreground=['CA-13', 'CA-1', 'CA-37', 'CA-73', 'OH-35', 'OH-55'],
-              foreground_col='Key', label_col='Name,State', stat_type='row', bg=['CA'],
+def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
+              rows=['CA-13', 'CA-1', 'CA-37', 'CA-73', 'OH-35', 'OH-55'],
+              rows_col='Key', label_col='Name,State', stat_type='row',
               **kwargs):
     """
     Plot time sequences.
 
     Parameters
     ----------
-    csets : list of str
+    sets : list of str
         'Confirmed' and/or 'Deaths'
     geo : str
         'Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native'
-    foreground : str, list of str or None
-        Rows to overplot.  See 'process_foreground'
-    foreground_col : str
+    rows : str, list of str or None
+        Rows to overplot.  See 'process_rows'
+    rows_col : str
         Name of column for above.
     label_col : str
-        Name of column to use as labels for foregrounded data
+        Name of column to use as labels for rowsed data
     stat_type : str
-        'row', 'slope', 'logslope', 'accel', 'frac' (use :two for piped foreground)
-    bg : list of str
-        For State, County, or Congress can limit background/stats to states.
-        If None, background is all.
+        'row', 'slope', 'logslope', 'accel', 'frac' (use :two for piped rows)
     kwargs:
-        bg_average : bool
-        bg_total : bool
-        bg_include : bool
-        fg_average : bool
-        fg_total : bool
-        fg_include : bool
+        average : bool
+        total : bool
         smooth : list
         low_clip : None or float
         kernel : None or str
@@ -186,79 +178,49 @@ def time_plot(csets=['Confirmed', 'Deaths'], geo='County',
         save_stats : bool
         log_or_linear : str
     """
-    bg_dict = {'bg_average': False, 'bg_include': False, 'bg_total': False}
-    bg_average, bg_include, bg_total = binc_util.proc_kwargs(kwargs, bg_dict)
-    fg_dict = {'fg_average': False, 'fg_total': False, 'fg_include': True}
-    fg_average, fg_include, fg_total = binc_util.proc_kwargs(kwargs, fg_dict)
+    fg_dict = {'average': False, 'total': False, 'include': True}
+    average, include, total = binc_util.proc_kwargs(kwargs, fg_dict)
     other_dict = {'same_plot': False, 'save_stats': False, 'log_or_linear': 'log'}
     log_or_linear, same_plot, save_stats = binc_util.proc_kwargs(kwargs, other_dict)
     if not isinstance(label_col, list):
         label_col = label_col.split(',')
 
-    bg_proc = bg_average or bg_total or bg_include
-    if not bg_proc and foreground is None:
-        print("Neither foreground nor background chosen.")
-        return
-
     figname = None
     if same_plot:
         figname = SAME_PLOT_NAME
     for i, cset in enumerate(csets):
-        data_out = {'dates': [], 'bg_tot': [], 'bg_ave': [], 'fg_tot': [], 'fg_ave': []}
+        data_out = {'dates': [], 'tot': [], 'ave': []}
         filename = "Bin_{}_{}.csv".format(cset, geo)
         if figname != SAME_PLOT_NAME:
             figname = filename
         b = binc.Binc(filename)
-        fg = parse_foreground(foreground, foreground_col, cset)
+        fg = parse_rows(rows, rows_col, cset)
         for sts in set(fg.tstat + [stat_type]):
             b.calc(sts, **kwargs)
         if not fg.done:
-            fg = process_foreground(cset, geo, fg, label_col, b, **kwargs)
+            fg = process_rows(cset, geo, fg, label_col, b, **kwargs)
         fig = plt.figure(figname, figsize=[6, 8])
-        if bg_proc:
-            bg_vtot = np.zeros(len(b.data[0]))
-            bg_vcnt = 0
-            bg_keys = []
-            for ibk, key in enumerate(b.Key):
-                if bg is None or b.State[ibk] in bg:
-                    bg_vtot += b.row(key, colname='Key')
-                    bg_vcnt += 1
-                    bg_keys.append(key)
-            if bg_include and len(bg_keys):
-                b.plot('current', bg_keys, colname='Key', figname=figname, color='0.7',
-                       label=None, **kwargs)
-            if len(bg_keys) and (bg_total or bg_average):
-                _xx, _yyt = b.stats.calc(b.dates, bg_vtot)
-                _xx, _yya = b.stats.calc(b.dates, bg_vtot / bg_vcnt)
-                data_out['dates'] = _xx
-                if bg_total:
-                    data_out['bg_tot'] = _yyt
-                    plt.plot(_xx, _yyt, color='k', linewidth=4, label='Total', linestyle='--')
-                if bg_average:
-                    data_out['bg_ave'] = _yya
-                    plt.plot(_xx, _yya / bg_vcnt, color='0.4', linewidth=4, label='Average')
-        if fg.proc:
-            fg_vtot = np.zeros(len(b.data[0]))
-            fg_vcnt = 0
-            if fg_include:
-                b.plot(stat_type, fg.foreground, colname=fg.col, figname=figname, linewidth=3,
-                       label=label_col, **kwargs)
-            if fg_total or fg_average:
-                for this_fg in fg.foreground:
-                    try:
-                        fg_vtot += b.row(this_fg, colname=fg.col)
-                    except TypeError:
-                        continue
-                    fg_vcnt += 1
-                _xx, _yyt = b.stats.calc(b.dates, fg_vtot)
-                _xx, _yya = b.stats.calc(b.dates, fg_vtot / fg_vcnt)
-                data_out['dates'] = _xx
-                if fg_total:
-                    data_out['fg_tot'] = _yyt
-                    plt.plot(_xx, _yyt, color='tab:olive', linewidth=4, label='Total', linestyle='--')  # noqa
-                if fg_average:
-                    data_out['fg_ave'] = _yya
-                    plt.plot(_xx, _yya, color='tab:olive', linewidth=4, label='Average')
+        vtot = np.zeros(len(b.data[0]))
+        vcnt = 0
+        if include:
+            b.plot(stat_type, fg.rows, colname=fg.col, figname=figname, linewidth=3,
+                   label=label_col, **kwargs)
+        if total or average:
+            for this_fg in fg.rows:
+                try:
+                    vtot += b.row(this_fg, colname=fg.col)
+                except TypeError:
+                    continue
+                vcnt += 1
+            _xx, _yyt = b.stats.calc(b.dates, vtot)
+            _xx, _yya = b.stats.calc(b.dates, vtot / vcnt)
+            data_out['dates'] = _xx
+            if total:
+                data_out['fg_tot'] = _yyt
+                plt.plot(_xx, _yyt, color='tab:olive', linewidth=4, label='Total', linestyle='--')  # noqa
+            if average:
+                data_out['fg_ave'] = _yya
+                plt.plot(_xx, _yya, color='tab:olive', linewidth=4, label='Average')
         if save_stats:
             with open('{}_stats.dat'.format(cset), 'w') as fp:
                 fp.write("Date\t")
@@ -288,18 +250,18 @@ def time_plot(csets=['Confirmed', 'Deaths'], geo='County',
             plt.savefig(figfileName)
 
 
-def time_table(foreground='6-13', date=14, geo='County', foreground_col='Key', label_col='County'):
+def time_table(rows='6-13', date=14, geo='County', rows_col='Key', label_col='County'):
     """
-    Table for 'foreground'.
+    Table for 'rows'.
 
     Parameters
     ----------
     date : int, list-pair of str/datetime
         If int, uses the last 'date' days.
         If pair, start and stop dates
-    foreground : list of str
+    rows : list of str
         Rows to overplot
-    foreground : str
+    rows : str
         Name of column for above
     label_col : str
         Name of column to use as labels
@@ -323,9 +285,9 @@ def time_table(foreground='6-13', date=14, geo='County', foreground_col='Key', l
             num_days = (stop - start).days
 
     headers = ['Date', 'Confirmed', 'Deaths']
-    row_confirmed = confirmed.row(foreground, colname=foreground_col)
-    row_deaths = deaths.row(foreground, colname=foreground_col)
-    title = confirmed.meta(label_col, foreground, foreground_col)
+    row_confirmed = confirmed.row(rows, colname=rows_col)
+    row_deaths = deaths.row(rows, colname=rows_col)
+    title = confirmed.meta(label_col, rows, rows_col)
     table_data = []
     for i in range(num_days):
         this_date = start + timedelta(days=i)

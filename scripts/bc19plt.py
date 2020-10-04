@@ -13,32 +13,20 @@ ap.add_argument('-g', '--geo', default='County',
                 help="One of Country/State/County/Congress/CSA/Urban/Native",
                 choices=['Country', 'State', 'County', 'Congress', 'CSA',
                          'country', 'state', 'county', 'congress', 'csa'])
-ap.add_argument('-f', '--foreground', help="Foreground rows.  Functions with <, >, : (see module)",
+ap.add_argument('-r', '--rows-to-plot', dest='rows_to_plot',
+                help="Rows to plot.  Functions with <, >, : (see module)",
                 default='CA-001,CA-013,CA-041,CA-055,CA-075,CA-081,CA-085,CA-095,CA-097')
-ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
+ap.add_argument('--stat-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
-ap.add_argument('-s', '--smooth', help="Smoothing factor for each stage (if single, use for both)",
+ap.add_argument('--smooth', help="Smoothing factor per stage (if single, use for both)",
                 default='7,3')
-ap.add_argument('--fcol', dest='fg_col', help="Name of column for foreground.",
-                default=None)
-ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.",
-                default='default')
+ap.add_argument('--col', help="Name of column to use for plot.", default=None)
+ap.add_argument('--lcol', help="Column name to use for labels.", default=None)
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
-ap.add_argument('-A', '--fave', dest='fg_ave', help="Flag to include "
-                "averaged foreground profile over time", action='store_true')
-ap.add_argument('-T', '--ftot', dest='fg_tot', help="Flag to include "
-                "totaled foreground profile over time", action='store_true')
-ap.add_argument('-X', '--no-fg', dest='fg_incl', help="Flag to turn off "
-                "plotting the foreground profiles.", action='store_false')
-ap.add_argument('--bstates', dest='bg_states', help="If State/County/Congress "
-                "you can choose a csv-list of states to include in 'background', "
-                "average and total.  Use 2-letter abbreviations.", default=None)
-ap.add_argument('--bave', dest='bg_ave', help="Flag to include "
-                "averaged background profile over time", action='store_true')
-ap.add_argument('--btot', dest='bg_tot', help="Flag to include "
-                "totaled background profile over time", action='store_true')
-ap.add_argument('-B', '--background', dest='bg_incl', help="Flag to turn on "
-                "plotting the background profiles.", action='store_true')
+ap.add_argument('--ave', help="Flag to include averaged profile over time",
+                action='store_true')
+ap.add_argument('--tot', help="Flag to include totaled profile over time",
+                action='store_true')
 ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same figure',
                 action='store_true')
 ap.add_argument('--save-stats', dest='save_stats', help='Save ave & totals', action='store_true')
@@ -55,18 +43,34 @@ if args.geo.lower() == 'csa':
     args.geo = 'CSA'
 else:
     args.geo = args.geo.capitalize()
-if args.label_col == 'default':
+# Set defaults
+if args.col is None:
+    if args.geo == 'County':
+        args.col = 'Key'
+    elif args.geo == 'Country':
+        args.col = 'Name'
+    elif args.geo == 'State':
+        args.col = 'Abbrev'
+    elif args.geo == 'Congress':
+        args.col = 'District'
+    elif args.geo == 'CSA':
+        args.col = 'Key'
+
+if args.lcol is None:
     if args.geo == 'County':
         args.label_col = 'Name,State'
-    elif args.geo in ['Congress', 'Country', 'State']:
-        args.label_col = 'Key'
-    elif args.geo in ['CSA', 'Urban']:
-        args.label_col = 'Name,States'
-    elif args.geo == 'Native':
+    elif args.geo == 'Country':
         args.label_col = 'Name'
+    elif args.geo == 'State':
+        args.label_col = 'Name'
+    elif args.geo == 'Congress':
+        args.label_col = 'District'
+    elif args.geo == 'CSA':
+        args.label_col = 'Name,States'
 
-if args.foreground == '@':
-    args.foreground = '@P{}.txt'.format(args.geo.lower())
+
+if args.row_to_plot == '@':
+    args.row_to_plot = '@P{}.txt'.format(args.geo.lower())
 
 if args.bg_states is not None:
     if args.geo not in ['State', 'County', 'Congress']:
@@ -90,12 +94,11 @@ if args.loglin == 'auto':
     args.loglin = loglinauto[args.stat_type]
 
 pat.time_plot(sets=sets, geo=args.geo,
-              foreground=args.foreground, foreground_col=args.fg_col,
-              label_col=args.label_col, stat_type=args.stat_type, bg=args.bg_states,
+              rows=args.row_to_plot, rows_col=args.fg_col,
+              label_col=args.label_col, stat_type=args.stat_type,
               smooth=args.smooth, low_clip=args.low_clip, log_or_linear=args.loglin,
               same_plot=args.same_plot, save_stats=args.save_stats,
-              fg_average=args.fg_ave, fg_total=args.fg_tot, fg_include=args.fg_incl,
-              bg_average=args.bg_ave, bg_total=args.bg_tot, bg_include=args.bg_incl,
+              average=args.ave, total=args.tot,
               smooth_schedule=args.smooth_schedule, smooth_fix=args.smooth_fix
               )
 
