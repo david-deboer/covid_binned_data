@@ -34,23 +34,21 @@ Bin_Deaths_CSA.csv         | Deaths binned into Combined Statistical Areas
 Bin_Confirmed_Country.csv  | Confirmed cases binned into Countries
 Bin_Deaths_Country.csv     | Deaths binned into Countries
 
-The first three columns vary by geographical bin as follows (the first column is a unique key):
+The first columns vary by geographical type:
 
-Geo      | Column 1 |Column 2   | Column 3   | Key comprises
----------|----------|-----------|------------|---------------
-County   | Key      | Name      | STate      | STate-COUNTYFP
-Congress | Key      | STate     | District   | STate-District
-State    | Key      | State     | STate      | STate
-CSA      | Key      | Name      | STates     | CSAFP
-Country  | Key      | Provinces | STate      | Country
+Geo      | Column 1 |Column 2   | Column 3   |
+---------|----------|-----------|------------|
+County   | Key      | Name      | STate      |
+Congress | District | N/A       | N/A        |
+State    | STate    | State     | N/A        |
+CSA      | Key      | Name      | STates     |
+Country  | Name     | Provinces | N/A        |
 
 The following columns contain data:
 
-Col | All
-----|------
-4   | Longitude:  longitude of the weighted centroid on the last day of the file
-5   | Latitude:  latitude of the weighted centroid on the last day of the file
-6   | Count on date
+Longitude:  longitude of the weighted centroid on the last day of the file
+Latitude:  latitude of the weighted centroid on the last day of the file
+Count on date
 .......
 
 

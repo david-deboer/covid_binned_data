@@ -14,13 +14,13 @@ ap.add_argument('-g', '--geo', default='County',
                 choices=['Country', 'State', 'County', 'Congress', 'CSA',
                          'country', 'state', 'county', 'congress', 'csa'])
 ap.add_argument('-f', '--foreground', help="Foreground rows.  Functions with <, >, : (see module)",
-                default='06-001,06-013,06-041,06-055,06-075,06-081,06-085,06-095,06-097')
+                default='CA-001,CA-013,CA-041,CA-055,CA-075,CA-081,CA-085,CA-095,CA-097')
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
 ap.add_argument('-s', '--smooth', help="Smoothing factor for each stage (if single, use for both)",
                 default='7,3')
 ap.add_argument('--fcol', dest='fg_col', help="Name of column for foreground.",
-                default='Key')
+                default=None)
 ap.add_argument('--lcol', dest='label_col', help="Column name to use for labels.",
                 default='default')
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
