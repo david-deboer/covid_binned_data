@@ -11,16 +11,38 @@ prepended = ['#', '%', '@', '^', '$', '*']
 
 
 def parse_rows(rows, rows_col, cset):
-    fg = Namespace(proc=True, tstat=[], done=True, rows=rows, col=rows_col, cset=cset)
+    """
+    Interpret the initial "rows" request into the fg Namespace to be processed by process_rows.
+
+    Parameters
+    ----------
+    rows : str or list
+        Rows to be used.  If list, use those values, else interpret.
+    rows_col : str
+        If rows is a list, the values or from rows_col
+    cset : str
+        Set type:  Confirmed or Deaths
+
+    Returns
+    -------
+    Namespace:
+        is_list : bool
+            if True: 'rows' is a list of entries in 'rows_col' (list or csv-str made to list)
+            if False: 'proc' and 'tstat' contain the codes for processing (see process_rows)
+                       the 'rows_col' is then always ID, and 'rows' carries the original request
+        col <str> columns containing the keys to be used (just carried along)
+        cset : <str> Confirmed or Deaths (just carried along)
+    """
+    fg = Namespace(is_list=True, proc=True, tstat=[], rows=rows, col=rows_col, cset=cset)
     if not isinstance(rows, str):
         return fg
     if rows[0] not in prepended:
         fg.rows = rows.split(',')
         return fg
-    fg.done = False
+    fg.is_list = False
     if rows[0] == '*':  # Look for "startswith"
         fg.proc = '*'
-        fg.rows = rows.strip('*')
+        fg.tstat = rows.strip('*')
         return fg
 
     fg.col = 'ID'
@@ -50,9 +72,11 @@ def parse_rows(rows, rows_col, cset):
 def process_rows(cset, geo, fg, label_col, data):
     """
     Plot command structure: RDX:N/S
-        [^#%@$][><][X]:[N]/S|...
+        [^#%@$*][><][X]:[N]/S|...
 
     R:
+        '*'
+            wildcard char
         '^'
             use the list (has to be first - can be first in a file, if @ is first here)
         '#'
@@ -73,7 +97,7 @@ def process_rows(cset, geo, fg, label_col, data):
     if fg.proc[0] == '*':
         rows_to_use = []
         for row in getattr(data, fg.col):
-            if row.startswith(fg.rows):
+            if row.startswith(fg.tstat):
                 rows_to_use.append(row)
         fg.rows = rows_to_use
         return fg
@@ -87,7 +111,7 @@ def process_rows(cset, geo, fg, label_col, data):
             fnd[this_key] = (key, 'seed')
         del fg.proc[0], fg.tstat[0]
     else:
-        keys_this_loop = data.Key
+        keys_this_loop = data.ID
     for this_pass, this_stat in zip(fg.proc, fg.tstat):
         print("\tProcessing {} for {}".format(this_pass, this_stat))
         fnd = {}
@@ -119,7 +143,7 @@ def process_rows(cset, geo, fg, label_col, data):
                 except ValueError:
                     pass
             lbl = []
-            this_ind = data.rowind(key, colname='Key')
+            this_ind = data.rowind(key, colname='ID')
             for lc in label_col:
                 lbl.append(getattr(data, lc)[this_ind])
             lbl = ", ".join(lbl)
@@ -160,7 +184,7 @@ def process_rows(cset, geo, fg, label_col, data):
 
 def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
               rows=['CA-13', 'CA-1', 'CA-37', 'CA-73', 'OH-35', 'OH-55'],
-              rows_col='Key', label_col='Name,State', stat_type='row',
+              rows_col='ID', label_col='Name,State', stat_type='row',
               **kwargs):
     """
     Plot time sequences.
@@ -208,7 +232,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
         fg = parse_rows(rows, rows_col, cset)
         for sts in set(fg.tstat + [stat_type]):
             b.calc(sts, **kwargs)
-        if not fg.done:
+        if not fg.is_list:
             fg = process_rows(cset, geo, fg, label_col, b)
         fig = plt.figure(figname, figsize=[6, 8])
         vtot = np.zeros(len(b.data[0]))
@@ -260,7 +284,7 @@ def time_plot(sets=['Confirmed', 'Deaths'], geo='County',
             plt.savefig(figfileName)
 
 
-def time_table(rows='6-13', date=14, geo='County', rows_col='Key', label_col='County'):
+def time_table(rows='6-13', date=14, geo='County', rows_col='ID', label_col='County'):
     """
     Table for 'rows'.
 
