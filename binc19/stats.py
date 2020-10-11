@@ -11,8 +11,8 @@ class Stat:
     allowed = ['row', 'slope', 'logslope', 'accel', 'frac']
 
     def __init__(self, stat_type=None, **kwargs):
-        params = {'smooth_schedule': ['Custom', 'Custom'],
-                  'smooth': [3, 3],
+        params = {'smooth_schedule': ['triangle', 'triangle'],
+                  'smooth': [7, 7],
                   'smooth_fix': ['none', 'cull'],
                   'norm': 1.0,
                   'low_clip': 1.0E-4}

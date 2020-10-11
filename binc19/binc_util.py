@@ -1,8 +1,21 @@
 from datetime import datetime
+from mymaps import get_fip
 
 
 def date_to_string(date, fmt='%m/%d/%Y'):
     return datetime.strftime(date, fmt)
+
+
+def get_key_from_csv(geo, id):
+    id = id.split('-')
+    if geo in ['County', 'Congress']:
+        state = get_fip.state(id[0])
+        return '-'.join(state.fip, id[1])
+    if geo == 'State':
+        state = get_fip.state(id[0])
+        return state.name
+    if geo == 'CSA':
+        return id[0]
 
 
 def string_to_date(date, strings_to_try=['%m/%d/%y', '%m/%d/%Y', '%Y%m%d', '%Y-%m-%d'],

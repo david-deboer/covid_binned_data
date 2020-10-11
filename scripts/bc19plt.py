@@ -19,7 +19,7 @@ ap.add_argument('-r', '--rows-to-plot', dest='rows_to_plot',
 ap.add_argument('--stat-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
 ap.add_argument('--smooth', help="Smoothing factor per stage (if single, use for both)",
-                default='7,3')
+                default='7,7')
 ap.add_argument('--col', help="Name of column to use for plot.", default=None)
 ap.add_argument('--lcol', help="Column name to use for labels.", default=None)
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
