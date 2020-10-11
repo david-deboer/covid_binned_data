@@ -10,7 +10,7 @@ def get_key_from_csv(geo, id):
     id = id.split('-')
     if geo in ['County', 'Congress']:
         state = get_fip.state(id[0])
-        return '-'.join(state.fip, id[1])
+        return '-'.join([state.fip, id[1]])
     if geo == 'State':
         state = get_fip.state(id[0])
         return state.name

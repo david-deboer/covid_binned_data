@@ -111,9 +111,6 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     # print("Total: {}".format(tot))
     colors = mm_util.colormap(data)
     this_m = us_map.areas(geo, colors)
-    # geocl, info = us_map.prep_map_data(geo, data, par.datamin, par.datamax, par.clip, par.drange)
-    # this_m = us_map.areas(geocl, info, not_included_color=par.not_included_color,
-    #                          title=this_title)
     # if par.show_overlay:
     #     map_overlay.overlay(this_m.lo48, this_m.ax, [ave_lon], [ave_lat], label=None, color='b',
     #                         size=tot, alpha=None, max_marker_size=None)
