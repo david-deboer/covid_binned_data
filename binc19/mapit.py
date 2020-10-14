@@ -59,6 +59,8 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                     wk0 = 1.0
                 if ind == 'diff':
                     this_data = wk1 - wk0
+                elif ind == 'lastweek':
+                    this_data = wk1
                 else:
                     this_data = 100.0 * (wk1 - wk0) / wk0
             if par.log_or_linear == 'log':
@@ -70,5 +72,5 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                     data[key] = this_val
                 continue
             data[key] = this_val
-    colors = mm_util.colormap(data)
+    colors = mm_util.colormap(data, datamin=par.datamin, datamax=par.datamax, clip=par.clip)
     us_map.areas(geo, colors)
