@@ -14,7 +14,8 @@ ap.add_argument('-g', '--geo', default='County',
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
                 default='slope')
 ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=0)
-ap.add_argument('-i', '--ind', help='index type to plot (-1)', default=-1)
+ap.add_argument('-i', '--ind', help="index color on [int, diff, percent, lastweek] "
+                " diff & percent use last two weeks (percent)", default='percent')
 ap.add_argument('--datamax', help='Max data for clip.', default=None)
 ap.add_argument('--iso_state', help='Isolate on state', default=None)
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
