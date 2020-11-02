@@ -73,6 +73,7 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                 continue
             data[key] = this_val
     colors = mm_util.colormap(data, datamin=par.datamin, datamax=par.datamax, clip=par.clip)
+    mapping = None
     if geo == 'CSA':
-        us_map.areas('State')
-    us_map.areas(geo, colors)
+        mapping = us_map.areas('State')
+    us_map.areas(geo, colors, mapping=mapping)
