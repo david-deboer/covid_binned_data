@@ -3,7 +3,7 @@ import os.path
 import numpy as np
 import matplotlib.pyplot as plt
 from . import stats, binc_util
-from ddb_util import state_variable
+from my_utils import state_variable
 """
 This handles covid_binned_data files.
 """
