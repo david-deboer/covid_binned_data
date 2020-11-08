@@ -1,6 +1,6 @@
 from . import binc, stats, binc_util
 from mymaps import us_map, mm_util
-from ddb_util import state_variable
+from my_utils import state_variable
 import math
 
 
@@ -17,7 +17,7 @@ map_args = {
             }
 
 
-def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
+def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
     """
     Plot maps.
 
@@ -29,7 +29,7 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
         'Country', 'State', 'County', 'Congress', 'CSA'
     stat_type : str
         'row', 'slope', 'logslope', 'accel', 'frac'
-    ind : int (add str/datetime options) - if not int, hard-coded week-diff-average
+    using : int (add str/datetime options) - if not int, hard-coded week-diff-average
     kwargs : see above and under stats
     """
 
@@ -37,7 +37,7 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     par.sv_load(map_args, use_to_init=True, var_type=None)
     par.state(**kwargs)
     kwargs['smooth'] = 0
-    print("Isolating on ", par.iso_state)
+    print("Using method {}".format(using))
 
     filename = "Bin_{}_{}.csv".format(cset, geo)
     b = binc.Binc(filename)
@@ -46,8 +46,8 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
     for i in range(b.Ndata):
         key, is_state = binc_util.get_key_from_id(geo, b.ID[i])
         if key:
-            if isinstance(ind, int):
-                this_data = b.st_data[stat_type][b.ID[i]][ind]
+            if isinstance(using, int):
+                this_data = b.st_data[stat_type][b.ID[i]][using]
             else:
                 wk0 = stats.get_derived_value('average', [-15, -8],
                                               b.st_date[stat_type],
@@ -57,9 +57,9 @@ def map(cset='Confirmed', geo='County', stat_type='slope', ind=-1, **kwargs):
                                               b.st_data[stat_type][b.ID[i]])
                 if abs(wk0) < 0.1:
                     wk0 = 1.0
-                if ind == 'diff':
+                if using == 'diff':
                     this_data = wk1 - wk0
-                elif ind == 'lastweek':
+                elif using == 'lastweek':
                     this_data = wk1
                 else:
                     this_data = 100.0 * (wk1 - wk0) / wk0

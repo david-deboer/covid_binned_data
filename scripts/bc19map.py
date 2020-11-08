@@ -6,16 +6,18 @@ from binc19 import mapit
 ap = argparse.ArgumentParser()
 ap.add_argument('--set', default='Confirmed',
                 help="Confirmed or Deaths (csv-list)",
-                choices=['Confirmed', 'Deaths'])
+                choices=['Confirmed', 'Deaths', 'confirmed', 'deaths'])
 ap.add_argument('-g', '--geo', default='County',
                 help="One of Country/State/County/Congress/CSA/Urban/Native",
                 choices=['Country', 'State', 'County', 'Congress', 'CSA', 'Urban', 'Native',
                          'country', 'state', 'county', 'congress', 'csa', 'urban', 'native'])
 ap.add_argument('-p', '--plot-type', dest='stat_type', help="One of logslope/slope/row/accel/frac",
-                default='slope')
-ap.add_argument('-s', '--smooth', help="Smooth factor (int)", default=0)
-ap.add_argument('-i', '--ind', help="index color on [int, diff, percent, lastweek] "
-                " diff & percent use last two weeks (percent)", default='percent')
+                choices=['logslope', 'slope', 'row', 'accel', 'frac'], default='slope')
+ap.add_argument('-s', '--smooth', help="Smooth factor (float)", type=float, default=0.0)
+ap.add_argument('-u', '--using', help="using data [int, diff, percent, last] "
+                " diff/percent/last use bounds from data-bounds", default='percent')
+ap.add_argument('--data-bounds', dest='data_bounds',
+                help="data bounds for using=diff, percent, last")
 ap.add_argument('--datamax', help='Max data for clip.', default=None)
 ap.add_argument('--iso_state', help='Isolate on state', default=None)
 ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope", default=1E-4)
@@ -44,12 +46,12 @@ if args.smooth:
         print("Smoothing at {:.0f}".format(args.smooth))
 
 try:
-    args.ind = int(args.ind)
+    args.using = int(args.using)
 except ValueError:
     pass
 
 mapit.map(cset=args.set, geo=args.geo,
-          stat_type=args.stat_type, ind=args.ind,
+          stat_type=args.stat_type, using=args.using,
           smooth=args.smooth, low_clip=args.low_clip, log_or_linear=args.loglin,
           extra_smooth=args.extrasmooth, smooth_fix=args.smoothfix,
           datamax=args.datamax, iso_state=args.iso_state

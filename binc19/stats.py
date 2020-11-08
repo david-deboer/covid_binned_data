@@ -1,6 +1,6 @@
 import numpy as np
 from datetime import datetime
-from ddb_util import state_variable
+from my_utils import state_variable
 from . import binc_util
 
 
