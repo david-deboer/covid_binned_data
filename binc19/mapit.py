@@ -8,7 +8,8 @@ map_args = {
             'log_or_linear': 'linear',
             'clip': None,
             'datamax': None,
-            'datamin': 0,
+            'datamin': None,
+            'data_bounds': [[-15, -8], [-8, -1]],
             'drange': 0.0,
             'not_included_color': 'w',
             'per_capita': False,
@@ -49,10 +50,10 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
             if isinstance(using, int):
                 this_data = b.st_data[stat_type][b.ID[i]][using]
             else:
-                wk0 = stats.get_derived_value('average', [-15, -8],
+                wk0 = stats.get_derived_value('average', sv.data_bounds[0],
                                               b.st_date[stat_type],
                                               b.st_data[stat_type][b.ID[i]])
-                wk1 = stats.get_derived_value('average', [-8, -1],
+                wk1 = stats.get_derived_value('average', sv.data_bounds[1],
                                               b.st_date[stat_type],
                                               b.st_data[stat_type][b.ID[i]])
                 if abs(wk0) < 0.1:

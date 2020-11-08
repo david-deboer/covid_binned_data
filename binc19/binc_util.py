@@ -43,6 +43,8 @@ def fix_lists(data, list_len=1, output_type=str, split_on=','):
         data = [output_type(x) for x in data.split(split_on)]
     elif not isinstance(data, list):
         data = [data]
+    if list_len == 0:
+        return data
     if len(data) == 1:
         data = data * list_len
     if len(data) != list_len:
