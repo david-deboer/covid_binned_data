@@ -33,9 +33,9 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
     kwargs : see above and under stats
     """
 
-    par = state_variable.StateVar(label='Map state variables', verbose=False)
-    par.sv_load(map_args, use_to_init=True, var_type=None)
-    par.state(**kwargs)
+    sv = state_variable.StateVar(label='Map state variables', verbose=False)
+    sv.sv_load(map_args, use_to_init=True, var_type=None)
+    sv.state(**kwargs)
     kwargs['smooth'] = 0
     print("Using method {}".format(using))
 
@@ -63,16 +63,16 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
                     this_data = wk1
                 else:
                     this_data = 100.0 * (wk1 - wk0) / wk0
-            if par.log_or_linear == 'log':
+            if sv.log_or_linear == 'log':
                 this_val = 0.0 if this_data < 1.0 else math.log10(this_data)
             else:
                 this_val = this_data
-            if par.iso_state:
-                if is_state == par.iso_state:
+            if sv.iso_state:
+                if is_state == sv.iso_state:
                     data[key] = this_val
                 continue
             data[key] = this_val
-    colors = mm_util.colormap(data, datamin=par.datamin, datamax=par.datamax, clip=par.clip)
+    colors = mm_util.colormap(data, datamin=sv.datamin, datamax=sv.datamax, clip=sv.clip)
     mapping = None
     if geo == 'CSA':
         mapping = us_map.areas('State')
