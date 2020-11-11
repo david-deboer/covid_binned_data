@@ -1,5 +1,6 @@
 from datetime import datetime
 from mymaps import get_fip
+import numpy as np
 
 
 def date_to_string(date, fmt='%m/%d/%Y'):
@@ -68,6 +69,8 @@ def read_statfile(filename):
                     data['Date'].append(datetime.strptime(d, '%Y-%m-%d'))
                 else:
                     data[header[j]].append(float(d))
+            for j in range(1, len(header)):
+                data[header[j]] = np.array(data[header[j]], dtype=float)
     return data
 
 

@@ -13,9 +13,9 @@ ap.add_argument('--ave', help="Flag to include averaged profile over time",
                 action='store_true')
 ap.add_argument('--tot', help="Flag to include totaled profile over time",
                 action='store_true')
-ap.add_argument('--same-plot', dest='same_plot', help='<P> put all plots in same figure',
+ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same figure',
                 action='store_true')
-ap.add_argument('--save-stats', dest='save_stats', help='<P> Save ave & totals',
+ap.add_argument('--save-stats', dest='save_stats', help='Save ave & totals',
                 action='store_true')
 args = ap.parse_args()
 args = args_proc.args_prep(args)
