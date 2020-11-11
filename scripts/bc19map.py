@@ -8,7 +8,7 @@ ap.add_argument('-u', '--using', help="using data [int, diff, percent, last] "
 ap.add_argument('--data-bounds', dest='data_bounds', default='7',
                 help="data bounds for using=diff, percent, last")
 ap.add_argument('--datamax', help='Max data for clip.', default=None)
-ap.add_argument('--iso_state', help='Isolate on state', default=None)
+ap.add_argument('--iso-state', dest='iso_state', help='Isolate on state', default=None)
 args = ap.parse_args()
 args = args_proc.args_prep(args)
 
@@ -34,7 +34,7 @@ if args.using in ['diff', 'percent', 'last']:
 
 mapit.map(cset=args.set[0], geo=args.geo, stat_type=args.stat_type, using=args.using,
           smooth=args.smooth, smooth_fix=args.smooth_fix, smooth_schedule=args.smooth_schedule,
-          low_clip=args.low_clip, log_or_linear=args.loglin,
+          datamin=args.datamin, log_or_linear=args.loglin,
           datamax=args.datamax, iso_state=args.iso_state, data_bounds=args.data_bounds)
 
 # import datetime

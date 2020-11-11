@@ -40,6 +40,15 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
     kwargs['smooth'] = 0
     print("Using method {}".format(using))
 
+    regions = ['conus', 'hi', 'ak']
+    if sv.iso_state:
+        if sv.iso_state == 'HI':
+            regions = ['hi']
+        elif sv.iso_state == 'AK':
+            regions = ['ak']
+        else:
+            regions = ['conus']
+
     filename = "Bin_{}_{}.csv".format(cset, geo)
     b = binc.Binc(filename)
     b.calc(stat_type, **kwargs)
@@ -77,4 +86,4 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
     mapping = None
     if geo == 'CSA':
         mapping = us_map.areas('State')
-    us_map.areas(geo, colors, mapping=mapping)
+    us_map.areas(geo, colors, mapping=mapping, include_regions=regions)

@@ -5,7 +5,7 @@ from binc19 import binc_util
 def args_setup(**kwargs):
     defaults = {'set': 'Confirmed,Deaths', 'geo': 'County', 'stat_type': 'slope',
                 'smooth': '7,7', 'smooth_schedule': 'Box,Triangle', 'smooth_fix': 'none,cull',
-                'loglin': None, 'low_clip': 1E-4}
+                'loglin': None, 'datamin': 1E-4}
     for key, val in kwargs.items():
         defaults[key] = val
     ap = argparse.ArgumentParser()
@@ -24,8 +24,8 @@ def args_setup(**kwargs):
                     default=defaults['smooth'])
     ap.add_argument('--loglin', help="log or linear", choices=['log', 'linear', None],
                     default=defaults['loglin'])
-    ap.add_argument('--low-clip', dest='low_clip', help="low clip value for logslope",
-                    type=float, default=defaults['low_clip'])
+    ap.add_argument('--datamin', help="minimum value (often used for clipping logslope)",
+                    type=float, default=defaults['datamin'])
     ap.add_argument('--smooth-schedule', dest='smooth_schedule',
                     default=defaults['smooth_schedule'],
                     help="Smoothing for the two stages.  Options are Triangle, Box, Gaussian, "

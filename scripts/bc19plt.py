@@ -50,7 +50,7 @@ if args.rows_to_plot == '@':
 pat.time_plot(sets=args.set, geo=args.geo,
               rows=args.rows_to_plot, rows_col=args.col,
               label_col=args.lcol, stat_type=args.stat_type,
-              smooth=args.smooth, low_clip=args.low_clip, log_or_linear=args.loglin,
+              smooth=args.smooth, low_clip=args.datamin, log_or_linear=args.loglin,
               same_plot=args.same_plot, save_stats=args.save_stats,
               average=args.ave, total=args.tot,
               smooth_schedule=args.smooth_schedule, smooth_fix=args.smooth_fix
