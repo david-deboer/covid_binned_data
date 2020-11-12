@@ -8,7 +8,8 @@ ap.add_argument('-u', '--using', help="using data [int, diff, percent, last] "
 ap.add_argument('--data-bounds', dest='data_bounds', default='7',
                 help="data bounds for using=diff, percent, last")
 ap.add_argument('--datamax', help='Max data for clip.', default=None)
-ap.add_argument('--iso-state', dest='iso_state', help='Isolate on state', default=None)
+ap.add_argument('--iso-state', dest='iso_state', help='Isolate on state(s) - csv list',
+                default=None)
 args = ap.parse_args()
 args = args_proc.args_prep(args)
 
@@ -19,6 +20,8 @@ try:
     args.using = int(args.using)
 except ValueError:
     pass
+
+args.iso_state = args.iso_state.split(',')
 
 if args.using in ['diff', 'percent', 'last']:
     db = binc_util.fix_lists(args.data_bounds, 0, int)

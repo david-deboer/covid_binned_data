@@ -41,13 +41,16 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
     print("Using method {}".format(using))
 
     regions = ['conus', 'hi', 'ak']
-    if sv.iso_state:
-        if sv.iso_state == 'HI':
-            regions = ['hi']
-        elif sv.iso_state == 'AK':
-            regions = ['ak']
-        else:
-            regions = ['conus']
+    if sv.iso_state is not None:
+        regions = []
+        if 'HI' in sv.iso_state:
+            regions.append('hi')
+        if 'AK' in sv.iso_state:
+            regions.append('ak')
+        for this_iso in sv.iso_state:
+            if this_iso != 'AK' and this_iso != 'HI':
+                regions.append('conus')
+                break
 
     filename = "Bin_{}_{}.csv".format(cset, geo)
     b = binc.Binc(filename)
