@@ -40,8 +40,9 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
     kwargs['smooth'] = 0
     print("Using method {}".format(using))
 
-    regions = ['conus', 'hi', 'ak']
-    if sv.iso_state is not None:
+    if sv.iso_state is None:
+        regions = ['conus', 'hi', 'ak']
+    else:
         regions = []
         if 'HI' in sv.iso_state:
             regions.append('hi')
@@ -80,12 +81,13 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
                 this_val = 0.0 if this_data < 1.0 else math.log10(this_data)
             else:
                 this_val = this_data
-            if sv.iso_state:
-                if is_state == sv.iso_state:
-                    data[key] = this_val
-                continue
-            data[key] = this_val
-    colors = mm_util.colormap(data, datamin=sv.datamin, datamax=sv.datamax, clip=sv.clip)
+            if sv.iso_state is None:
+                data[key] = this_val
+            else:
+                for this_isos in sv.iso_state:
+                    if is_state == this_isos:
+                        data[key] = this_val
+    colors = mm_util.colormap(data, datamin=sv.datamin, datamax=sv.datamax)
     mapping = None
     if geo == 'CSA':
         mapping = us_map.areas('State')
