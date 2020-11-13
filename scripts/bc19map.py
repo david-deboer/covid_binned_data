@@ -21,7 +21,8 @@ try:
 except ValueError:
     pass
 
-args.iso_state = args.iso_state.split(',')
+if args.iso_state is not None:
+    args.iso_state = args.iso_state.split(',')
 
 if args.using in ['diff', 'percent', 'last']:
     db = binc_util.fix_lists(args.data_bounds, 0, int)
