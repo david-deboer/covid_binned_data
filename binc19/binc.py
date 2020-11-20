@@ -25,7 +25,6 @@ class Binc(state_variable.StateVar):
                     'label': None
                     }
         super().__init__(label='BINC state variables', verbose=False)
-        self.sv_initialize('label', None, description='Columns for plot legend.')
         self.pltpar = state_variable.StateVar(label='Plot kwargs', verbose=False)
         self.pltpar.sv_load(plt_args, use_to_init=True, var_type=None)
         self.filename = filename
