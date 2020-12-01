@@ -34,7 +34,7 @@ def map(cset='Confirmed', geo='County', stat_type='slope', using=-1, **kwargs):
     kwargs : see above and under stats
     """
 
-    sv = state_variable.StateVar(label='Map state variables', verbose=False)
+    sv = state_variable.StateVar(label='Map state variables', verbose=False, enforce='nominal')
     sv.sv_load(map_args, use_to_init=True, var_type=None)
     sv.state(**kwargs)
     kwargs['smooth'] = 0

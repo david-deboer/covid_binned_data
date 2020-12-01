@@ -16,7 +16,7 @@ class Stat:
                   'smooth_fix': ['none', 'cull'],
                   'norm': 1.0,
                   'low_clip': 1.0E-4}
-        self.par = state_variable.StateVar(label="Stat variables", verbose=False)
+        self.par = state_variable.StateVar(label="Stat variables", verbose=False, enforce='loose')
         self.par.sv_load(params, use_to_init=True, var_type=None)
         self.set_stat(stat_type, **kwargs)
 

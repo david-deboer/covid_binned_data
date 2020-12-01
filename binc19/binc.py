@@ -24,8 +24,8 @@ class Binc(state_variable.StateVar):
                     'markersize': None,
                     'label': None
                     }
-        super().__init__(label='BINC state variables', verbose=False)
-        self.pltpar = state_variable.StateVar(label='Plot kwargs', verbose=False)
+        super().__init__(label='BINC state variables', verbose=False, enforce='loose')
+        self.pltpar = state_variable.StateVar(label='Plot kwargs', verbose=False, enforce='nominal')
         self.pltpar.sv_load(plt_args, use_to_init=True, var_type=None)
         self.filename = filename
         self.header = []
