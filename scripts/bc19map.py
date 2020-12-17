@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from binc19 import mapit, args_proc, binc_util
 
 ap = args_proc.args_setup(set='Confirmed', low_clip=None)
-ap.add_argument('-u', '--using', help="using data [int, diff, percent, last] "
-                " diff/percent/last use bounds from data-bounds", default='percent')
+ap.add_argument('-u', '--using', help="using data [int, diff, percent, lastweek] "
+                " diff/percent/lastweek use bounds from data-bounds", default='percent')
 ap.add_argument('--data-bounds', dest='data_bounds', default='7',
                 help="data bounds for using=diff, percent, last")
 ap.add_argument('--datamax', help='Max data for clip.', default=None)
@@ -24,7 +24,7 @@ except ValueError:
 if args.iso_state is not None:
     args.iso_state = args.iso_state.split(',')
 
-if args.using in ['diff', 'percent', 'last']:
+if args.using in ['diff', 'percent', 'lastweek']:
     db = binc_util.fix_lists(args.data_bounds, 0, int)
     if len(db) == 1:
         args.data_bounds = [[-1-2*db[0], -1-db[0]], [-1-db[0], -1]]
