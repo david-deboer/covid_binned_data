@@ -17,6 +17,8 @@ ap.add_argument('--same-plot', dest='same_plot', help='put all plots in same fig
                 action='store_true')
 ap.add_argument('--save-stats', dest='save_stats', help='Save ave & totals',
                 action='store_true')
+ap.add_argument('-e', '--extra_dates', help='add these dates', default=None)
+ap.add_argument('-y', '--extra_y', help='csv-list of y-values for extra_dates', default=None)
 args = ap.parse_args()
 args = args_proc.args_prep(args)
 
@@ -56,7 +58,19 @@ pat.time_plot(sets=args.set, geo=args.geo,
               smooth_schedule=args.smooth_schedule, smooth_fix=args.smooth_fix
               )
 
-# import datetime
-# event = datetime.datetime(year=2020, month=6, day=20)
-# plt.plot(event, 100, 'o')
+if args.extra_dates is not None:
+    import datetime
+    use_y = None
+    if args.extra_y is not None:
+        use_y = [float(_x) for _x in args.extra_y.split(',')]
+    for _i, this_date in enumerate(args.extra_dates.split(',')):
+        ymd = [int(_x) for _x in this_date.split('-')]
+        event = datetime.datetime(year=ymd[0], month=ymd[1], day=ymd[2])
+        if use_y is None:
+            this_y = 1000
+        if len(use_y) == 1:
+            this_y = use_y[0]
+        else:
+            this_y = use_y[_i]
+        plt.plot([event, event], [0, this_y], 'k--')
 plt.show()
