@@ -74,6 +74,9 @@ def process_rows(cset, geo, fg, label_col, data):
     Plot command structure: RDX:N/S
         [^#%@$*][><][X]:[N]/S|...
 
+    E.g. "$>10:7/slope" will give the top 10 slope over 7 days.
+    stats are ['row', 'slope', 'logslope', 'accel', 'frac']
+
     R:
         '*'
             wildcard char
